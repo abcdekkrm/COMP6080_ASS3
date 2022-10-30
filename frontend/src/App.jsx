@@ -1,5 +1,6 @@
 import './App.css';
 import Nav from './Nav';
+import Search from './Search';
 import {
   createMuiTheme,
 } from '@material-ui/core/styles';
@@ -17,7 +18,11 @@ import {
 
 function App() {
   return (
-    <Nav/>
+    <>
+      <Nav/>
+      <Search/>
+    </>
+
   )
 }
 
