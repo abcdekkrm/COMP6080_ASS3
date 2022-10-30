@@ -14,20 +14,53 @@ code {
 
 .nav {
   display: inline-flex;
-  height: 7.639vw;
+  height: 8vh;
   width: 100%;
-  border-bottom: 0.1vw solid black;
+  border-bottom: 0.1vw solid rgb(182, 182, 182);
+}
+.logo {
+  margin: 1vh 3vw;
+  cursor: pointer;
+}
+
+h1 {
+  margin: 1vh 5vw 0 -2.5vw;
+  cursor: pointer;
+  font-weight: lighter;
+}
+
+.btn#login {
+  height: 4vh;
+  width: 15vw;
+  background: #00bff8;
+  color: #000000;
+  border: none;
+  border-radius: 1vw;
+  font-size: 1vw;
+  margin: 2vh 70vw;
+  cursor: pointer;
 }
 
 .column#search {
   display: flex;
   flex-direction: column;
-  width: 20%;
+  height: 100vh;
+  width: 16vw;
+  padding: 1%;
+  border-right: 0.1vw solid rgb(182, 182, 182);
+}
+
+input[id="search-bar"] {
+  height: 4vh;
+  width: 15vw;
+  color: #000000;
+  border: 0.1vw solid rgb(182, 182, 182);
+  border-radius: 1vw;
+  font-size: 1vw;
 }
 
 .popup#login-signup-popup {
   display: block;
-  background: #f4f4f4;
   height: 30%;
   width: 30%;
   position: absolute;
@@ -35,4 +68,5 @@ code {
   top: 25%;
   z-index: 1000;
   padding: 1vw;
+  border: 0.1vw solid rgb(182, 182, 182);
 }
