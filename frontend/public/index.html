@@ -24,7 +24,7 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    <title>AirBrB</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -39,5 +39,37 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <!-- nav bar -->
+    <header class="nav" id="nav-bar">
+      <!-- <img src="" class="" alt=""> -->
+      <h1>AirBrB</h1>
+      <input type="button" id="profile-btn" class="btn" value="profile">
+      <input type="button" id="login" class="btn" value="Login / Sign up">
+    </header>
+    
+    <main role="main">
+
+      <!-- Search column -->
+      <div class="column" id="search">
+        <input type="text" id="search-bar" placeholder="Start searching">
+      </div>
+
+      <!-- Listings -->
+      <div class="section" id="listings-list">
+
+      </div>
+
+      <div class="popup" id="login-signup-popup">
+        <input type="button" id="close-error" class="close-btn" value=&times;><br>
+        <p>Welcome back!</p>
+        <input type="text" id="email" placeholder="Enter your email"><br>
+        <input type="password" id="password" placeholder="Enter your password"><br>
+        <input type="button" id="submit-login" class="btn" value="login"><br>
+        <p>Don't have an account?</p>
+        <input type="button" id="sign-up" class="btn" value="Sign Up."><br>
+      </div>
+
+    </main>
+
   </body>
 </html>

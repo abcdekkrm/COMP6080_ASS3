@@ -11,3 +11,28 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.nav {
+  display: inline-flex;
+  height: 7.639vw;
+  width: 100%;
+  border-bottom: 0.1vw solid black;
+}
+
+.column#search {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+}
+
+.popup#login-signup-popup {
+  display: block;
+  background: #f4f4f4;
+  height: 30%;
+  width: 30%;
+  position: absolute;
+  left: 30%;
+  top: 25%;
+  z-index: 1000;
+  padding: 1vw;
+}
