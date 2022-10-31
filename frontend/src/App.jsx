@@ -1,29 +1,20 @@
 import './App.css';
-import Nav from './Nav';
-import Search from './Search';
-import {
-  createMuiTheme,
-} from '@material-ui/core/styles';
+import Landing from './Screens/Landing';
+import { BrowserRouter as Switch, Route } from "react-router-dom";
 
-// const theme = createMuiTheme({
-//   palette: {
-//     primary: {
-//       main: '#',
-//     },
-//     secondary: {
-//       main: '#',
-//     },
-//   },
-// });
 
 function App() {
-  return (
-    <>
-      <Nav/>
-      <Search/>
-    </>
 
-  )
+  <Switch>
+    <Route exact path="/" element={Landing} />
+  </Switch>;
+
+  const route = window.location.pathname;
+
+  if (route === "/" || route === "/landing") {
+    return <Landing />;
+  }
+
 }
 
 export default App;
