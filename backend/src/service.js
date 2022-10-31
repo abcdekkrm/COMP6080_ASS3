@@ -106,8 +106,9 @@ export const login = (email, password) =>
         users[email].sessionActive = true;
         resolve(jwt.sign({ email }, JWT_SECRET, { algorithm: 'HS256' }));
       }
+    } else {
+      reject(new InputError('Invalid username or password'));
     }
-    reject(new InputError('Invalid username or password'));
   });
 
 export const logout = (email) =>

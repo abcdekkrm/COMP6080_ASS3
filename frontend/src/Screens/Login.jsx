@@ -34,8 +34,8 @@ const Login = ({closePopup }) => {
     const p = {password};
 
     const payload = JSON.stringify({
-        email: e,
-        password: p,
+        e,
+        p,
     });
 
     const request = {
