@@ -6,13 +6,6 @@ import {
 
 function Nav() {
 
-	// const handleLoginButton = () => {
-	// 	console.log("You've clicked")
-	// 	return (
-	// 		<Login />
-	// 	);
-	// };
-
 	const [open, setOpen] = useState(false);
 
 	return (
@@ -20,7 +13,7 @@ function Nav() {
 			<nav>
 				<AppBar position="static">
 					<Toolbar>
-						<img src="logo.svg" className="logo" alt="AirBrb logo" />
+						<img src="logo.svg" className="logo" alt="AirBrb logo" style={{"height":"5vh"}} />
 						<Typography 
 						variant="h6"
 						sx={{
@@ -31,7 +24,7 @@ function Nav() {
 						>
 							AirBrB
 						</Typography>
-						<Button onClick={() => setOpen(true)}>Login / Sign up</Button>
+						<Button style={{"margin-left":"80%"}} onClick={() => setOpen(true)}>Login / Sign up</Button>
 						{open ? <Login closePopup={() => setOpen(false)} /> : null}
 					</Toolbar>
 				</AppBar>
