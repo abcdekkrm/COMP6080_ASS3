@@ -5,7 +5,6 @@ import { BrowserRouter as Switch, Route } from "react-router-dom";
 import Login from './Screens/Login';
 
 
-<<<<<<< HEAD
 function App() {
 
   <Switch>
@@ -22,10 +21,6 @@ function App() {
     return <Login />;
   }
 
-=======
-function App () {
-  return <></>;
->>>>>>> update-a30fb54d2e8e2010188e717e84105d2b6aaad044
 }
 
 export default App;
