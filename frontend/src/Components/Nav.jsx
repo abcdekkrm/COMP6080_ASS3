@@ -24,7 +24,7 @@ function Nav() {
 						>
 							AirBrB
 						</Typography>
-						<Button style={{"margin-left":"80%"}} onClick={() => setOpen(true)}>Login / Sign up</Button>
+						<Button style={{"marginLeft":"80%"}} onClick={() => setOpen(true)}>Login / Sign up</Button>
 						{open ? <Login closePopup={() => setOpen(false)} /> : null}
 					</Toolbar>
 				</AppBar>
