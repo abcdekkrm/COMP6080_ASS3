@@ -1,13 +1,15 @@
 import React from 'react';
+import * as ReactDOM from 'react-dom';
 import Nav from '../Components/Nav';
-import Search from '../Components/Search';
 
-function Landing() {
+function Landing () {
   return (
-		<>
-			<Nav/>
-		</>
+   <>
+    <Nav/>
+   </>
   );
-};
-  
+}
+
+ReactDOM.render(<Landing />, document.querySelector('#root'));
+
 export default Landing;

@@ -1,11 +1,44 @@
 import React, { useState } from 'react';
+import * as ReactDOM from 'react-dom';
 import Login from '../Screens/Login';
 import {
   AppBar, Toolbar, Button, Typography,
 } from '@material-ui/core';
+import Config from '../config.json';
+import Landing from '../Screens/Landing';
 
 function Nav () {
-  const [open, setOpen] = useState(false);
+  const [loginOpen, setLoginOpen] = useState(false);
+
+  function handleLogout () {
+    const token = localStorage.getItem('token');
+
+    const request = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      },
+    };
+
+    fetch(`http://localhost:${Config.BACKEND_PORT}/user/auth/logout`, request)
+      .then(res => {
+        if (res.ok) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('password');
+          localStorage.removeItem('email');
+          localStorage.removeItem('logged');
+          ReactDOM.render(<Landing />, document.querySelector('#root'));
+        } else {
+          res.json().then((data) => {
+            console.log(token);
+            console.log(data.error);
+          });
+        }
+      });
+  }
+
+  const logged = localStorage.getItem('logged');
 
   return (
     <header>
@@ -23,8 +56,11 @@ function Nav () {
         >
          AirBrB
         </Typography>
-        <Button style={{ marginLeft: '80%' }} onClick={() => setOpen(true)}>Login / Sign up</Button>
-         {open ? <Login closePopup={() => setOpen(false)} /> : null}
+        {logged
+          ? <Button style={{ marginLeft: '80%' }} onClick={() => { handleLogout(); }} >Log out</Button>
+          : <Button style={{ marginLeft: '80%' }} onClick={() => setLoginOpen(true)}>Login / Sign up</Button>
+        }
+        {loginOpen ? <Login closeLoginPopup={() => setLoginOpen(false)} /> : null}
         </Toolbar>
         </AppBar>
      </nav>
