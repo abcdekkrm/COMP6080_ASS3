@@ -16,6 +16,7 @@ const Login = ({ closeLoginPopup }) => {
     display: 'block',
     height: '500%',
     width: '30%',
+    background: 'white',
     position: 'absolute',
     left: '35%',
     top: '300%',

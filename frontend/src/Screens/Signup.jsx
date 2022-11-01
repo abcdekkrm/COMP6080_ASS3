@@ -3,17 +3,20 @@ import {
   Button,
 } from '@material-ui/core';
 import React, { useState } from 'react';
+import * as ReactDOM from 'react-dom';
 import Config from '../config.json';
 import PropTypes from 'prop-types';
+import Landing from './Landing';
 
 const Signup = ({ closeSignupPopup }) => {
   const signupStyle = {
     display: 'block',
     height: '100%',
     width: '100%',
+    background: 'white',
     position: 'absolute',
-    left: '0%',
-    top: '0%',
+    left: '-1%',
+    top: '-1%',
     zIndex: '10000',
     padding: '1vw',
     border: '0.1vw solid rgb(182, 182, 182)',
@@ -57,6 +60,7 @@ const Signup = ({ closeSignupPopup }) => {
             localStorage.setItem('password', password);
             localStorage.setItem('email', email);
             localStorage.setItem('logged', true);
+            ReactDOM.render(<Landing />, document.querySelector('#root'));
           })
         } else {
           res.json().then((data) => {
