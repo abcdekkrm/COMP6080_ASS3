@@ -1,9 +1,9 @@
 import { TextField } from '@material-ui/core';
 import React, { useState } from 'react';
 import Config from '../config.json';
+import PropTypes from 'prop-types';
 
-const Login = ({closePopup }) => {
-
+const Login = ({ closePopup }) => {
   const loginStyle = {
     display: 'block',
     height: '500%',
@@ -15,8 +15,6 @@ const Login = ({closePopup }) => {
     padding: '1vw',
     border: '0.1vw solid rgb(182, 182, 182)',
   };
-  
-  const [open, setOpen] = useState(false);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -29,68 +27,66 @@ const Login = ({closePopup }) => {
     setPassword(event.target.value);
   };
 
-  function handleLoginSubmit() {
-    const e = {email};
-    const p = {password};
-
+  function handleLoginSubmit () {
     const payload = JSON.stringify({
-        e,
-        p,
+      email,
+      password
     });
 
     const request = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: payload,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: payload,
     };
-    
+
     fetch(`http://localhost:${Config.BACKEND_PORT}/user/auth/login`, request)
-        .then(res => {
-            if (res.ok) {
-                res.json().then(data => {
-                    localStorage.setItem('token', data['token']);
-                    localStorage.setItem('password', password);
-                    localStorage.setItem('email', email);
-                    localStorage.setItem('logged', data['userId']);
-                })
-            } else {
-                res.json().then((data) => {
-                    console.log(data["error"]);
-                });
-            }
-        });
+      .then(res => {
+        if (res.ok) {
+          res.json().then(data => {
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('password', password);
+            localStorage.setItem('email', email);
+            localStorage.setItem('logged', data.userId);
+          })
+        } else {
+          res.json().then((data) => {
+            console.log(data.error);
+          });
+        }
+      });
   }
 
   return (
     <div className="popup-container" style={loginStyle}>
      <div className="popup-body">
-      <button onClick={closePopup}>&times;</button>
-      <h1 style={{color:"black"}}>Welcome</h1>
-      <TextField 
-        type="text" 
-        id="email" 
+      <button onClick={closePopup}>
+        &times;
+      </button>
+      <h1 style={{ color: 'black' }}>Welcome</h1>
+      <TextField
+        type="text"
+        id="email"
         placeholder="Enter your email"
         onChange={handleEmail}
         value={email}
       />
       <br/>
-      <TextField 
-        type="password" 
-        id="password" 
+      <TextField
+        type="password"
+        id="password"
         placeholder="Enter your password"
         onChange={handlePassword}
         value={password}
       />
       <br/>
-      <button 
+      <button
         onClick={() => {
-          setOpen(false);
           handleLoginSubmit();
         }}
       >
         Log in
       </button>
-      <p style={{color:"black"}}>Don't have an account?</p>
+      <p style={{ color: 'black' }}>Don&apos;t have an account?</p>
       <button
         onClick={() => {
         }}
@@ -100,7 +96,10 @@ const Login = ({closePopup }) => {
      </div>
     </div>
   );
+};
 
+Login.propTypes = {
+  closePopup: PropTypes.func
 };
 
 export default Login;
