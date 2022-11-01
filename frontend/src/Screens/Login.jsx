@@ -66,6 +66,11 @@ const Login = ({ closeLoginPopup }) => {
       });
   }
 
+  const isLogged = localStorage.getItem('logged');
+  if (isLogged) {
+    return null;
+  }
+
   return (
     <div className="popup-container" id="login-popup" style={loginStyle}>
      <div className="popup-body">
