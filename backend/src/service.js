@@ -127,14 +127,15 @@ export const register = (email, password, name) =>
       reject(new InputError('Must provide a name for user registration'));
     } else if (email && email in users) {
       reject(new InputError('Email address already registered'));
+    } else {
+      users[email] = {
+        name,
+        password,
+        sessionActive: true,
+      };
+      const token = jwt.sign({ email }, JWT_SECRET, { algorithm: 'HS256' });
+      resolve(token);
     }
-    users[email] = {
-      name,
-      password,
-      sessionActive: true,
-    };
-    const token = jwt.sign({ email }, JWT_SECRET, { algorithm: 'HS256' });
-    resolve(token);
   });
 
 /***************************************************************
