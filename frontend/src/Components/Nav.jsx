@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import * as ReactDOM from 'react-dom';
 import Login from '../Screens/Login';
+import EditListing from '../Screens/EditListing'
 import {
   AppBar, Toolbar, Button, Typography,
 } from '@material-ui/core';
@@ -9,6 +10,7 @@ import Landing from '../Screens/Landing';
 
 function Nav () {
   const [loginOpen, setLoginOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
 
   function handleLogout () {
     const token = localStorage.getItem('token');
@@ -63,6 +65,9 @@ function Nav () {
         {loginOpen ? <Login closeLoginPopup={() => setLoginOpen(false)} /> : null}
         </Toolbar>
         </AppBar>
+        {/* for testing edit listing */}
+        <Button onClick={() => setEditOpen(true)}>Edit</Button>
+        {editOpen ? <EditListing closeEditPopup={() => setEditOpen(false)} /> : null}
      </nav>
     </header>
   )
