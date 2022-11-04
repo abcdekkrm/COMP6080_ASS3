@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
-import * as ReactDOM from 'react-dom';
 import Login from '../Screens/Login';
 import {
   AppBar, Toolbar, Button, Typography,
 } from '@material-ui/core';
 import Config from '../config.json';
-import Landing from '../Screens/Landing';
+// import Landing from '../Screens/Landing';
 
 function Nav () {
   const [loginOpen, setLoginOpen] = useState(false);
+
+  function refreshPage () {
+    window.location.reload(false);
+  }
 
   function handleLogout () {
     const token = localStorage.getItem('token');
@@ -28,7 +31,7 @@ function Nav () {
           localStorage.removeItem('password');
           localStorage.removeItem('email');
           localStorage.removeItem('logged');
-          ReactDOM.render(<Landing />, document.querySelector('#root'));
+          refreshPage();
         } else {
           res.json().then((data) => {
             console.log(token);

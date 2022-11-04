@@ -1,5 +1,4 @@
 import React from 'react';
-import * as ReactDOM from 'react-dom';
 import Nav from '../Components/Nav';
 
 function Landing () {
@@ -9,7 +8,5 @@ function Landing () {
    </>
   );
 }
-
-ReactDOM.render(<Landing />, document.querySelector('#root'));
 
 export default Landing;

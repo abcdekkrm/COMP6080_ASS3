@@ -3,10 +3,8 @@ import {
   Button,
 } from '@material-ui/core';
 import React, { useState } from 'react';
-import * as ReactDOM from 'react-dom';
 import Config from '../config.json';
 import PropTypes from 'prop-types';
-import Landing from './Landing';
 
 const Signup = ({ closeSignupPopup }) => {
   const signupStyle = {
@@ -60,7 +58,6 @@ const Signup = ({ closeSignupPopup }) => {
             localStorage.setItem('password', password);
             localStorage.setItem('email', email);
             localStorage.setItem('logged', true);
-            ReactDOM.render(<Landing />, document.querySelector('#root'));
           })
         } else {
           res.json().then((data) => {
@@ -71,7 +68,7 @@ const Signup = ({ closeSignupPopup }) => {
   }
 
   return (
-    <div className="popup-container" style={signupStyle}>
+    <form style={signupStyle}>
      <div className="popup-body">
       <Button onClick={closeSignupPopup}>
         &times;
@@ -102,6 +99,7 @@ const Signup = ({ closeSignupPopup }) => {
       />
       <br/>
       <Button
+        type="submit"
         onClick={() => {
           handleSignupSubmit();
         }}
@@ -109,7 +107,7 @@ const Signup = ({ closeSignupPopup }) => {
         Sign me up!
       </Button>
      </div>
-    </div>
+    </form>
   );
 };
 
