@@ -7,6 +7,12 @@ import Config from '../config.json';
 import PropTypes from 'prop-types';
 
 const Signup = ({ closeSignupPopup }) => {
+  const [errorMessage, setErrorMessage] = useState('');
+
+  function refreshPage () {
+    window.location.reload(false);
+  }
+
   const signupStyle = {
     display: 'block',
     height: '100%',
@@ -36,7 +42,9 @@ const Signup = ({ closeSignupPopup }) => {
     setName(event.target.value);
   };
 
-  function handleSignupSubmit () {
+  function handleSignupSubmit (e) {
+    e.preventDefault();
+
     const payload = JSON.stringify({
       email,
       password,
@@ -58,9 +66,11 @@ const Signup = ({ closeSignupPopup }) => {
             localStorage.setItem('password', password);
             localStorage.setItem('email', email);
             localStorage.setItem('logged', true);
+            refreshPage();
           })
         } else {
           res.json().then((data) => {
+            setErrorMessage(data.error)
             console.log(data.error);
           });
         }
@@ -68,11 +78,10 @@ const Signup = ({ closeSignupPopup }) => {
   }
 
   return (
-    <form style={signupStyle}>
+    <form onSubmit={handleSignupSubmit} style={signupStyle}>
+    {errorMessage && <div className='error' style={{ color: 'red' }}> {errorMessage} </div>}
      <div className="popup-body">
-      <Button onClick={closeSignupPopup}>
-        &times;
-      </Button>
+      <Button onClick={closeSignupPopup}>&times;</Button>
       <h1 style={{ color: 'black' }}>Sign up today</h1>
       <TextField
         type="text"
@@ -98,14 +107,7 @@ const Signup = ({ closeSignupPopup }) => {
         value={password}
       />
       <br/>
-      <Button
-        type="submit"
-        onClick={() => {
-          handleSignupSubmit();
-        }}
-      >
-        Sign me up!
-      </Button>
+      <Button type="submit">Sign me up!</Button>
      </div>
     </form>
   );

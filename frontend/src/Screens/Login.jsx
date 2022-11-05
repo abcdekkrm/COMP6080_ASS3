@@ -9,6 +9,11 @@ import PropTypes from 'prop-types';
 
 const Login = ({ closeLoginPopup }) => {
   const [signupOpen, setSignupOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  function refreshPage () {
+    window.location.reload(false);
+  }
 
   const loginStyle = {
     display: 'block',
@@ -35,7 +40,7 @@ const Login = ({ closeLoginPopup }) => {
   };
 
   function handleLoginSubmit (e) {
-    // e.preventDefault()
+    e.preventDefault();
 
     const payload = JSON.stringify({
       email,
@@ -56,9 +61,11 @@ const Login = ({ closeLoginPopup }) => {
             localStorage.setItem('password', password);
             localStorage.setItem('email', email);
             localStorage.setItem('logged', true);
+            refreshPage();
           })
         } else {
           res.json().then((data) => {
+            setErrorMessage(data.error)
             console.log(data.error);
           });
         }
@@ -66,7 +73,9 @@ const Login = ({ closeLoginPopup }) => {
   }
 
   return (
-    <form onSubmit={() => { handleLoginSubmit(); }} style={loginStyle}>
+    <>
+    <form onSubmit={handleLoginSubmit} style={loginStyle}>
+    {errorMessage && <div className='error' style={{ color: 'red' }}> {errorMessage} </div>}
      <div className="popup-body">
       <Button onClick={closeLoginPopup}>&times;</Button>
       <h1 style={{ color: 'black' }}>Welcome</h1>
@@ -89,9 +98,12 @@ const Login = ({ closeLoginPopup }) => {
       <Button type="submit">Log in</Button>
       <p style={{ color: 'black' }}>Don&apos;t have an account?</p>
       <Button onClick={() => setSignupOpen(true)}>Sign up</Button>
-      {signupOpen ? <Signup closeSignupPopup={() => setSignupOpen(false)} /> : null}
      </div>
     </form>
+    <div>
+    {signupOpen ? <Signup closeSignupPopup={() => setSignupOpen(false)} /> : null}
+    </div>
+    </>
   );
 };
 
