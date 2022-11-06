@@ -1,21 +1,29 @@
 import React from 'react';
-import Paper from "@mui/material/Paper";
+import {
+  TextField
+} from '@material-ui/core';
 
-import Divider from "@mui/material/Divider";
-
-function Search() {
+function Search () {
   return (
-    <Paper
-      sx={{
-        m: "10px",
-        p: "6px",
-        display: "flex",
-        alignItems: "center",
-        width: "90%",
-      }}
-    >
-      <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-    </Paper>
+    <>
+    <form>
+     <div className="search-body">
+      <h3 style={{ color: 'black' }}>Find your perfect homestay today.</h3>
+      <TextField
+        id="outlined-basic"
+        variant="outlined"
+        type="text"
+        placeholder="Start searching ..."
+        inputProps={{
+          style: {
+            padding: 5,
+            width: '20vw'
+          }
+        }}
+      />
+     </div>
+    </form>
+    </>
   );
 }
 
