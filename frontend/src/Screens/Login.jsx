@@ -23,7 +23,7 @@ const Login = ({ closeLoginPopup }) => {
     position: 'absolute',
     left: '35%',
     top: '300%',
-    zIndex: '1000',
+    zIndex: '1',
     padding: '1vw',
     border: '0.1vw solid rgb(182, 182, 182)',
   };
@@ -100,9 +100,7 @@ const Login = ({ closeLoginPopup }) => {
       <Button onClick={() => setSignupOpen(true)}>Sign up</Button>
      </div>
     </form>
-    <div>
     {signupOpen ? <Signup closeSignupPopup={() => setSignupOpen(false)} /> : null}
-    </div>
     </>
   );
 };

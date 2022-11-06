@@ -15,13 +15,13 @@ const Signup = ({ closeSignupPopup }) => {
 
   const signupStyle = {
     display: 'block',
-    height: '100%',
-    width: '100%',
+    height: '500%',
+    width: '30%',
     background: 'white',
     position: 'absolute',
-    left: '-1%',
-    top: '-1%',
-    zIndex: '10000',
+    left: '35%',
+    top: '300%',
+    zIndex: '2',
     padding: '1vw',
     border: '0.1vw solid rgb(182, 182, 182)',
   };
@@ -78,38 +78,38 @@ const Signup = ({ closeSignupPopup }) => {
   }
 
   return (
-    <form onSubmit={handleSignupSubmit} style={signupStyle}>
-    {errorMessage && <div className='error' style={{ color: 'red' }}> {errorMessage} </div>}
-     <div className="popup-body">
-      <Button onClick={closeSignupPopup}>&times;</Button>
-      <h1 style={{ color: 'black' }}>Sign up today</h1>
-      <TextField
-        type="text"
-        id="name"
-        placeholder="Enter your name"
-        onChange={handleName}
-        value={name}
-      />
-      <br/>
-      <TextField
-        type="text"
-        id="email"
-        placeholder="Enter your email"
-        onChange={handleEmail}
-        value={email}
-      />
-      <br/>
-      <TextField
-        type="password"
-        id="password"
-        placeholder="Create a password"
-        onChange={handlePassword}
-        value={password}
-      />
-      <br/>
-      <Button type="submit">Sign me up!</Button>
-     </div>
-    </form>
+      <form onSubmit={handleSignupSubmit}>
+      <div className="popup-body" style={signupStyle}>
+      {errorMessage && <div className='error' style={{ color: 'red' }}> {errorMessage} </div>}
+        <Button onClick={closeSignupPopup}>&times;</Button>
+        <h1 style={{ color: 'black' }}>Sign up today</h1>
+        <TextField
+          type="text"
+          id="name"
+          placeholder="Enter your name"
+          onChange={handleName}
+          value={name}
+        />
+        <br/>
+        <TextField
+          type="text"
+          id="email"
+          placeholder="Enter your email"
+          onChange={handleEmail}
+          value={email}
+        />
+        <br/>
+        <TextField
+          type="password"
+          id="password"
+          placeholder="Create a password"
+          onChange={handlePassword}
+          value={password}
+        />
+        <br/>
+        <Button type="submit">Sign me up!</Button>
+      </div>
+      </form>
   );
 };
 
