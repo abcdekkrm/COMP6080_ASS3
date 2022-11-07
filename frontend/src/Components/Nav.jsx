@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Login from '../Screens/Login';
-import ProfileMenu from './ProfileMenu'
+import EditListing from '../Screens/EditListing'
 import {
   AppBar, Toolbar, Button, Typography
 } from '@material-ui/core';
@@ -30,6 +30,9 @@ function Nav () {
         {loginOpen ? <Login closeLoginPopup={() => setLoginOpen(false)} /> : null}
         </Toolbar>
         </AppBar>
+        {/* for testing edit listing */}
+        <Button onClick={() => setEditOpen(true)}>Edit</Button>
+        {editOpen ? <EditListing closeEditPopup={() => setEditOpen(false)} /> : null}
      </nav>
     </header>
   )
