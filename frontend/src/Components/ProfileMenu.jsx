@@ -3,13 +3,13 @@ import {
   Menu, MenuItem, Divider, Tooltip
 } from '@material-ui/core'
 import profile from '../Assets/profile.svg';
-import CreateListing from '../Screens/CreateListing'
+// import CreateListing from '../Screens/CreateListing'
+// import Account from '../Screens/Account'
 import Config from '../config.json';
 
 function ProfileMenu () {
   const [MenuOpen, setMenuOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState('');
-  const [createOpen, setCreateOpen] = useState(false);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -19,10 +19,6 @@ function ProfileMenu () {
   const handleClose = () => {
     setMenuOpen(false);
   };
-
-  function refreshPage () {
-    window.location.reload(false);
-  }
 
   function handleLogout () {
     const token = localStorage.getItem('token');
@@ -42,7 +38,7 @@ function ProfileMenu () {
           localStorage.removeItem('password');
           localStorage.removeItem('email');
           localStorage.removeItem('logged');
-          refreshPage();
+          window.location.href = '/'
         } else {
           res.json().then((data) => {
             console.log(token);
@@ -79,10 +75,10 @@ function ProfileMenu () {
         }}
         style={{ marginTop: '4%', marginLeft: '-2%' }}
       >
-        <MenuItem>
-          Profile
+        <MenuItem onClick={() => { window.location.href = '/Account' } }>
+          Account
         </MenuItem>
-        <MenuItem onClick={() => setCreateOpen(true)}>
+        <MenuItem onClick={() => { window.location.href = '/Create-listing' } }>
           Create Listing
         </MenuItem>
         <Divider />
@@ -90,7 +86,6 @@ function ProfileMenu () {
           Logout
         </MenuItem>
       </Menu>
-      {createOpen ? <CreateListing closeCreatePopup={() => setCreateOpen(false)} /> : null}
     </>
   );
 }
