@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Login from '../Screens/Login';
 import EditListing from '../Screens/EditListing'
+import CreateListing from '../Screens/CreateListing'
 import {
   AppBar, Toolbar, Button, Typography
 } from '@material-ui/core';
@@ -8,6 +9,9 @@ import logo from '../Assets/logo.svg';
 
 function Nav () {
   const [loginOpen, setLoginOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
+  const [createOpen, setCreateOpen] = useState(false);
+
   const logged = localStorage.getItem('logged');
 
   return (
@@ -31,8 +35,10 @@ function Nav () {
         </Toolbar>
         </AppBar>
         {/* for testing edit listing */}
+        <Button onClick={() => setCreateOpen(true)}>Create</Button>
         <Button onClick={() => setEditOpen(true)}>Edit</Button>
-        {editOpen ? <EditListing closeEditPopup={() => setEditOpen(false)} /> : null}
+        {editOpen ? <EditListing closeEditPopup={() => setEditOpen(false)} listingID={'564534127'} /> : null}
+        {createOpen ? <CreateListing closeCreatePopup={() => setCreateOpen(false)} /> : null}
      </nav>
     </header>
   )

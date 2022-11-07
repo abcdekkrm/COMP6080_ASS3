@@ -16,8 +16,7 @@ import ImageIcon from '@mui/icons-material/Image';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-const EditListing = ({ closeEditPopup, listingID }) => {
-  // const useStyles = makeStyles
+const CreateListing = ({ closeCreatePopup }) => {
   const useStyles = makeStyles({
     root: {
       width: 300,
@@ -140,10 +139,10 @@ const EditListing = ({ closeEditPopup, listingID }) => {
     }
   });
   const classes = useStyles();
-  const [title, setTitle] = React.useState('Old Title');
-  const [address, setAddress] = React.useState('Old Address');
-  const [singleBed, setSingle] = React.useState('Old Single');
-  const [doubleBed, setDouble] = React.useState('Old Double');
+  const [title, setTitle] = React.useState('Your Listing Title');
+  const [address, setAddress] = React.useState('Yout Address');
+  const [singleBed, setSingle] = React.useState('');
+  const [doubleBed, setDouble] = React.useState('');
   const [tnImage, setTnImage] = useState();
   const [imgArr, setImgArr] = React.useState();
   // let imgArr = [];
@@ -183,13 +182,12 @@ const EditListing = ({ closeEditPopup, listingID }) => {
     copyImgArr.splice(pos, 1);
     setImgArr(copyImgArr);
   }
-  const handleEdit = async () => {
-    console.log('edit');
-    closeEditPopup();
-    console.log(listingID);
-    const response = await fetch(`http://localhost:5005/listings/${listingID}`,
+  const handleCreate = async () => {
+    console.log('create');
+    closeCreatePopup();
+    const response = await fetch('http://localhost:5005/listings/new',
       {
-        method: 'PUT',
+        method: 'POST',
         headers: {
           'Content-type': 'application/json',
           'Authorization': ('Bearer ' + localStorage.token)
@@ -207,21 +205,22 @@ const EditListing = ({ closeEditPopup, listingID }) => {
     const data = await response.json();
     console.log(data);
   }
+  // const useStyles = makeStyles
+  // const useStyles = makeStyles(
+  // );
   return (
     <div className={classes.background} id='popup-background'>
-      <div className={classes.popup_syles} id='edit-listing-popup'>
+      <div className={classes.popup_syles} id='create-listing-popup'>
         <div className={classes.closeIcon}>
           <IconButton>
-            <CloseIcon onClick={closeEditPopup}/>
+            <CloseIcon onClick={closeCreatePopup}/>
           </IconButton>
         </div>
-        <div className={classes.title}><div>Listing Title</div></div>
-        {/* <Button onClick={closeEditPopup}>&times;</Button> */}
         <div className={classes.textImageContainer}>
-          <div className={classes.listingText} id='edit-listing-text'>
+          <div className={classes.listingText} id='create-listing-text'>
             <div>
               <TextField
-              id="edit-title"
+              id="create-title"
               label="title"
               value={title}
               onChange={handleChangeTitle}
@@ -229,7 +228,7 @@ const EditListing = ({ closeEditPopup, listingID }) => {
             </div>
             <div>
               <TextField
-              id="edit-address"
+              id="create-address"
               label="address"
               value={address}
               onChange={handleChangeAddress}
@@ -280,7 +279,7 @@ const EditListing = ({ closeEditPopup, listingID }) => {
               </FormControl>
             </div>
           </div>
-          <div className={classes.listingImg} id='edit-listing-image'>
+          <div className={classes.listingImg} id='create-listing-image'>
             <img className={classes.thumbnail} src={tnImage}></img>
             <input className={classes.imageInput} type="file" multiple accept="image/*" id='thumbnailUpload' onChange={handleChangeThumbnail}/>
             <div className={classes.thumbnailActions}>
@@ -310,13 +309,13 @@ const EditListing = ({ closeEditPopup, listingID }) => {
             </div>
           </div>
         </div>
-        <Button onClick={handleEdit}>Save Edit</Button>
+        {/* <Button onClick={closecreatePopup}>&times;</Button> */}
+        <Button onClick={handleCreate}>Create Listing</Button>
       </div>
     </div>
   );
 };
-EditListing.propTypes = {
-  closeEditPopup: PropTypes.func,
-  listingID: PropTypes.string
+CreateListing.propTypes = {
+  closeCreatePopup: PropTypes.func
 };
-export default EditListing;
+export default CreateListing;
