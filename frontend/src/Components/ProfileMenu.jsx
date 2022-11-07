@@ -3,11 +3,13 @@ import {
   Menu, MenuItem, Divider, Tooltip
 } from '@material-ui/core'
 import profile from '../Assets/profile.svg';
+import CreateListing from '../Screens/CreateListing'
 import Config from '../config.json';
 
 function ProfileMenu () {
   const [MenuOpen, setMenuOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState('');
+  const [createOpen, setCreateOpen] = useState(false);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -80,7 +82,7 @@ function ProfileMenu () {
         <MenuItem>
           Profile
         </MenuItem>
-        <MenuItem>
+        <MenuItem onClick={() => setCreateOpen(true)}>
           Create Listing
         </MenuItem>
         <Divider />
@@ -88,6 +90,7 @@ function ProfileMenu () {
           Logout
         </MenuItem>
       </Menu>
+      {createOpen ? <CreateListing closeCreatePopup={() => setCreateOpen(false)} /> : null}
     </>
   );
 }
