@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Box, Tab, Tabs, Typography } from '@mui/material';
+import { Box, Tab, Tabs } from '@mui/material';
+import UserListings from '../Screens/UserListings';
 
 function SimpleTabs () {
   const [tabIndex, setTabIndex] = useState(0);
@@ -12,7 +13,7 @@ function SimpleTabs () {
     <Box>
       <Box>
         <Tabs value={tabIndex} onChange={handleTabChange} centered>
-          <Tab label="Your Listings" />
+          <Tab label="Your Listings" onClick={() => { window.location.href = '/User-Listings' } }/>
           <Tab label="Your Bookings" />
           <Tab label="..." />
         </Tabs>
@@ -20,17 +21,15 @@ function SimpleTabs () {
       <Box sx={{ padding: 2 }}>
         {tabIndex === 0 && (
           <Box>
-            <Typography>Listings go here</Typography>
+            <UserListings />
           </Box>
         )}
         {tabIndex === 1 && (
           <Box>
-            <Typography>Bookings go here</Typography>
           </Box>
         )}
         {tabIndex === 2 && (
           <Box>
-            <Typography>...</Typography>
           </Box>
         )}
       </Box>

@@ -3,8 +3,6 @@ import {
   Menu, MenuItem, Divider, Tooltip
 } from '@material-ui/core'
 import profile from '../Assets/profile.svg';
-// import CreateListing from '../Screens/CreateListing'
-// import Account from '../Screens/Account'
 import Config from '../config.json';
 
 function ProfileMenu () {

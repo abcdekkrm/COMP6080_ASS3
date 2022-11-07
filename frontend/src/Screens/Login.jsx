@@ -11,9 +11,9 @@ const Login = ({ closeLoginPopup }) => {
   const [signupOpen, setSignupOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  function refreshPage () {
-    window.location.reload(false);
-  }
+  // function refreshPage () {
+  //   window.location.reload(false);
+  // }
 
   const loginStyle = {
     display: 'block',
@@ -61,7 +61,7 @@ const Login = ({ closeLoginPopup }) => {
             localStorage.setItem('password', password);
             localStorage.setItem('email', email);
             localStorage.setItem('logged', true);
-            refreshPage();
+            window.location.href = '/Landing'
           })
         } else {
           res.json().then((data) => {
