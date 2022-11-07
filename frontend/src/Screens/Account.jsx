@@ -1,9 +1,9 @@
 import React from 'react';
 import Nav from '../Components/Nav';
 import {
-  Grid, Box, Paper, styled, AppBar, Tabs, Tab
+  Grid, Box, Paper, styled
 } from '@material-ui/core'
-// import TabPanel from '@mui/lab/TabPanel';
+import SimpleTabs from '../Components/SimpleTabs'
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -16,18 +16,6 @@ const Item = styled(Paper)(({ theme }) => ({
 
 function Account () {
   const logged = localStorage.getItem('logged');
-  const [value, setValue] = React.useState(0);
-
-  function a11yProps (index) {
-    return {
-      id: `simple-tab-${index}`,
-      'aria-controls': `simple-tabpanel-${index}`,
-    };
-  }
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
 
   return (
     <>
@@ -42,22 +30,7 @@ function Account () {
                 </Grid>
                 <Grid item xs={12}>
                   <Item style = {{ height: '70vh' }}>
-                    <AppBar position="static">
-                      <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" centered>
-                        <Tab label="Listings" {...a11yProps(0)} />
-                        <Tab label="Bookings" {...a11yProps(1)} />
-                        <Tab label="..." {...a11yProps(2)} />
-                      </Tabs>
-                    </AppBar>
-                      {/* <TabPanel value={value} index={0}>
-                        Item One
-                      </TabPanel>
-                      <TabPanel value={value} index={1}>
-                        Item Two
-                      </TabPanel>
-                      <TabPanel value={value} index={2}>
-                        Item Three
-                      </TabPanel> */}
+                    <SimpleTabs />
                   </Item>
                 </Grid>
               </Grid>

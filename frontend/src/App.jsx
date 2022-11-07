@@ -11,7 +11,7 @@ function App () {
     <Route exact path="/" element={Landing} />
     <Route exact path="/" element={Login} />
     <Route exact path="/Account" element={Account} />
-    <Route exact path="/Create-listing" element={CreateListing} />
+    <Route exact path="/Create-Listing" element={CreateListing} />
   </Switch>;
 
   const route = window.location.pathname;

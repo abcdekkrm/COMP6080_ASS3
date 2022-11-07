@@ -78,7 +78,7 @@ function ProfileMenu () {
         <MenuItem onClick={() => { window.location.href = '/Account' } }>
           Account
         </MenuItem>
-        <MenuItem onClick={() => { window.location.href = '/Create-listing' } }>
+        <MenuItem onClick={() => { window.location.href = '/Create-Listing' } }>
           Create Listing
         </MenuItem>
         <Divider />
