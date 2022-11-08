@@ -38,7 +38,7 @@ function UserListings () {
     <div>
       {errorMessage && <div className='error' style={{ color: 'red' }}> {errorMessage} </div>}
       <div className='item-container'>
-        {listings.map((listing) => (
+        {listings?.map((listing) => (
           <div className='card' key={listing.id}>
             <img src={listing.thumbnail} alt='' />
             <h3>{listing.title}</h3>
