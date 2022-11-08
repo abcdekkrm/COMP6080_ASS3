@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Login from '../Screens/Login';
+// import Login from '../Screens/Login';
 import ProfileMenu from './ProfileMenu';
 import EditListing from '../Screens/EditListing'
 import CreateListing from '../Screens/CreateListing'
@@ -9,13 +9,13 @@ import {
 import logo from '../Assets/logo.svg';
 
 function Nav () {
-  const [loginOpen, setLoginOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   const [createOpen, setCreateOpen] = useState(false);
 
   const logged = localStorage.getItem('logged');
 
   return (
+    <>
     <header>
      <nav>
       <AppBar position="static">
@@ -31,8 +31,7 @@ function Nav () {
         >
          AirBrB
         </Typography>
-        {logged ? <ProfileMenu /> : <Button style={{ marginLeft: '80%' }} onClick={() => setLoginOpen(true)}>Login / Sign up</Button>}
-        {loginOpen ? <Login closeLoginPopup={() => setLoginOpen(false)} /> : null}
+        {logged ? <ProfileMenu /> : <Button style={{ marginLeft: '80%' }} onClick={() => { window.location.href = '/Login' } }>Login / Sign up</Button>}
         </Toolbar>
         </AppBar>
         {/* for testing edit listing */}
@@ -42,6 +41,7 @@ function Nav () {
         {createOpen ? <CreateListing closeCreatePopup={() => setCreateOpen(false)} /> : null}
      </nav>
     </header>
+    </>
   )
 }
 

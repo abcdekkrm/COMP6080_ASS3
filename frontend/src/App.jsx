@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import Landing from './Screens/Landing';
+import Nav from './Components/Nav'
 import { BrowserRouter as Switch, Route } from 'react-router-dom';
 import Login from './Screens/Login';
 import Account from './Screens/Account';
@@ -20,17 +21,24 @@ function App () {
 
   const route = window.location.pathname;
 
-  if (route === '/' || route === '/landing') {
+  if (route === '/' || route === '/Landing') {
     return <Landing />;
   }
   if (route === '/Login') {
-    return <Login />;
+    return (
+      <>
+      <Nav />
+      <Login />
+      </>
+    );
   }
   if (route === '/Register') {
-    return <Signup />;
-  }
-  if (route === '/Landing') {
-    return <Landing />;
+    return (
+      <>
+      <Nav />
+      <Signup />
+      </>
+    );
   }
   if (route === '/Account') {
     return <Account />;

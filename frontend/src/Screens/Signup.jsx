@@ -6,22 +6,15 @@ import React, { useState } from 'react';
 import Config from '../config.json';
 import PropTypes from 'prop-types';
 
-const Signup = ({ closeSignupPopup }) => {
+const Signup = () => {
   const [errorMessage, setErrorMessage] = useState('');
-
-  function refreshPage () {
-    window.location.reload(false);
-  }
 
   const signupStyle = {
     display: 'block',
-    height: '500%',
-    width: '30%',
+    height: '100%',
+    width: '100%',
     background: 'white',
     position: 'absolute',
-    left: '35%',
-    top: '300%',
-    zIndex: '2',
     padding: '1vw',
     border: '0.1vw solid rgb(182, 182, 182)',
   };
@@ -66,7 +59,7 @@ const Signup = ({ closeSignupPopup }) => {
             localStorage.setItem('password', password);
             localStorage.setItem('email', email);
             localStorage.setItem('logged', true);
-            refreshPage();
+            window.location.href = '/Landing';
           })
         } else {
           res.json().then((data) => {
@@ -81,7 +74,6 @@ const Signup = ({ closeSignupPopup }) => {
       <form onSubmit={handleSignupSubmit}>
       <div className="popup-body" style={signupStyle}>
       {errorMessage && <div className='error' style={{ color: 'red' }}> {errorMessage} </div>}
-        <Button onClick={closeSignupPopup}>&times;</Button>
         <h1 style={{ color: 'black' }}>Sign up today</h1>
         <TextField
           type="text"
