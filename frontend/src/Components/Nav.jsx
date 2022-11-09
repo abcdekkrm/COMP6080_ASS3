@@ -14,7 +14,7 @@ function Nav () {
      <nav>
       <AppBar position="static">
        <Toolbar>
-        <img src={logo} className="logo" alt="AirBrb logo" style={{ height: '5vh' }} onClick={() => { window.location.href = '/Landing' } }/>
+        <img src={logo} className="logo" alt="AirBrb logo" style={{ height: '5vh', cursor: 'pointer' }} onClick={() => { window.location.href = '/Landing' } }/>
         <Typography
           variant="h6"
           sx={{
@@ -23,6 +23,7 @@ function Nav () {
             width: '100%',
           }}
           onClick={() => { window.location.href = '/Landing' } }
+          style={{ cursor: 'pointer' }}
         >
          AirBrB
         </Typography>

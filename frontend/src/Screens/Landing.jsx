@@ -4,6 +4,7 @@ import {
   Grid, Box, Paper, styled
 } from '@material-ui/core'
 import Search from '../Components/Search';
+import Listings from './Listings';
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -27,7 +28,9 @@ function Landing () {
               <Item><Search /></Item>
             </Grid>
             <Grid item xs={9}>
-              <Item>Listings go here</Item>
+              <Item>
+                <Listings />
+              </Item>
             </Grid>
           </Grid>
         </Box>
