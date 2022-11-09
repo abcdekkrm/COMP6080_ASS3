@@ -48,20 +48,10 @@ function App () {
     return <Account />;
   }
   if (route === '/Create-Listing') {
-    return (
-      <>
-      <Nav />
-      <CreateListing />
-      </>
-    );
+    return <CreateListing />;
   }
   if (route === '/Edit-Listing') {
-    return (
-      <>
-      <Nav />
-      <EditListing />
-      </>
-    );
+    return <EditListing />;
   }
   if (route === '/Delete-Listing') {
     return (

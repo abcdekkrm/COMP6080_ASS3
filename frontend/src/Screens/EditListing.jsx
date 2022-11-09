@@ -188,7 +188,7 @@ const EditListing = ({ listingID }) => {
     setImgArr(copyImgArr);
   }
   function closeEdit () {
-    window.location.href = '/Landing';
+    window.location.href = '/User-Listings';
   }
   const handleEdit = async () => {
     console.log('edit');
