@@ -8,7 +8,6 @@ function UserListings () {
   const [listings, setListings] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
   const [deleteOpen, setDeleteOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState('');
 
   useEffect(() => {
     getListings();
@@ -35,9 +34,9 @@ function UserListings () {
     height: '15vw',
   }
 
-  const handleClick = (event, id) => {
-    setAnchorEl(event.currentTarget);
+  const handleClick = (id) => {
     setDeleteOpen(true);
+    console.log(id);
     localStorage.setItem('listingId', id);
   }
 
@@ -79,13 +78,20 @@ function UserListings () {
               <img src={listing.thumbnail} alt='' style={thumbnailStyle}/>
               <h3>{listing.title}</h3>
               <p>${listing.price}/night</p>
+              {/* {(listing.metadata)?.map((data) => (
+                <>
+                <div key={data}>
+                  <p>{data.bedroom}</p>
+                </div>
+                </>
+              ))} */}
               <EditIcon onClick={() => { window.location.href = '/Edit-Listing' } }/>
-              <DeleteIcon style={{ color: 'red' }} onClick={handleClick}/>
+              <DeleteIcon style={{ color: 'red' }} onClick={() => handleClick(listing.id)}/>
             </div>
           ))}
         </div>
       </div>
-      {deleteOpen ? <DeleteListing anchorEl={anchorEl} id={listingId} closeDeletePopup={() => setDeleteOpen(false)} /> : null}
+      {deleteOpen ? <DeleteListing id={listingId} closeDeletePopup={() => setDeleteOpen(false)} /> : null}
     </>
   );
 }
