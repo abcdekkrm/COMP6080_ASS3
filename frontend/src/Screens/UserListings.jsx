@@ -5,6 +5,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import DeleteListing from '../Components/DeleteListing';
 import InfoIcon from '@mui/icons-material/Info';
 import SimplePopup from '../Components/SimplePopup';
+import { Paper } from '@mui/material';
 
 function UserListings () {
   const [listings, setListings] = useState([]);
@@ -24,16 +25,14 @@ function UserListings () {
     display: 'flex',
     justifyContent: 'left',
     overflowX: 'scroll',
-    gap: '2vw'
+    gap: '1vw'
   };
 
   const cardStyle = {
     textAlign: 'center',
     width: '15vw',
     height: '60vh',
-    borderRadius: '5px',
-    padding: '1em',
-    boxShadow: '0px 0px 1.5vw -1vw #000000'
+    padding: '1vw',
   };
 
   const thumbnailStyle = {
@@ -131,7 +130,7 @@ function UserListings () {
         {errorMessage && <div className='error' style={{ color: 'red' }}> {errorMessage} </div>}
         <div className='item-container' style={containerStyle}>
           {listings?.map(listing => (
-            <div className='card' key={listing.id} style={cardStyle}>
+            <Paper className='card' key={listing.id} style={cardStyle}>
               {(listing.owner === email)
                 ? <>
                     <img src={listing.thumbnail} alt='' style={thumbnailStyle}/>
@@ -142,7 +141,7 @@ function UserListings () {
                     <DeleteIcon onClick={() => handleClick(listing.id)} style={{ color: 'red', cursor: 'pointer' }}/>
                   </>
                 : null}
-            </div>
+            </Paper>
           ))}
         </div>
       </div>
