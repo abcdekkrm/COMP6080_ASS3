@@ -4,26 +4,17 @@ import {
 } from '@material-ui/core';
 import React, { useState } from 'react';
 import Config from '../config.json';
-import Signup from './Signup'
 import PropTypes from 'prop-types';
 
-const Login = ({ closeLoginPopup }) => {
-  const [signupOpen, setSignupOpen] = useState(false);
+const Login = () => {
   const [errorMessage, setErrorMessage] = useState('');
-
-  // function refreshPage () {
-  //   window.location.reload(false);
-  // }
 
   const loginStyle = {
     display: 'block',
-    height: '500%',
-    width: '30%',
+    height: '100%',
+    width: '100%',
     background: 'white',
     position: 'absolute',
-    left: '35%',
-    top: '300%',
-    zIndex: '1',
     padding: '1vw',
     border: '0.1vw solid rgb(182, 182, 182)',
   };
@@ -77,7 +68,6 @@ const Login = ({ closeLoginPopup }) => {
     <form onSubmit={handleLoginSubmit} style={loginStyle}>
     {errorMessage && <div className='error' style={{ color: 'red' }}> {errorMessage} </div>}
      <div className="popup-body">
-      <Button onClick={closeLoginPopup}>&times;</Button>
       <h1 style={{ color: 'black' }}>Welcome</h1>
       <TextField
         type="text"
@@ -97,10 +87,9 @@ const Login = ({ closeLoginPopup }) => {
       <br/>
       <Button type="submit">Log in</Button>
       <p style={{ color: 'black' }}>Don&apos;t have an account?</p>
-      <Button onClick={() => setSignupOpen(true)}>Sign up</Button>
+      <Button onClick={() => { window.location.href = '/Register' } }>Sign up</Button>
      </div>
     </form>
-    {signupOpen ? <Signup closeSignupPopup={() => setSignupOpen(false)} /> : null}
     </>
   );
 };

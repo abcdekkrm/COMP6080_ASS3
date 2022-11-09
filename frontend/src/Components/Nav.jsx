@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Login from '../Screens/Login';
+// import Login from '../Screens/Login';
 import ProfileMenu from './ProfileMenu';
 import EditListing from '../Screens/EditListing'
 import {
@@ -8,17 +8,17 @@ import {
 import logo from '../Assets/logo.svg';
 
 function Nav () {
-  const [loginOpen, setLoginOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
 
   const logged = localStorage.getItem('logged');
 
   return (
+    <>
     <header>
      <nav>
       <AppBar position="static">
        <Toolbar>
-        <img src={logo} className="logo" alt="AirBrb logo" style={{ height: '5vh' }} />
+        <img src={logo} className="logo" alt="AirBrb logo" style={{ height: '5vh' }} onClick={() => { window.location.href = '/Landing' } }/>
         <Typography
           variant="h6"
           sx={{
@@ -26,11 +26,11 @@ function Nav () {
             height: '8vh',
             width: '100%',
           }}
+          onClick={() => { window.location.href = '/Landing' } }
         >
          AirBrB
         </Typography>
-        {logged ? <ProfileMenu /> : <Button style={{ marginLeft: '80%' }} onClick={() => setLoginOpen(true)}>Login / Sign up</Button>}
-        {loginOpen ? <Login closeLoginPopup={() => setLoginOpen(false)} /> : null}
+        {logged ? <ProfileMenu /> : <Button style={{ marginLeft: '80%' }} onClick={() => { window.location.href = '/Login' } }>Login / Sign up</Button>}
         </Toolbar>
         </AppBar>
         {/* for testing edit listing */}
@@ -38,6 +38,7 @@ function Nav () {
         {editOpen ? <EditListing closeEditPopup={() => setEditOpen(false)} listingID={'564534127'} /> : null}
      </nav>
     </header>
+    </>
   )
 }
 
