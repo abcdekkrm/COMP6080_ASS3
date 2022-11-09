@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 // import * as ReactDOM from 'react-dom';
 // import Config from '../config.json';
-import Nav from '../Components/Nav';
 import DiscreteSliderLabel from '../Components/Slider';
 import SelectSmall from '../Components/SelectBox';
 import { makeStyles, TextField, Button, Typography } from '@material-ui/core';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import Box from '@mui/material/Box';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import IconButton from '@mui/material/IconButton';
 // import { CloseIcon, ImageIcon, AddCircleOutlineIcon } from '@mui/icons-material';
 import CloseIcon from '@mui/icons-material/Close';
@@ -16,7 +15,7 @@ import ImageIcon from '@mui/icons-material/Image';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-const EditListing = ({ listingID }) => {
+const EditListing = () => {
   // const useStyles = makeStyles
   const useStyles = makeStyles({
     root: {
@@ -26,7 +25,7 @@ const EditListing = ({ listingID }) => {
       background: 'white',
       border: '1px solid #ccc',
       height: '92vh',
-      width: '100%',
+      // width: '100vw',
       padding: '1vw',
       zIndex: '1200px',
     },
@@ -80,7 +79,7 @@ const EditListing = ({ listingID }) => {
     },
     thumbnail: {
       height: '20vw',
-      width: '20vw',
+      width: '30vw',
       // backgroundColor: '#aaa'
     },
     thumbnailActions: {
@@ -99,8 +98,8 @@ const EditListing = ({ listingID }) => {
     },
     img: {
       border: '1px solid #ccc',
-      width: '98px',
-      height: '98px',
+      width: '150px',
+      height: '100px',
       backgroundColor: '#ccc',
       display: 'flex',
       flex: 'none',
@@ -131,6 +130,7 @@ const EditListing = ({ listingID }) => {
     }
   });
   const classes = useStyles();
+  const listingId = Number(localStorage.getItem('listingId'));
   const [title, setTitle] = React.useState('Old Title');
   const [price, setPrice] = React.useState('');
   const [address, setAddress] = React.useState('Old Address');
@@ -143,6 +143,7 @@ const EditListing = ({ listingID }) => {
   // let imgArr = [];
   // let imgObj = null;
   const handleChangeTitle = event => {
+    console.log(localStorage.getItem('listingId'));
     setTitle(event.target.value);
   };
   const handleChangePrice = event => {
@@ -194,9 +195,9 @@ const EditListing = ({ listingID }) => {
     console.log('edit');
     // closeEditPopup();
     closeEdit();
-    console.log(listingID);
+    // console.log(listingId);
     const token = localStorage.getItem('token');
-    const response = await fetch(`http://localhost:5005/listings/${listingID}`,
+    const response = await fetch(`http://localhost:5005/listings/${listingId}`,
       {
         method: 'PUT',
         headers: {
@@ -224,7 +225,6 @@ const EditListing = ({ listingID }) => {
   }
   return (
     <>
-      <Nav/>
       <div className={classes.popup_syles} id='edit-listing-popup'>
         <div className={classes.closeIcon}>
           <IconButton>
@@ -351,7 +351,7 @@ const EditListing = ({ listingID }) => {
     </>
   );
 };
-EditListing.propTypes = {
-  listingID: PropTypes.string
-};
+// EditListing.propTypes = {
+//   listingId: PropTypes.string
+// };
 export default EditListing;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 // import * as ReactDOM from 'react-dom';
 // import Config from '../config.json';
-import Nav from '../Components/Nav';
+// import Nav from '../Components/Nav';
 import DiscreteSliderLabel from '../Components/Slider';
 import SelectSmall from '../Components/SelectBox';
 import { makeStyles, TextField, Button, Typography } from '@material-ui/core';
@@ -26,11 +26,11 @@ const CreateListing = () => {
     },
     popup_syles: {
       background: 'white',
-      border: '1px solid #ccc',
+      // border: '1px solid #ccc',
       height: '92vh',
-      width: '100%',
+      // width: '100vw',
       padding: '1vw',
-      zIndex: '1200px',
+      // zIndex: '1200px',
     },
     title: {
       fontSize: '20px',
@@ -85,7 +85,7 @@ const CreateListing = () => {
     },
     thumbnail: {
       height: '20vw',
-      width: '20vw',
+      width: '30vw',
       // backgroundColor: '#aaa'
     },
     thumbnailActions: {
@@ -104,8 +104,8 @@ const CreateListing = () => {
     },
     img: {
       border: '1px solid #ccc',
-      width: '98px',
-      height: '98px',
+      width: '150px',
+      height: '100px',
       backgroundColor: '#ccc',
       display: 'flex',
       flex: 'none',
@@ -231,7 +231,7 @@ const CreateListing = () => {
   }
   return (
     <>
-      <Nav/>
+      {/* <Nav/> */}
       <div className={classes.popup_syles} id='create-listing-popup'>
         <div className={classes.closeIcon}>
           <IconButton>
