@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Config from '../config.json';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import DeleteListing from '../Components/DeleteListing';
 
-function UserListings () {
+function Listings () {
   const [listings, setListings] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
-  const [deleteOpen, setDeleteOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState('');
 
   useEffect(() => {
     getListings();
@@ -18,12 +13,12 @@ function UserListings () {
     display: 'flex',
     justifyContent: 'left',
     flexWrap: 'wrap',
-    gap: '2vw'
+    gap: '1vw'
   };
 
   const cardStyle = {
     textAlign: 'center',
-    width: '15vw',
+    width: '10vw',
     borderRadius: '5px',
     padding: '1em',
     boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8'
@@ -31,20 +26,8 @@ function UserListings () {
 
   const thumbnailStyle = {
     objectFit: 'cover',
-    width: '15vw',
-    height: '15vw',
-  }
-
-  const handleClick = (event, id) => {
-    setAnchorEl(event.currentTarget);
-    setDeleteOpen(true);
-    localStorage.setItem('listingId', id);
-  }
-  function handleOpenEdit (id) {
-    console.log(id);
-    localStorage.setItem('listingId', id);
-    console.log(localStorage.getItem('listingId'));
-    window.location.href = '/Edit-Listing';
+    width: '10vw',
+    height: '10vw',
   }
 
   function getListings () {
@@ -73,8 +56,6 @@ function UserListings () {
       });
   }
 
-  const listingId = Number(localStorage.getItem('listingId'));
-
   return (
     <>
       <div>
@@ -85,16 +66,12 @@ function UserListings () {
               <img src={listing.thumbnail} alt='' style={thumbnailStyle}/>
               <h3>{listing.title}</h3>
               <p>${listing.price}/night</p>
-              {/* <EditIcon onClick={() => { window.location.href = '/Edit-Listing' } }/> */}
-              <EditIcon onClick={() => handleOpenEdit(listing.id)}/>
-              <DeleteIcon style={{ color: 'red' }} onClick={handleClick}/>
             </div>
           ))}
         </div>
       </div>
-      {deleteOpen ? <DeleteListing anchorEl={anchorEl} id={listingId} closeDeletePopup={() => setDeleteOpen(false)} /> : null}
     </>
   );
 }
 
-export default UserListings;
+export default Listings;
