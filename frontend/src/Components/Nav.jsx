@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 // import Login from '../Screens/Login';
 import ProfileMenu from './ProfileMenu';
-import EditListing from '../Screens/EditListing'
+// import EditListing from '../Screens/EditListing'
 import {
   AppBar, Toolbar, Button, Typography
 } from '@material-ui/core';
 import logo from '../Assets/logo.svg';
 
 function Nav () {
-  const [editOpen, setEditOpen] = useState(false);
+  // const [editOpen, setEditOpen] = useState(false);
 
   const logged = localStorage.getItem('logged');
 
@@ -34,8 +34,8 @@ function Nav () {
         </Toolbar>
         </AppBar>
         {/* for testing edit listing */}
-        <Button onClick={() => setEditOpen(true)}>Edit</Button>
-        {editOpen ? <EditListing closeEditPopup={() => setEditOpen(false)} listingID={'564534127'} /> : null}
+        {/* <Button onClick={() => setEditOpen(true)}>Edit</Button>
+        {editOpen ? <EditListing closeEditPopup={() => setEditOpen(false)} listingID={'564534127'} /> : null} */}
      </nav>
     </header>
     </>
