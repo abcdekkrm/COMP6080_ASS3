@@ -12,11 +12,18 @@ const Signup = () => {
   const signupStyle = {
     display: 'block',
     height: '100%',
-    width: '100%',
+    width: '99.8%',
     background: 'white',
     position: 'absolute',
-    padding: '1vw',
     border: '0.1vw solid rgb(182, 182, 182)',
+  };
+
+  const imageStyle = {
+    display: 'block',
+    height: '95%',
+    position: 'absolute',
+    left: '48vw',
+    top: '0%',
   };
 
   const [email, setEmail] = useState('');
@@ -64,16 +71,15 @@ const Signup = () => {
         } else {
           res.json().then((data) => {
             setErrorMessage(data.error)
-            console.log(data.error);
           });
         }
       });
   }
 
   return (
-      <form onSubmit={handleSignupSubmit}>
-      <div className="popup-body" style={signupStyle}>
-      {errorMessage && <div className='error' style={{ color: 'red' }}> {errorMessage} </div>}
+      <>
+      <form onSubmit={handleSignupSubmit} style={signupStyle}>
+      <div className="popup-body" style = {{ padding: '10vw', width: '30%' }}>
         <h1 style={{ color: 'black' }}>Sign up today</h1>
         <TextField
           type="text"
@@ -81,6 +87,7 @@ const Signup = () => {
           placeholder="Enter your name"
           onChange={handleName}
           value={name}
+          style = {{ width: '20vw' }}
         />
         <br/>
         <TextField
@@ -89,6 +96,7 @@ const Signup = () => {
           placeholder="Enter your email"
           onChange={handleEmail}
           value={email}
+          style = {{ width: '20vw' }}
         />
         <br/>
         <TextField
@@ -97,11 +105,19 @@ const Signup = () => {
           placeholder="Create a password"
           onChange={handlePassword}
           value={password}
+          style = {{ width: '20vw' }}
         />
         <br/>
+        {errorMessage && <div className='error' style={{ color: 'red' }}> {errorMessage} </div>}
         <Button type="submit">Sign me up!</Button>
       </div>
+      <img
+      src='https://img.freepik.com/free-vector/tiny-house-concept-illustration_114360-9329.jpg?w=826&t=st=1668000195~exp=1668000795~hmac=04f8f7c97a23ab1fd828560730b3c34a50a955d073dbd8b44bca8ea58286f8e7'
+      alt="stock img"
+      style = {imageStyle}
+      />
       </form>
+      </>
   );
 };
 

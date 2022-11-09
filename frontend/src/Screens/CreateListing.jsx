@@ -193,7 +193,7 @@ const CreateListing = () => {
     setImgArr(copyImgArr);
   }
   function closeCreate () {
-    window.location.href = '/User-Listings';
+    window.location.href = '/Landing';
   }
   const handleCreate = async () => {
     // console.log('create');

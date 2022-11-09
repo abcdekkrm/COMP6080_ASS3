@@ -12,11 +12,18 @@ const Login = () => {
   const loginStyle = {
     display: 'block',
     height: '100%',
-    width: '100%',
+    width: '99.8%',
     background: 'white',
     position: 'absolute',
-    padding: '1vw',
     border: '0.1vw solid rgb(182, 182, 182)',
+  };
+
+  const imageStyle = {
+    display: 'block',
+    height: '95%',
+    position: 'absolute',
+    left: '48vw',
+    top: '0%',
   };
 
   const [email, setEmail] = useState('');
@@ -57,7 +64,6 @@ const Login = () => {
         } else {
           res.json().then((data) => {
             setErrorMessage(data.error)
-            console.log(data.error);
           });
         }
       });
@@ -66,15 +72,15 @@ const Login = () => {
   return (
     <>
     <form onSubmit={handleLoginSubmit} style={loginStyle}>
-    {errorMessage && <div className='error' style={{ color: 'red' }}> {errorMessage} </div>}
-     <div className="popup-body">
-      <h1 style={{ color: 'black' }}>Welcome</h1>
+     <div className="popup-body" style = {{ padding: '10vw', width: '30%' }}>
+      <h1 style={{ color: 'black', marginBottom: '2%' }}>Welcome</h1>
       <TextField
         type="text"
         id="email"
         placeholder="Enter your email"
         onChange={handleEmail}
         value={email}
+        style = {{ width: '20vw' }}
       />
       <br/>
       <TextField
@@ -83,12 +89,20 @@ const Login = () => {
         placeholder="Enter your password"
         onChange={handlePassword}
         value={password}
+        style = {{ width: '20vw' }}
       />
       <br/>
+      {errorMessage && <div className='error' style={{ color: 'red' }}> {errorMessage} </div>}
       <Button type="submit">Log in</Button>
-      <p style={{ color: 'black' }}>Don&apos;t have an account?</p>
-      <Button onClick={() => { window.location.href = '/Register' } }>Sign up</Button>
+      <p style={{ color: 'black', fontSize: 'small' }}>Don&apos;t have an account?
+        <Button onClick={() => { window.location.href = '/Register' }} style={{ fontSize: 'small' }}>Sign up</Button>
+      </p>
      </div>
+     <img
+      src='https://img.freepik.com/free-vector/tiny-house-concept-illustration_114360-9087.jpg?w=826&t=st=1667998618~exp=1667999218~hmac=de7c8ff6ede1a39d43dd4b1a6b74266f014b44fbba12f7b37eadf8398f736de1'
+      alt="stock img"
+      style = {imageStyle}
+      />
     </form>
     </>
   );

@@ -13,15 +13,17 @@ function Listings () {
     display: 'flex',
     justifyContent: 'left',
     flexWrap: 'wrap',
+    overflowY: 'scroll',
+    padding: '1vw',
     gap: '1vw'
   };
 
   const cardStyle = {
     textAlign: 'center',
-    width: '10vw',
+    width: '14vw',
     borderRadius: '5px',
-    padding: '1em',
-    boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8'
+    padding: '1vw',
+    boxShadow: '0px 0px 1.5vw -1vw #000000'
   };
 
   const thumbnailStyle = {

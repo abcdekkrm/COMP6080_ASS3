@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Config from '../config.json';
 import PropTypes from 'prop-types';
+import { Button, Paper } from '@mui/material';
 
 const DeleteListing = ({ id, closeDeletePopup }) => {
   const token = localStorage.getItem('token');
@@ -8,10 +9,10 @@ const DeleteListing = ({ id, closeDeletePopup }) => {
 
   const deleteStyle = {
     position: 'absolute',
-    width: '50%',
+    width: '40%',
     height: '20%',
-    top: '25%',
-    left: '25%',
+    top: '45%',
+    left: '30%',
     backgroundColor: 'rgb(255, 255, 255)',
     yIndex: '1000000'
   };
@@ -44,11 +45,11 @@ const DeleteListing = ({ id, closeDeletePopup }) => {
     <>
       {errorMessage && <div className='error' style={{ color: 'red' }}> {errorMessage} </div>}
       <div className="popup-container">
-      <div className="popup-body" style = {deleteStyle}>
-        <button onClick={closeDeletePopup}>&times;</button>
+      <Paper className="popup-body" style = {deleteStyle}>
+        <Button onClick={closeDeletePopup}>&times;</Button>
         <h1>Are you sure you want to delete?</h1>
-        <button onClick={handleDelete} >DELETE</button>
-      </div>
+        <Button onClick={handleDelete} >DELETE</Button>
+      </Paper>
       </div>
     </>
   )
