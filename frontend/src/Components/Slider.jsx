@@ -1,6 +1,7 @@
 import * as React from 'react';
 // import Box from '@mui/material/Box';
 import Slider from '@material-ui/core/Slider';
+import PropTypes from 'prop-types';
 
 const marks = [
   {
@@ -55,16 +56,21 @@ function valueLabelFormat (value) {
   return marks.findIndex((mark) => mark.value === value);
 }
 
-export default function DiscreteSliderLabel () {
+export default function DiscreteSliderLabel ({ handleChange }) {
   return (
     <Slider
-      defaultValue={20}
+      defaultValue={0}
       valueLabelFormat={valueLabelFormat}
       getAriaValueText={valuetext}
       aria-labelledby="discrete-slider-restrict"
       step={null}
       valueLabelDisplay="auto"
       marks={marks}
+      onChange={handleChange}
+      // style={{ width: '200px', fontSize: '10px' }}
     />
   );
 }
+DiscreteSliderLabel.propTypes = {
+  handleChange: PropTypes.func,
+};
