@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 // import * as ReactDOM from 'react-dom';
 // import Config from '../config.json';
+import Nav from '../Components/Nav';
 import DiscreteSliderLabel from '../Components/Slider';
 import SelectSmall from '../Components/SelectBox';
 import { makeStyles, TextField, Button, Typography } from '@material-ui/core';
 import InputLabel from '@mui/material/InputLabel';
+import Box from '@mui/material/Box';
+// import Input from '@mui/material/Input';
+// import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
 // import Typography from '@material-ui/core/Typography';
 // import Slider from '@material-ui/core/Slider';
-import PropTypes from 'prop-types';
 import IconButton from '@mui/material/IconButton';
 // import { CloseIcon, ImageIcon, AddCircleOutlineIcon } from '@mui/icons-material';
 import CloseIcon from '@mui/icons-material/Close';
@@ -16,7 +19,7 @@ import ImageIcon from '@mui/icons-material/Image';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-const CreateListing = ({ closeCreatePopup }) => {
+const CreateListing = () => {
   const useStyles = makeStyles({
     root: {
       width: 300,
@@ -24,19 +27,10 @@ const CreateListing = ({ closeCreatePopup }) => {
     popup_syles: {
       background: 'white',
       border: '1px solid #ccc',
-      height: '70%',
-      width: '80%',
+      height: '92vh',
+      width: '100%',
       padding: '1vw',
       zIndex: '1200px',
-    },
-    background: {
-      position: 'absolute',
-      height: '100vh',
-      width: '100vw',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     title: {
       fontSize: '20px',
@@ -58,14 +52,14 @@ const CreateListing = ({ closeCreatePopup }) => {
     },
     textImageContainer: {
       width: '100%',
-      height: '84%',
+      height: '90%',
       display: 'flex',
       flexDirection: 'row',
       // backgroundColor: 'blue',
     },
     listingText: {
       height: '100%',
-      width: '49%',
+      width: '50%',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'flex-start',
@@ -73,9 +67,12 @@ const CreateListing = ({ closeCreatePopup }) => {
       padding: '1%',
       // backgroundColor: 'blue',
     },
+    sliderTitle: {
+      fontSize: '10px',
+    },
     listingImg: {
       height: '100%',
-      width: '49%',
+      width: '50%',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
@@ -139,24 +136,37 @@ const CreateListing = ({ closeCreatePopup }) => {
     }
   });
   const classes = useStyles();
-  const [title, setTitle] = React.useState('Your Listing Title');
-  const [address, setAddress] = React.useState('Yout Address');
-  const [singleBed, setSingle] = React.useState('');
-  const [doubleBed, setDouble] = React.useState('');
-  const [tnImage, setTnImage] = useState();
+  const [title, setTitle] = React.useState('');
+  const [price, setPrice] = React.useState('');
+  const [address, setAddress] = React.useState('');
+  const [bathroom, setBath] = React.useState('0');
+  const [bedroom, setBed] = React.useState('0');
+  const [singleBed, setSingle] = React.useState('0');
+  const [doubleBed, setDouble] = React.useState('0');
+  const [thumbnail, setTnImage] = useState();
   const [imgArr, setImgArr] = React.useState();
   // let imgArr = [];
   // let imgObj = null;
   const handleChangeTitle = event => {
     setTitle(event.target.value);
   };
+  const handleChangePrice = event => {
+    setPrice(event.target.value);
+  };
   const handleChangeAddress = event => {
     setAddress(event.target.value);
+  };
+  const handleBath = (event, newValue) => {
+    setBath(newValue / 10);
+  };
+  const handleBed = (event, newValue) => {
+    setBed(newValue / 10);
   };
   const handleChangeSingle = event => {
     setSingle(event.target.value);
   };
   const handleChangeDouble = event => {
+    console.log(event.target.value);
     setDouble(event.target.value);
   };
   const handleChangeThumbnail = event => {
@@ -182,105 +192,133 @@ const CreateListing = ({ closeCreatePopup }) => {
     copyImgArr.splice(pos, 1);
     setImgArr(copyImgArr);
   }
+  function closeCreate () {
+    window.location.href = '/Landing';
+  }
   const handleCreate = async () => {
-    console.log('create');
-    closeCreatePopup();
+    // console.log('create');
+    // closeCreatePopup();
+    closeCreate();
+    // const Authorization = 'Bearer ' + localStorage.token;
+    const token = localStorage.getItem('token');
+    console.log(thumbnail);
     const response = await fetch('http://localhost:5005/listings/new',
       {
         method: 'POST',
         headers: {
           'Content-type': 'application/json',
-          'Authorization': ('Bearer ' + localStorage.token)
+          Authorization: 'Bearer ' + token
         },
         body: JSON.stringify(
           {
-            "title": title,
-            "address": address,
-            "price": 350,
-            "thumbnail": tnImage,
-            "metadata": {}
+            title,
+            address,
+            price,
+            thumbnail,
+            metadata: {
+              bathroom,
+              bedroom,
+              singleBed,
+              doubleBed,
+              imgArr,
+            }
           }
         )
       });
     const data = await response.json();
     console.log(data);
+    // alert(data);
   }
-  // const useStyles = makeStyles
-  // const useStyles = makeStyles(
-  // );
   return (
-    <div className={classes.background} id='popup-background'>
+    <>
+      <Nav/>
       <div className={classes.popup_syles} id='create-listing-popup'>
         <div className={classes.closeIcon}>
           <IconButton>
-            <CloseIcon onClick={closeCreatePopup}/>
+            <CloseIcon onClick={closeCreate}/>
           </IconButton>
         </div>
         <div className={classes.textImageContainer}>
           <div className={classes.listingText} id='create-listing-text'>
             <div>
+              {/* <TextField id="standard-basic" label="Standard" variant="standard" /> */}
               <TextField
               id="create-title"
-              label="title"
+              label="Listing Title"
               value={title}
               onChange={handleChangeTitle}
+              variant="standard"
+              />
+              <TextField
+              id="create-price"
+              label="$ Price per night"
+              value={price}
+              onChange={handleChangePrice}
+              variant="standard"
               />
             </div>
             <div>
-              <TextField
-              id="create-address"
-              label="address"
-              value={address}
-              onChange={handleChangeAddress}
-              />
+              <Box
+                sx={{
+                  width: 500,
+                  maxWidth: '90%',
+                }}
+              >
+                <TextField
+                  fullWidth
+                  id="create-address"
+                label="Address"
+                value={address}
+                onChange={handleChangeAddress}
+                />
+              </Box>
             </div>
             <div className={classes.root} id='bathroom-slider'>
-              <Typography id="discrete-slider-restrict" gutterBottom>
+              <Typography className={classes.sliderTitle} id="discrete-slider-restrict" gutterBottom>
                 Number of bathroom
               </Typography>
-              <DiscreteSliderLabel />
+              <DiscreteSliderLabel
+                // mark={bathroom}
+                handleChange={handleBath}
+              />
             </div>
             <div className={classes.root} id='room-slider'>
-              <Typography id="discrete-slider-restrict" gutterBottom>
+              {/* <Typography id="discrete-slider-restrict" gutterBottom> */}
+              <Typography className={classes.sliderTitle} id="discrete-slider-restrict" gutterBottom>
                 Number of room
               </Typography>
-              <DiscreteSliderLabel />
+              {/* </Typography> */}
+              <DiscreteSliderLabel
+                // defaultValue={20}
+                // D={bedroom}
+                handleChange={handleBed}
+              />
             </div>
-            <div>
-              <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-                {/* <InputLabel>Sigle Bed</InputLabel> */}
-                <InputLabel variant="standard">
-                Sigle Bed
-                </InputLabel>
-                <SelectSmall
-                  id="selcte-single"
-                  value={singleBed}
-                  // label="single bed"
-                  onChange={handleChangeSingle}
-                />
-              </FormControl>
-              <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-                {/* <InputLabel >Double Bed</InputLabel> */}
-                <InputLabel variant="standard">
-                  Double Bed
-                </InputLabel>
-                <SelectSmall
-                  // defaultValue={1}
-                  // id="selcte-double"
-                  value={doubleBed}
-                  // label="double bed"
-                  // defaultValue={30}
-                  // inputProps={{
-                  //   name: 'double bed',
-                  //   id: 'selcte-double',
-                  // }}
-                  onChange={handleChangeDouble}
-                />
-              </FormControl>
-            </div>
+            <FormControl size="small" >
+              {/* <InputLabel>Sigle Bed</InputLabel> */}
+              <InputLabel variant="standard">
+              Sigle Bed
+              </InputLabel>
+              <SelectSmall
+                id="selcte-single"
+                value={singleBed}
+                // label="single bed"
+                handleChange={handleChangeSingle}
+              />
+            </FormControl>
+            <FormControl size="small">
+              <InputLabel variant="standard">
+                Double Bed
+              </InputLabel>
+              <SelectSmall
+                value={doubleBed}
+                // onChange={handleChangeDouble}
+                handleChange={handleChangeDouble}
+              />
+            </FormControl>
           </div>
           <div className={classes.listingImg} id='create-listing-image'>
-            <img className={classes.thumbnail} src={tnImage}></img>
+            <img className={classes.thumbnail} src={thumbnail}></img>
             <input className={classes.imageInput} type="file" multiple accept="image/*" id='thumbnailUpload' onChange={handleChangeThumbnail}/>
             <div className={classes.thumbnailActions}>
               <label htmlFor='thumbnailUpload'>
@@ -312,10 +350,7 @@ const CreateListing = ({ closeCreatePopup }) => {
         {/* <Button onClick={closecreatePopup}>&times;</Button> */}
         <Button onClick={handleCreate}>Create Listing</Button>
       </div>
-    </div>
+    </>
   );
-};
-CreateListing.propTypes = {
-  closeCreatePopup: PropTypes.func
 };
 export default CreateListing;

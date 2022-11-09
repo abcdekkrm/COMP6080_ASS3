@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 // import * as ReactDOM from 'react-dom';
 // import Config from '../config.json';
+import Nav from '../Components/Nav';
 import DiscreteSliderLabel from '../Components/Slider';
 import SelectSmall from '../Components/SelectBox';
 import { makeStyles, TextField, Button, Typography } from '@material-ui/core';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
-// import Typography from '@material-ui/core/Typography';
-// import Slider from '@material-ui/core/Slider';
+import Box from '@mui/material/Box';
 import PropTypes from 'prop-types';
 import IconButton from '@mui/material/IconButton';
 // import { CloseIcon, ImageIcon, AddCircleOutlineIcon } from '@mui/icons-material';
@@ -16,7 +16,7 @@ import ImageIcon from '@mui/icons-material/Image';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-const EditListing = ({ closeEditPopup, listingID }) => {
+const EditListing = ({ listingID }) => {
   // const useStyles = makeStyles
   const useStyles = makeStyles({
     root: {
@@ -25,19 +25,10 @@ const EditListing = ({ closeEditPopup, listingID }) => {
     popup_syles: {
       background: 'white',
       border: '1px solid #ccc',
-      height: '70%',
-      width: '80%',
+      height: '92vh',
+      width: '100%',
       padding: '1vw',
       zIndex: '1200px',
-    },
-    background: {
-      position: 'absolute',
-      height: '100vh',
-      width: '100vw',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     title: {
       fontSize: '20px',
@@ -141,23 +132,36 @@ const EditListing = ({ closeEditPopup, listingID }) => {
   });
   const classes = useStyles();
   const [title, setTitle] = React.useState('Old Title');
+  const [price, setPrice] = React.useState('');
   const [address, setAddress] = React.useState('Old Address');
+  const [bathroom, setBath] = React.useState('0');
+  const [bedroom, setBed] = React.useState('0');
   const [singleBed, setSingle] = React.useState('Old Single');
   const [doubleBed, setDouble] = React.useState('Old Double');
-  const [tnImage, setTnImage] = useState();
+  const [thumbnail, setTnImage] = useState();
   const [imgArr, setImgArr] = React.useState();
   // let imgArr = [];
   // let imgObj = null;
   const handleChangeTitle = event => {
     setTitle(event.target.value);
   };
+  const handleChangePrice = event => {
+    setPrice(event.target.value);
+  };
   const handleChangeAddress = event => {
     setAddress(event.target.value);
+  };
+  const handleBath = (event, newValue) => {
+    setBath(newValue / 10);
+  };
+  const handleBed = (event, newValue) => {
+    setBed(newValue / 10);
   };
   const handleChangeSingle = event => {
     setSingle(event.target.value);
   };
   const handleChangeDouble = event => {
+    console.log(event.target.value);
     setDouble(event.target.value);
   };
   const handleChangeThumbnail = event => {
@@ -183,24 +187,35 @@ const EditListing = ({ closeEditPopup, listingID }) => {
     copyImgArr.splice(pos, 1);
     setImgArr(copyImgArr);
   }
+  function closeEdit () {
+    window.location.href = '/Landing';
+  }
   const handleEdit = async () => {
     console.log('edit');
-    closeEditPopup();
+    // closeEditPopup();
+    closeEdit();
     console.log(listingID);
+    const token = localStorage.getItem('token');
     const response = await fetch(`http://localhost:5005/listings/${listingID}`,
       {
         method: 'PUT',
         headers: {
           'Content-type': 'application/json',
-          'Authorization': ('Bearer ' + localStorage.token)
+          Authorization: 'Bearer ' + token
         },
         body: JSON.stringify(
           {
-            "title": title,
-            "address": address,
-            "price": 350,
-            "thumbnail": tnImage,
-            "metadata": {}
+            title,
+            address,
+            price,
+            thumbnail,
+            metadata: {
+              bathroom,
+              bedroom,
+              singleBed,
+              doubleBed,
+              imgArr,
+            }
           }
         )
       });
@@ -208,11 +223,12 @@ const EditListing = ({ closeEditPopup, listingID }) => {
     console.log(data);
   }
   return (
-    <div className={classes.background} id='popup-background'>
+    <>
+      <Nav/>
       <div className={classes.popup_syles} id='edit-listing-popup'>
         <div className={classes.closeIcon}>
           <IconButton>
-            <CloseIcon onClick={closeEditPopup}/>
+            <CloseIcon onClick={closeEdit}/>
           </IconButton>
         </div>
         <div className={classes.title}><div>Listing Title</div></div>
@@ -225,27 +241,47 @@ const EditListing = ({ closeEditPopup, listingID }) => {
               label="title"
               value={title}
               onChange={handleChangeTitle}
+              variant="standard"
+              />
+              <TextField
+              id="edit-price"
+              label="$ Price per night"
+              value={price}
+              onChange={handleChangePrice}
+              variant="standard"
               />
             </div>
             <div>
-              <TextField
-              id="edit-address"
-              label="address"
-              value={address}
-              onChange={handleChangeAddress}
-              />
+              <Box
+                sx={{
+                  width: 500,
+                  maxWidth: '90%',
+                }}
+              >
+                <TextField
+                  fullWidth
+                  id="edit-address"
+                label="Address"
+                value={address}
+                onChange={handleChangeAddress}
+                />
+              </Box>
             </div>
             <div className={classes.root} id='bathroom-slider'>
               <Typography id="discrete-slider-restrict" gutterBottom>
                 Number of bathroom
               </Typography>
-              <DiscreteSliderLabel />
+              <DiscreteSliderLabel
+                handleChange={handleBath}
+              />
             </div>
             <div className={classes.root} id='room-slider'>
               <Typography id="discrete-slider-restrict" gutterBottom>
                 Number of room
               </Typography>
-              <DiscreteSliderLabel />
+              <DiscreteSliderLabel
+                handleChange={handleBed}
+              />
             </div>
             <div>
               <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
@@ -257,7 +293,7 @@ const EditListing = ({ closeEditPopup, listingID }) => {
                   id="selcte-single"
                   value={singleBed}
                   // label="single bed"
-                  onChange={handleChangeSingle}
+                  handleChange={handleChangeSingle}
                 />
               </FormControl>
               <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
@@ -267,7 +303,7 @@ const EditListing = ({ closeEditPopup, listingID }) => {
                 </InputLabel>
                 <SelectSmall
                   // defaultValue={1}
-                  // id="selcte-double"
+                  id="selcte-double"
                   value={doubleBed}
                   // label="double bed"
                   // defaultValue={30}
@@ -275,13 +311,13 @@ const EditListing = ({ closeEditPopup, listingID }) => {
                   //   name: 'double bed',
                   //   id: 'selcte-double',
                   // }}
-                  onChange={handleChangeDouble}
+                  handleChange={handleChangeDouble}
                 />
               </FormControl>
             </div>
           </div>
           <div className={classes.listingImg} id='edit-listing-image'>
-            <img className={classes.thumbnail} src={tnImage}></img>
+            <img className={classes.thumbnail} src={thumbnail}></img>
             <input className={classes.imageInput} type="file" multiple accept="image/*" id='thumbnailUpload' onChange={handleChangeThumbnail}/>
             <div className={classes.thumbnailActions}>
               <label htmlFor='thumbnailUpload'>
@@ -312,11 +348,10 @@ const EditListing = ({ closeEditPopup, listingID }) => {
         </div>
         <Button onClick={handleEdit}>Save Edit</Button>
       </div>
-    </div>
+    </>
   );
 };
 EditListing.propTypes = {
-  closeEditPopup: PropTypes.func,
   listingID: PropTypes.string
 };
 export default EditListing;
