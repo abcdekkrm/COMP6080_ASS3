@@ -34,6 +34,12 @@ function UserListings () {
     setDeleteOpen(true);
     localStorage.setItem('listingId', id);
   }
+  function handleOpenEdit (id) {
+    console.log(id);
+    localStorage.setItem('listingId', id);
+    console.log(localStorage.getItem('listingId'));
+    window.location.href = '/Edit-Listing';
+  }
 
   function getListings () {
     const token = localStorage.getItem('token');
@@ -73,7 +79,8 @@ function UserListings () {
               <img src={listing.thumbnail} alt='' style={{ width: '15vw' }}/>
               <h3>{listing.title}</h3>
               <p>${listing.price}/night</p>
-              <EditIcon onClick={() => { window.location.href = '/Edit-Listing' } }/>
+              {/* <EditIcon onClick={() => { window.location.href = '/Edit-Listing' } }/> */}
+              <EditIcon onClick={() => handleOpenEdit(listing.id)}/>
               <DeleteIcon style={{ color: 'red' }} onClick={handleClick}/>
             </div>
           ))}
