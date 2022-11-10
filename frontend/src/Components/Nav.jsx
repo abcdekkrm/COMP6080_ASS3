@@ -1,7 +1,4 @@
 import React from 'react';
-// import Login from '../Screens/Login';
-import ProfileMenu from './ProfileMenu';
-// import EditListing from '../Screens/EditListing'
 import ProfileMenu from './ProfileMenu';
 import {
   AppBar, Toolbar, Button, Typography

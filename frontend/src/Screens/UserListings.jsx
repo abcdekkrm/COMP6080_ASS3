@@ -41,9 +41,9 @@ function UserListings () {
     localStorage.setItem('listingId', id);
   }
   function handleOpenEdit (id) {
-    console.log(id);
+    // console.log(listing);
     localStorage.setItem('listingId', id);
-    console.log(localStorage.getItem('listingId'));
+    // console.log(localStorage.getItem('listing'));
     window.location.href = '/Edit-Listing';
   }
 

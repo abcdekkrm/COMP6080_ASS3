@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // import * as ReactDOM from 'react-dom';
-// import Config from '../config.json';
+import Config from '../config.json';
 import DiscreteSliderLabel from '../Components/Slider';
 import SelectSmall from '../Components/SelectBox';
 import { makeStyles, TextField, Button, Typography } from '@material-ui/core';
@@ -130,20 +130,50 @@ const EditListing = () => {
     }
   });
   const classes = useStyles();
-  const listingId = Number(localStorage.getItem('listingId'));
-  const [title, setTitle] = React.useState('Old Title');
+  const listingId = localStorage.getItem('listingId');
+  // const [listing, setListing] = React.useState();
+  const [title, setTitle] = React.useState('');
   const [price, setPrice] = React.useState('');
-  const [address, setAddress] = React.useState('Old Address');
-  const [bathroom, setBath] = React.useState('0');
-  const [bedroom, setBed] = React.useState('0');
-  const [singleBed, setSingle] = React.useState('Old Single');
-  const [doubleBed, setDouble] = React.useState('Old Double');
+  const [address, setAddress] = React.useState('');
+  const [bathroom, setBath] = React.useState('');
+  const [bedroom, setBed] = React.useState('');
+  const [singleBed, setSingle] = React.useState('');
+  const [doubleBed, setDouble] = React.useState('');
   const [thumbnail, setTnImage] = useState();
   const [imgArr, setImgArr] = React.useState();
-  // let imgArr = [];
-  // let imgObj = null;
+
+  useEffect(() => {
+    let ignore = false;
+    if (!ignore) getListing();
+    return () => { ignore = true; }
+  }, []);
+  const getListing = async () => {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`http://localhost:${Config.BACKEND_PORT}/listings/${listingId}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          Authorization: 'Bearer ' + token
+        },
+      });
+    const data = await response.json();
+    // listing = data.listing;
+    console.log(data.listing);
+    console.log(data.listing.title);
+    setTitle(data.listing.title);
+    setPrice(data.listing.price);
+    setAddress(data.listing.address);
+    setBath(data.listing.metadata.bathroom);
+    setBed(data.listing.metadata.bedroom);
+    setSingle(data.listing.metadata.singleBed);
+    setDouble(data.listing.metadata.doubleBed);
+    setTnImage(data.listing.thumbnail);
+    setImgArr(data.listing.metadata.imgArr);
+    // setListing(data.listing);
+  }
   const handleChangeTitle = event => {
-    console.log(localStorage.getItem('listingId'));
+    // console.log(listing.title);
     setTitle(event.target.value);
   };
   const handleChangePrice = event => {
@@ -197,7 +227,7 @@ const EditListing = () => {
     closeEdit();
     // console.log(listingId);
     const token = localStorage.getItem('token');
-    const response = await fetch(`http://localhost:5005/listings/${listingId}`,
+    const response = await fetch(`http://localhost:${Config.BACKEND_PORT}/listings/${listingId}`,
       {
         method: 'PUT',
         headers: {
@@ -231,7 +261,7 @@ const EditListing = () => {
             <CloseIcon onClick={closeEdit}/>
           </IconButton>
         </div>
-        <div className={classes.title}><div>Listing Title</div></div>
+        <div className={classes.title}><div>{title}</div></div>
         {/* <Button onClick={closeEditPopup}>&times;</Button> */}
         <div className={classes.textImageContainer}>
           <div className={classes.listingText} id='edit-listing-text'>

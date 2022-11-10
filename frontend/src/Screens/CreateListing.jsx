@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 // import * as ReactDOM from 'react-dom';
-// import Config from '../config.json';
+import Config from '../config.json';
 // import Nav from '../Components/Nav';
 import DiscreteSliderLabel from '../Components/Slider';
 import SelectSmall from '../Components/SelectBox';
 import { makeStyles, TextField, Button, Typography } from '@material-ui/core';
 import InputLabel from '@mui/material/InputLabel';
 import Box from '@mui/material/Box';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 // import Input from '@mui/material/Input';
 // import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
@@ -18,6 +20,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import ImageIcon from '@mui/icons-material/Image';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { FormGroup } from '@mui/material';
 
 const CreateListing = () => {
   const useStyles = makeStyles({
@@ -52,7 +55,7 @@ const CreateListing = () => {
     },
     textImageContainer: {
       width: '100%',
-      height: '90%',
+      height: '95%',
       display: 'flex',
       flexDirection: 'row',
       // backgroundColor: 'blue',
@@ -133,6 +136,15 @@ const CreateListing = () => {
         color: 'red',
         cursor: 'pointer',
       },
+    },
+    amenities: {
+      display: 'flex',
+      flexDirection: 'row',
+      border: '1px solid #ccc',
+      padding: '5px',
+    },
+    label: {
+      fontSize: '10px',
     }
   });
   const classes = useStyles();
@@ -143,6 +155,7 @@ const CreateListing = () => {
   const [bedroom, setBed] = React.useState('0');
   const [singleBed, setSingle] = React.useState('0');
   const [doubleBed, setDouble] = React.useState('0');
+  // const [amenitiesArr, setAmenitiesArr] = React.useState();
   const [thumbnail, setTnImage] = useState();
   const [imgArr, setImgArr] = React.useState();
   // let imgArr = [];
@@ -163,11 +176,11 @@ const CreateListing = () => {
     setBed(newValue / 10);
   };
   const handleChangeSingle = event => {
-    setSingle(event.target.value);
+    setSingle(Number(event.target.value));
   };
   const handleChangeDouble = event => {
     console.log(event.target.value);
-    setDouble(event.target.value);
+    setDouble(Number(event.target.value));
   };
   const handleChangeThumbnail = event => {
     console.log(event.target.files);
@@ -175,6 +188,9 @@ const CreateListing = () => {
   };
   const handleDeleteThumbnail = () => {
     setTnImage('');
+  };
+  const handleCheckBox = event => {
+    console.log(event.target.name);
   };
   // setImgArr = set
   const handleUploadProperties = event => {
@@ -202,7 +218,7 @@ const CreateListing = () => {
     // const Authorization = 'Bearer ' + localStorage.token;
     const token = localStorage.getItem('token');
     console.log(thumbnail);
-    const response = await fetch('http://localhost:5005/listings/new',
+    const response = await fetch(`http://localhost:${Config.BACKEND_PORT}/listings/new`,
       {
         method: 'POST',
         headers: {
@@ -301,7 +317,7 @@ const CreateListing = () => {
               </InputLabel>
               <SelectSmall
                 id="selcte-single"
-                value={singleBed}
+                number={singleBed}
                 // label="single bed"
                 handleChange={handleChangeSingle}
               />
@@ -311,11 +327,30 @@ const CreateListing = () => {
                 Double Bed
               </InputLabel>
               <SelectSmall
-                value={doubleBed}
+                number={doubleBed}
                 // onChange={handleChangeDouble}
                 handleChange={handleChangeDouble}
               />
             </FormControl>
+            <div>
+              <div>Amenities</div>
+              <div className={classes.amenities}>
+                <FormGroup>
+                  <FormControlLabel control={<Checkbox size="small" onClick={handleCheckBox} name="Wi-Fi" />} label="Wi-Fi"/>
+                  <FormControlLabel control={<Checkbox size="small" />} label="Kitchen" />
+                  <FormControlLabel control={<Checkbox size="small" />} label="Washing machine" />
+                  <FormControlLabel control={<Checkbox size="small" />} label="Dryer" />
+                  <FormControlLabel control={<Checkbox size="small" />} label="Air-conditioning" />
+                </FormGroup>
+                <FormGroup>
+                  <FormControlLabel control={<Checkbox size="small" />} label="Heating" />
+                  <FormControlLabel control={<Checkbox size="small" />} label="Dedicated workspace" />
+                  <FormControlLabel control={<Checkbox size="small" />} label="TV" />
+                  <FormControlLabel control={<Checkbox size="small" />} label="Hair dryer" />
+                  <FormControlLabel control={<Checkbox size="small" />} label="Iron" />
+                </FormGroup>
+              </div>
+            </div>
           </div>
           <div className={classes.listingImg} id='create-listing-image'>
             <img className={classes.thumbnail} src={thumbnail}></img>
