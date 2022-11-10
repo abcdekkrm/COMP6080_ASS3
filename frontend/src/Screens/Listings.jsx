@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Config from '../config.json';
+import { Paper } from '@mui/material';
 
 function Listings () {
   const [listings, setListings] = useState([]);
@@ -13,15 +14,15 @@ function Listings () {
     display: 'flex',
     justifyContent: 'left',
     flexWrap: 'wrap',
+    overflowY: 'scroll',
+    padding: '1vw',
     gap: '1vw'
   };
 
   const cardStyle = {
     textAlign: 'center',
-    width: '10vw',
-    borderRadius: '5px',
-    padding: '1em',
-    boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8'
+    width: '14vw',
+    padding: '1vw',
   };
 
   const thumbnailStyle = {
@@ -51,8 +52,7 @@ function Listings () {
           });
         }
       }).then(data => {
-        console.log(data.listings);
-        setListings(data.listings);
+        setListings(data.listings.sort((a, b) => a.title.localeCompare(b.title)));
       });
   }
 
@@ -62,11 +62,11 @@ function Listings () {
         {errorMessage && <div className='error' style={{ color: 'red' }}> {errorMessage} </div>}
         <div className='item-container' style={containerStyle}>
           {listings?.map((listing) => (
-            <div className='card' key={listing.id} style={cardStyle}>
+            <Paper className='card' key={listing.id} style={cardStyle}>
               <img src={listing.thumbnail} alt='' style={thumbnailStyle}/>
               <h3>{listing.title}</h3>
               <p>${listing.price}/night</p>
-            </div>
+            </Paper>
           ))}
         </div>
       </div>

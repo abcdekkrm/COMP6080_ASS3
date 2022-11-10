@@ -29,7 +29,7 @@ function Account () {
                   </Item>
                 </Grid>
                 <Grid item xs={12}>
-                  <Item style = {{ height: 'auto' }}>
+                  <Item style = {{ height: '115%' }}>
                     <SimpleTabs />
                   </Item>
                 </Grid>

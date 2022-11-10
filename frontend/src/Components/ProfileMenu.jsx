@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   Menu, MenuItem, Divider, Tooltip
 } from '@material-ui/core'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import profile from '../Assets/profile.svg';
 import Config from '../config.json';
 
@@ -49,11 +50,11 @@ function ProfileMenu () {
   return (
         <>
         <Tooltip title="Account settings">
-          <img
+          <AccountCircleIcon
             src={profile}
             className="profile"
             alt="user profile"
-            style={{ height: '20%', marginLeft: '85%' }}
+            style={{ fontSize: '300%', marginLeft: '85%', cursor: 'pointer' }}
             onClick={handleClick}
             />
         </Tooltip>

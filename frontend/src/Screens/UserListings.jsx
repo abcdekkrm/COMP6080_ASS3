@@ -3,30 +3,36 @@ import Config from '../config.json';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DeleteListing from '../Components/DeleteListing';
+import InfoIcon from '@mui/icons-material/Info';
+import SimplePopup from '../Components/SimplePopup';
+import { Paper } from '@mui/material';
 
 function UserListings () {
   const [listings, setListings] = useState([]);
+  const [address, setAddress] = useState('');
+  const [beds, setBeds] = useState('');
+  const [baths, setBath] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [deleteOpen, setDeleteOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState('');
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     getListings();
+    getListingDetails();
   }, []);
 
   const containerStyle = {
     display: 'flex',
     justifyContent: 'left',
-    flexWrap: 'wrap',
-    gap: '2vw'
+    overflowX: 'scroll',
+    gap: '1vw'
   };
 
   const cardStyle = {
     textAlign: 'center',
     width: '15vw',
-    borderRadius: '5px',
-    padding: '1em',
-    boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8'
+    height: '60vh',
+    padding: '1vw',
   };
 
   const thumbnailStyle = {
@@ -35,8 +41,7 @@ function UserListings () {
     height: '15vw',
   }
 
-  const handleClick = (event, id) => {
-    setAnchorEl(event.currentTarget);
+  const handleClick = (id) => {
     setDeleteOpen(true);
     localStorage.setItem('listingId', id);
   }
@@ -45,6 +50,10 @@ function UserListings () {
     localStorage.setItem('listingId', id);
     // console.log(localStorage.getItem('listing'));
     window.location.href = '/Edit-Listing';
+  }
+
+  const handleInfoClick = () => {
+    setOpen(true);
   }
 
   function getListings () {
@@ -68,11 +77,57 @@ function UserListings () {
           });
         }
       }).then(data => {
-        console.log(data.listings);
         setListings(data.listings);
       });
   }
 
+  const getListingDetails = (id) => {
+    const token = localStorage.getItem('token');
+
+    const request = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      },
+    };
+
+    fetch(`http://localhost:${Config.BACKEND_PORT}/listings/${id}`, request)
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          res.json().then((data) => {
+            setErrorMessage(data.error)
+          });
+        }
+      }).then(data => {
+        const addressDict = data.listing.address;
+        if (Object.keys(addressDict).length > 0) {
+          setAddress(addressDict);
+        } else {
+          setAddress('No address provided.');
+        }
+
+        const metaData = data.listing.metadata;
+
+        const numBeds = Number(metaData.singleBed) + Number(metaData.doubleBed);
+        if (!isNaN(numBeds)) {
+          setBeds(numBeds);
+        } else {
+          setBeds('No beds listed.')
+        }
+
+        const numBath = metaData.bathroom;
+        if (numBath > 0) {
+          setBath(numBath);
+        } else {
+          setBath('No bathrooms listed.')
+        }
+      });
+  }
+
+  const email = localStorage.getItem('email');
   const listingId = Number(localStorage.getItem('listingId'));
 
   return (
@@ -80,19 +135,29 @@ function UserListings () {
       <div>
         {errorMessage && <div className='error' style={{ color: 'red' }}> {errorMessage} </div>}
         <div className='item-container' style={containerStyle}>
-          {listings?.map((listing) => (
-            <div className='card' key={listing.id} style={cardStyle}>
-              <img src={listing.thumbnail} alt='' style={thumbnailStyle}/>
-              <h3>{listing.title}</h3>
-              <p>${listing.price}/night</p>
-              {/* <EditIcon onClick={() => { window.location.href = '/Edit-Listing' } }/> */}
-              <EditIcon onClick={() => handleOpenEdit(listing.id)}/>
-              <DeleteIcon style={{ color: 'red' }} onClick={handleClick}/>
-            </div>
+          {listings?.map(listing => (
+            <Paper className='card' key={listing.id} style={cardStyle}>
+              {(listing.owner === email)
+                ? <>
+                    <img src={listing.thumbnail} alt='' style={thumbnailStyle}/>
+                    <h3>{listing.title}</h3>
+                    <p>${listing.price}/night</p>
+                    <InfoIcon onMouseOver={() => getListingDetails(listing.id)} onClick={handleInfoClick} style={{ cursor: 'pointer' }}/><br/>
+                    <EditIcon onClick={() => handleOpenEdit(listing.id)} style={{ marginTop: '40%', cursor: 'pointer' }}/>
+                    <DeleteIcon onClick={() => handleClick(listing.id)} style={{ color: 'red', cursor: 'pointer' }}/>
+                  </>
+                : null}
+            </Paper>
           ))}
         </div>
       </div>
-      {deleteOpen ? <DeleteListing anchorEl={anchorEl} id={listingId} closeDeletePopup={() => setDeleteOpen(false)} /> : null}
+      {deleteOpen ? <DeleteListing id={listingId} closeDeletePopup={() => setDeleteOpen(false)} /> : null}
+      {open
+        ? <SimplePopup
+          text={'Address: ' + address + '\n' + 'Number of beds: ' + beds + '\n' + 'Number of bathrooms: ' + baths}
+          closePopup={() => setOpen(false)}
+          />
+        : null}
     </>
   );
 }

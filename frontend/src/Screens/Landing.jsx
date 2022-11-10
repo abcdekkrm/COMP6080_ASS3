@@ -12,30 +12,25 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: 'center',
   color: theme.palette.text.secondary,
   marginTop: '1vh',
-  height: '100vh'
+  height: 'auto'
 }));
 
 function Landing () {
-  const logged = localStorage.getItem('logged');
-
   return (
    <>
     <Nav/>
-    {logged
-      ? <Box sx={{ flexGrow: 1 }}>
-          <Grid container spacing={1}>
-            <Grid item xs={3}>
-              <Item><Search /></Item>
-            </Grid>
-            <Grid item xs={9}>
-              <Item>
-                <Listings />
-              </Item>
-            </Grid>
-          </Grid>
-        </Box>
-      : null
-    }
+    <Box sx={{ flexGrow: 1 }}>
+      <Grid container spacing={1}>
+        <Grid item xs={3}>
+          <Item><Search /></Item>
+        </Grid>
+        <Grid item xs={9}>
+          <Item>
+            <Listings />
+          </Item>
+        </Grid>
+      </Grid>
+    </Box>
    </>
   );
 }
