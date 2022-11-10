@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Config from '../config.json';
 import { Paper } from '@mui/material';
+import PropTypes from 'prop-types';
 
-function Listings () {
+function Listings (props) {
   const [listings, setListings] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -45,6 +46,7 @@ function Listings () {
     fetch(`http://localhost:${Config.BACKEND_PORT}/listings`, request)
       .then(res => {
         if (res.ok) {
+          // console.log(props.search);
           return res.json();
         } else {
           res.json().then((data) => {
@@ -68,10 +70,23 @@ function Listings () {
               <p>${listing.price}/night</p>
             </Paper>
           ))}
+          {listings?.filter(listing => listing.title.toLowerCase().includes(props.search)).map(filteredListing => (
+            <li key={filteredListing.id}>
+              {filteredListing.title}
+            </li>
+          ))}
         </div>
       </div>
     </>
   );
 }
+
+Listings.propTypes = {
+  search: PropTypes.string,
+  numBed: PropTypes.number,
+  dateRange: PropTypes.dateRange,
+  min: PropTypes.number,
+  max: PropTypes.number
+};
 
 export default Listings;

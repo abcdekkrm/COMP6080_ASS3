@@ -25,8 +25,8 @@ function Landing () {
           <Item><Search /></Item>
         </Grid>
         <Grid item xs={9}>
-          <Item>
-            <Listings />
+          <Item id="Listings-box">
+            <Listings/>
           </Item>
         </Grid>
       </Grid>

@@ -1,97 +1,97 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   TextField
 } from '@material-ui/core';
-import Box from '@mui/material/Box';
-import { Slider } from '@mui/material';
-import RangeSlider from 'react-range-slider-input';
-import 'react-range-slider-input/dist/style.css';
-
-const marks = [
-  {
-    value: 0,
-    label: '0',
-  },
-  {
-    value: 10,
-    label: '1',
-  },
-  {
-    value: 20,
-    label: '2',
-  },
-  {
-    value: 30,
-    label: '3',
-  },
-  {
-    value: 40,
-    label: '4',
-  },
-  {
-    value: 50,
-    label: '5',
-  },
-  {
-    value: 60,
-    label: '6',
-  },
-  {
-    value: 70,
-    label: '7',
-  },
-  {
-    value: 80,
-    label: '8',
-  },
-  {
-    value: 90,
-    label: '9',
-  },
-  {
-    value: 100,
-    label: '10+',
-  },
-];
-
-function valuetext (value) {
-  return `${value}`;
-}
+import { Divider, Button } from '@mui/material';
+import DiscreteSliderLabel from './Slider';
+import BasicDateRangePicker from './DateRangePicker';
+import * as ReactDOM from 'react-dom';
+import Listings from '../Screens/Listings';
 
 function Search () {
+  // const [bedroom, setBed] = React.useState('0');
+
+  // const handleBed = (event, newValue) => {
+  //   setBed(newValue / 10);
+  // };
+  const [search, setSearch] = useState('');
+
+  const handleSearchChange = (e) => {
+    const lowerCase = e.target.value.toLowerCase();
+    setSearch(lowerCase);
+  };
+
+  const searchHandler = () => {
+    console.log(search);
+    ReactDOM.render(<Listings search={search}/>, document.querySelector('#Listings-box'));
+  };
+
   return (
     <>
-    <form>
-     <div className="search-body">
-      <h3 style={{ color: 'black' }}>Find your perfect homestay today.</h3>
+    <div className="search-body">
+    <h3 style={{ color: 'black' }}>Find your perfect homestay today.</h3>
+    <TextField
+      id="outlined-basic"
+      variant="outlined"
+      type="text"
+      placeholder="Start searching ..."
+      inputProps={{
+        style: {
+          padding: 5,
+          width: '20vw',
+        }
+      }}
+      style= {{ marginTop: '10%' }}
+      onChange={handleSearchChange}
+      value={search}
+    />
+    <Button type="submit" onClick={searchHandler}>Search</Button>
+    </div>
+  <Divider/>
+    <div id='room-slider' style={{ width: '80%', margin: 'auto' }} >
+      <p>Number of bedrooms</p>
+      <DiscreteSliderLabel
+        // handleChange={handleBed}
+      />
+      <Button type="submit">Apply</Button>
+    </div>
+    <Divider/>
+    <div id='date-range' style={{ width: '80%', margin: 'auto' }} >
+      <p>Date range</p>
+      <BasicDateRangePicker/>
+      <Button type="submit">Apply</Button>
+    </div>
+    <Divider/>
+    <div id='price-range' style={{ width: '80%', margin: 'auto' }} >
+      <p>Filter by Price</p>
+      <span>
+        <TextField
+        id="outlined-basic"
+        variant="outlined"
+        type="number"
+        inputProps={{
+          style: {
+            width: '5vw',
+          }
+        }}
+        style= {{ margin: 'auto', marginRight: '5%' }}
+        label="min"
+      />
       <TextField
         id="outlined-basic"
         variant="outlined"
-        type="text"
-        placeholder="Start searching ..."
+        type="number"
         inputProps={{
           style: {
-            padding: 5,
-            width: '20vw'
+            width: '5vw',
           }
         }}
+        style= {{ margin: 'auto', marginLeft: '5%' }}
+        label="max"
       />
-     </div>
-     <Box sx={{ width: '80%', margin: 'auto', marginTop: '10%', marginBottom: '10%' }}>
-      <p>Filter by number of bedrooms</p>
-      <Slider
-        aria-label="Restricted values"
-        defaultValue={1}
-        getAriaValueText={valuetext}
-        step={null}
-        marks={marks}
-      />
-    </Box>
-    <Box sx={{ width: '80%', margin: 'auto', marginTop: '10%', marginBottom: '10%' }}>
-      <p>Filter by Price</p>
-      <RangeSlider />
-    </Box>
-    </form>
+    </span>
+    <Button type="submit">Apply</Button>
+    </div>
     </>
   );
 }
