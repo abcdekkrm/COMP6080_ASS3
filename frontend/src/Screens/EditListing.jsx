@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from 'react';
 // import * as ReactDOM from 'react-dom';
 import Config from '../config.json';
+import Nav from '../Components/Nav';
 import DiscreteSliderLabel from '../Components/Slider';
 import SelectSmall from '../Components/SelectBox';
 import { makeStyles, TextField, Button, Typography } from '@material-ui/core';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import Box from '@mui/material/Box';
+import { FormGroup } from '@mui/material';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 // import PropTypes from 'prop-types';
 import IconButton from '@mui/material/IconButton';
 // import { CloseIcon, ImageIcon, AddCircleOutlineIcon } from '@mui/icons-material';
 import CloseIcon from '@mui/icons-material/Close';
 import ImageIcon from '@mui/icons-material/Image';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import AddPhotoAlternateOutlinedIcon from '@mui/icons-material/AddPhotoAlternateOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const EditListing = () => {
@@ -23,7 +27,7 @@ const EditListing = () => {
     },
     popup_syles: {
       background: 'white',
-      border: '1px solid #ccc',
+      // border: '1px solid #ccc',
       height: '92vh',
       // width: '100vw',
       padding: '1vw',
@@ -49,7 +53,7 @@ const EditListing = () => {
     },
     textImageContainer: {
       width: '100%',
-      height: '84%',
+      height: '95%',
       display: 'flex',
       flexDirection: 'row',
       // backgroundColor: 'blue',
@@ -127,7 +131,13 @@ const EditListing = () => {
         color: 'red',
         cursor: 'pointer',
       },
-    }
+    },
+    amenities: {
+      display: 'flex',
+      flexDirection: 'row',
+      border: '1px solid #ccc',
+      padding: '5px',
+    },
   });
   const classes = useStyles();
   const listingId = localStorage.getItem('listingId');
@@ -139,6 +149,7 @@ const EditListing = () => {
   const [bedroom, setBed] = React.useState('');
   const [singleBed, setSingle] = React.useState('');
   const [doubleBed, setDouble] = React.useState('');
+  const [amenities, setAmenities] = React.useState();
   const [thumbnail, setTnImage] = useState();
   const [imgArr, setImgArr] = React.useState();
 
@@ -168,9 +179,13 @@ const EditListing = () => {
     setBed(data.listing.metadata.bedroom);
     setSingle(data.listing.metadata.singleBed);
     setDouble(data.listing.metadata.doubleBed);
+    setAmenities(data.listing.metadata.amenities);
     setTnImage(data.listing.thumbnail);
     setImgArr(data.listing.metadata.imgArr);
+    handleCurrChecked();
     // setListing(data.listing);
+    // amenities?.map((name) => {() => handleCurrCheck(name)});
+    // console.log(Checkbox.)
   }
   const handleChangeTitle = event => {
     // console.log(listing.title);
@@ -202,18 +217,33 @@ const EditListing = () => {
   const handleDeleteThumbnail = () => {
     setTnImage('');
   };
-  // setImgArr = set
+  function handleCurrChecked () {
+    console.log(Object.keys(amenities));
+    // for (const amenity in amenities) {
+    //   console.log('in');
+    //   console.log(amenity);
+    //   // console.log(document.getElementsByName(amenity));
+    //   // document.getElementsByName(amenity).checked = true;
+    // }
+  }
+  const handleCheckBox = event => {
+    console.log(event.target.checked);
+    const copyAmnArr = Object.assign([], amenities);
+    if (event.target.checked) {
+      copyAmnArr.push(event.target.name)
+    } else { const index = copyAmnArr.indexOf(event.target.name); copyAmnArr.splice(index, 1) }
+    setAmenities(copyAmnArr);
+    console.log(amenities);
+  };
   const handleUploadProperties = event => {
     console.log(event.target.files);
     console.log(URL.createObjectURL(event.target.files[0]));
     const copyImgArr = Object.assign([], imgArr);
     copyImgArr.push(URL.createObjectURL(event.target.files[0]));
     console.log(copyImgArr.length);
-    // console.log(imgArr.length);
     setImgArr(copyImgArr);
   }
   function handleDeleteProperties (pos) {
-    // console.log(pos);
     const copyImgArr = Object.assign([], imgArr);
     copyImgArr.splice(pos, 1);
     setImgArr(copyImgArr);
@@ -223,9 +253,7 @@ const EditListing = () => {
   }
   const handleEdit = async () => {
     console.log('edit');
-    // closeEditPopup();
     closeEdit();
-    // console.log(listingId);
     const token = localStorage.getItem('token');
     const response = await fetch(`http://localhost:${Config.BACKEND_PORT}/listings/${listingId}`,
       {
@@ -255,6 +283,7 @@ const EditListing = () => {
   }
   return (
     <>
+      <Nav />
       <div className={classes.popup_syles} id='edit-listing-popup'>
         <div className={classes.closeIcon}>
           <IconButton>
@@ -262,7 +291,6 @@ const EditListing = () => {
           </IconButton>
         </div>
         <div className={classes.title}><div>{title}</div></div>
-        {/* <Button onClick={closeEditPopup}>&times;</Button> */}
         <div className={classes.textImageContainer}>
           <div className={classes.listingText} id='edit-listing-text'>
             <div>
@@ -315,14 +343,12 @@ const EditListing = () => {
             </div>
             <div>
               <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-                {/* <InputLabel>Sigle Bed</InputLabel> */}
                 <InputLabel variant="standard">
                 Sigle Bed
                 </InputLabel>
                 <SelectSmall
                   id="selcte-single"
                   value={singleBed}
-                  // label="single bed"
                   handleChange={handleChangeSingle}
                 />
               </FormControl>
@@ -332,18 +358,30 @@ const EditListing = () => {
                   Double Bed
                 </InputLabel>
                 <SelectSmall
-                  // defaultValue={1}
                   id="selcte-double"
                   value={doubleBed}
-                  // label="double bed"
-                  // defaultValue={30}
-                  // inputProps={{
-                  //   name: 'double bed',
-                  //   id: 'selcte-double',
-                  // }}
                   handleChange={handleChangeDouble}
                 />
               </FormControl>
+              <div>
+                <div>Amenities</div>
+                <div className={classes.amenities}>
+                  <FormGroup>
+                    <FormControlLabel control={<Checkbox size="small" onClick={handleCheckBox} name="Wi-Fi" />} label="Wi-Fi"/>
+                    <FormControlLabel control={<Checkbox size="small" onClick={handleCheckBox} name="Kitchen" />} label="Kitchen" />
+                    <FormControlLabel control={<Checkbox size="small" onClick={handleCheckBox} name='Washing machine' />} label="Washing machine" />
+                    <FormControlLabel control={<Checkbox size="small" onClick={handleCheckBox} name="Dryer" />} label="Dryer" />
+                    <FormControlLabel control={<Checkbox size="small" onClick={handleCheckBox} name="Air-conditioning" />} label="Air-conditioning" />
+                  </FormGroup>
+                  <FormGroup>
+                    <FormControlLabel control={<Checkbox size="small" onClick={handleCheckBox} name="Heating" />} label="Heating" />
+                    <FormControlLabel control={<Checkbox size="small" onClick={handleCheckBox} name="Dedicated workspace" />} label="Dedicated workspace" />
+                    <FormControlLabel control={<Checkbox size="small" onClick={handleCheckBox} name="TV" />} label="TV" />
+                    <FormControlLabel control={<Checkbox size="small" onClick={handleCheckBox} name="Hair dryer" />} label="Hair dryer" />
+                    <FormControlLabel control={<Checkbox size="small" onClick={handleCheckBox} name="Iton" />} label="Iron" />
+                  </FormGroup>
+                </div>
+              </div>
             </div>
           </div>
           <div className={classes.listingImg} id='edit-listing-image'>
@@ -359,7 +397,7 @@ const EditListing = () => {
             <div className={classes.propertyImgs} id='property-images'>
               <div className={classes.img}>
                 <label htmlFor='propertyImgUpload'>
-                  <AddCircleOutlineIcon fontSize="large"/>
+                  <AddPhotoAlternateOutlinedIcon fontSize="large"/>
                 </label>
               </div>
               {imgArr?.map((img, pos) => {
@@ -381,7 +419,4 @@ const EditListing = () => {
     </>
   );
 };
-// EditListing.propTypes = {
-//   listingId: PropTypes.string
-// };
 export default EditListing;
