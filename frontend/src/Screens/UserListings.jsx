@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Config from '../config.json';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import PublicOutlinedIcon from '@mui/icons-material/PublicOutlined';
 import DeleteListing from '../Components/DeleteListing';
 import InfoIcon from '@mui/icons-material/Info';
 import SimplePopup from '../Components/SimplePopup';
@@ -45,11 +46,12 @@ function UserListings () {
     setDeleteOpen(true);
     localStorage.setItem('listingId', id);
   }
-  function handleOpenEdit (id) {
-    // console.log(listing);
+  const handleOpenEdit = (id) => {
     localStorage.setItem('listingId', id);
-    // console.log(localStorage.getItem('listing'));
     window.location.href = '/Edit-Listing';
+  }
+  const handlePublishing = (id) => {
+    console.log(id);
   }
 
   const handleInfoClick = () => {
@@ -143,6 +145,7 @@ function UserListings () {
                     <h3>{listing.title}</h3>
                     <p>${listing.price}/night</p>
                     <InfoIcon onMouseOver={() => getListingDetails(listing.id)} onClick={handleInfoClick} style={{ cursor: 'pointer' }}/><br/>
+                    <PublicOutlinedIcon onClick={() => handlePublishing(listing.id)} style={{ cursor: 'pointer' }} />
                     <EditIcon onClick={() => handleOpenEdit(listing.id)} style={{ marginTop: '40%', cursor: 'pointer' }}/>
                     <DeleteIcon onClick={() => handleClick(listing.id)} style={{ color: 'red', cursor: 'pointer' }}/>
                   </>
