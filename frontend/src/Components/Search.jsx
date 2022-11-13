@@ -15,6 +15,8 @@ function Search () {
   //   setBed(newValue / 10);
   // };
   const [search, setSearch] = useState('');
+  const [min, setMin] = useState('0');
+  const [max, setMax] = useState('99999999');
 
   const handleSearchChange = (e) => {
     const lowerCase = e.target.value.toLowerCase();
@@ -22,8 +24,23 @@ function Search () {
   };
 
   const searchHandler = () => {
-    console.log(search);
+    setMin('');
+    setMax('');
     ReactDOM.render(<Listings search={search}/>, document.querySelector('#Listings-box'));
+    setSearch('');
+  };
+
+  const handleMinChange = (e) => {
+    setMin(e.target.value);
+  };
+
+  const handleMaxChange = (e) => {
+    setMax(e.target.value);
+  };
+
+  const priceHandler = () => {
+    setSearch('');
+    ReactDOM.render(<Listings min={min} max={max}/>, document.querySelector('#Listings-box'));
   };
 
   return (
@@ -51,7 +68,6 @@ function Search () {
     <div id='room-slider' style={{ width: '80%', margin: 'auto' }} >
       <p>Number of bedrooms</p>
       <DiscreteSliderLabel
-        // handleChange={handleBed}
       />
       <Button type="submit">Apply</Button>
     </div>
@@ -68,7 +84,7 @@ function Search () {
         <TextField
         id="outlined-basic"
         variant="outlined"
-        type="number"
+        type="text"
         inputProps={{
           style: {
             width: '5vw',
@@ -76,11 +92,13 @@ function Search () {
         }}
         style= {{ margin: 'auto', marginRight: '5%' }}
         label="min"
+        onChange={handleMinChange}
+        value={min}
       />
       <TextField
         id="outlined-basic"
         variant="outlined"
-        type="number"
+        type="text"
         inputProps={{
           style: {
             width: '5vw',
@@ -88,9 +106,11 @@ function Search () {
         }}
         style= {{ margin: 'auto', marginLeft: '5%' }}
         label="max"
+        onChange={handleMaxChange}
+        value={max}
       />
     </span>
-    <Button type="submit">Apply</Button>
+    <Button type="submit" onClick={priceHandler}>Apply</Button>
     </div>
     </>
   );
