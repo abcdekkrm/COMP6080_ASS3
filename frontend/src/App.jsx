@@ -70,7 +70,12 @@ function App () {
     return <Account />;
   }
   if (route === '/Listing') {
-    return <IndividualListing />;
+    return (
+      <>
+      <Nav />
+      <IndividualListing />
+      </>
+    );
   }
 }
 
