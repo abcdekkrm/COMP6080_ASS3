@@ -61,19 +61,31 @@ function Listings (props) {
     <>
       <div>
         {errorMessage && <div className='error' style={{ color: 'red' }}> {errorMessage} </div>}
-        {props.search === ''
+        {props.search || props.min || props.max
+          ? null
+          : <div className='item-container' style={containerStyle}>
+            {listings?.map(listing => (
+              <Paper className='card' key={listing.id} style={cardStyle}>
+                <img src={listing.thumbnail} alt='' style={thumbnailStyle}/>
+                <h3>{listing.title}</h3>
+                <p>${listing.price}/night</p>
+              </Paper>
+            ))}
+            </div>
+        }
+        {props.search === '' && props.search
           ? <div className='item-container' style={containerStyle}>
-            {listings?.filter(listing => listing.title.toLowerCase().includes(props.search)).map(filteredListing => (
-              <Paper className='card' key={filteredListing.id} style={cardStyle}>
-                <img src={filteredListing.thumbnail} alt='' style={thumbnailStyle}/>
-                <h3>{filteredListing.title}</h3>
-                <p>${filteredListing.price}/night</p>
+            {listings?.map(listing => (
+              <Paper className='card' key={listing.id} style={cardStyle}>
+                <img src={listing.thumbnail} alt='' style={thumbnailStyle}/>
+                <h3>{listing.title}</h3>
+                <p>${listing.price}/night</p>
               </Paper>
             ))}
             </div>
           : null
         }
-        {props.search && props.search !== ''
+        {props.search !== ''
           ? <div className='item-container' style={containerStyle}>
             {listings?.filter(listing => listing.title.toLowerCase().includes(props.search)).map(filteredListing => (
               <Paper className='card' key={filteredListing.id} style={cardStyle}>
@@ -95,7 +107,15 @@ function Listings (props) {
               </Paper>
             ))}
             </div>
-          : null
+          : <div className='item-container' style={containerStyle}>
+            {listings?.map(listing => (
+              <Paper className='card' key={listing.id} style={cardStyle}>
+                <img src={listing.thumbnail} alt='' style={thumbnailStyle}/>
+                <h3>{listing.title}</h3>
+                <p>${listing.price}/night</p>
+              </Paper>
+            ))}
+            </div>
         }
       </div>
     </>

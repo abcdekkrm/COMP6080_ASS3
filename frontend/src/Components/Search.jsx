@@ -9,14 +9,10 @@ import * as ReactDOM from 'react-dom';
 import Listings from '../Screens/Listings';
 
 function Search () {
-  // const [bedroom, setBed] = React.useState('0');
-
-  // const handleBed = (event, newValue) => {
-  //   setBed(newValue / 10);
-  // };
   const [search, setSearch] = useState('');
   const [min, setMin] = useState('0');
   const [max, setMax] = useState('99999999');
+  // const [bed, setBed] = useState('0');
 
   const handleSearchChange = (e) => {
     const lowerCase = e.target.value.toLowerCase();
@@ -24,10 +20,10 @@ function Search () {
   };
 
   const searchHandler = () => {
-    setMin('');
-    setMax('');
+    setMin('0');
+    setMax('99999999');
+    // setBed('0');
     ReactDOM.render(<Listings search={search}/>, document.querySelector('#Listings-box'));
-    setSearch('');
   };
 
   const handleMinChange = (e) => {
@@ -40,8 +36,21 @@ function Search () {
 
   const priceHandler = () => {
     setSearch('');
+    // setBed('0');
     ReactDOM.render(<Listings min={min} max={max}/>, document.querySelector('#Listings-box'));
   };
+
+  // const handleBedChange = (e) => {
+  //   setBed((e.target.value) / 10);
+  // };
+
+  // const bedHandler = () => {
+  //   setSearch('');
+  //   setMin('0');
+  //   setMax('99999999');
+  //   ReactDOM.render(<Listings bed={bed}/>, document.querySelector('#Listings-box'));
+  //   setBed('0');
+  // }
 
   return (
     <>
@@ -68,6 +77,8 @@ function Search () {
     <div id='room-slider' style={{ width: '80%', margin: 'auto' }} >
       <p>Number of bedrooms</p>
       <DiscreteSliderLabel
+        // onChange={handleBedChange}
+        // value={bed}
       />
       <Button type="submit">Apply</Button>
     </div>
