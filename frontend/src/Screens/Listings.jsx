@@ -32,6 +32,11 @@ function Listings (props) {
     height: '10vw',
   }
 
+  const handleClick = (id) => {
+    localStorage.setItem('listingId', id);
+    window.location.href = '/Listing';
+  }
+
   function getListings () {
     const token = localStorage.getItem('token');
 
@@ -65,7 +70,7 @@ function Listings (props) {
           ? null
           : <div className='item-container' style={containerStyle}>
             {listings?.map(listing => (
-              <Paper className='card' key={listing.id} style={cardStyle}>
+              <Paper className='card' key={listing.id} style={cardStyle} onClick={() => handleClick(listing.id)}>
                 <img src={listing.thumbnail} alt='' style={thumbnailStyle}/>
                 <h3>{listing.title}</h3>
                 <p>${listing.price}/night</p>

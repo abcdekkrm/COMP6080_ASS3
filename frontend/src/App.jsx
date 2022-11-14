@@ -9,6 +9,7 @@ import CreateListing from './Screens/CreateListing';
 import Signup from './Screens/Signup';
 import EditListing from './Screens/EditListing';
 import DeleteListing from './Components/DeleteListing';
+import IndividualListing from './Screens/IndividualListing'
 
 function App () {
   <Switch>
@@ -21,6 +22,7 @@ function App () {
     <Route exact path="/User-Listings" element={Account} />
     <Route exact path="/Edit-Listing" element={EditListing} />
     <Route exact path="/Edit-Listing" element={DeleteListing} />
+    <Route exact path="/Listing" element={IndividualListing} />
   </Switch>;
 
   const route = window.location.pathname;
@@ -66,6 +68,9 @@ function App () {
   }
   if (route === '/User-Bookings') {
     return <Account />;
+  }
+  if (route === '/Listing') {
+    return <IndividualListing />;
   }
 }
 
