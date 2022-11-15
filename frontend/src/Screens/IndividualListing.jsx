@@ -110,13 +110,14 @@ function IndividualListing () {
         </ImageList> */}
       </span>
       <div style={{ lineHeight: '15%' }}>
-        <p>{address}</p>
-        <p style={{ marginBottom: '5%' }}>${price} /night</p>
+        <p style={{ fontWeight: 'bold' }}>{address}</p>
+        <p style={{ marginBottom: '5%', fontWeight: 'bold' }}>${price} /night</p>
         <p>Bathrooms: {bedrooms}</p>
         <p>Beds: {beds}</p>
         <p style={{ marginBottom: '5%' }}>Baths: {baths}</p>
-        <p>Amenities</p>
+        <p>Amenities:</p>
       </div>
+      {amenities ? null : <p>No amenities listed.</p>}
       {amenities?.map(amenity => (
         <Paper className='card' key='id' style={{ width: '20%' }}>
         <p>{amenity}</p>

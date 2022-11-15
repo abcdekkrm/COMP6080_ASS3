@@ -7,6 +7,7 @@ import DeleteListing from '../Components/DeleteListing';
 import InfoIcon from '@mui/icons-material/Info';
 import SimplePopup from '../Components/SimplePopup';
 import { Paper } from '@mui/material';
+import { Tooltip } from '@material-ui/core'
 
 function UserListings () {
   const [listings, setListings] = useState([]);
@@ -144,10 +145,19 @@ function UserListings () {
                     <img src={listing.thumbnail} alt='' style={thumbnailStyle}/>
                     <h3>{listing.title}</h3>
                     <p>${listing.price}/night</p>
-                    <InfoIcon onMouseOver={() => getListingDetails(listing.id)} onClick={handleInfoClick} style={{ cursor: 'pointer' }}/><br/>
-                    <PublicOutlinedIcon onClick={() => handlePublishing(listing.id)} style={{ cursor: 'pointer' }} />
-                    <EditIcon onClick={() => handleOpenEdit(listing.id)} style={{ marginTop: '40%', cursor: 'pointer' }}/>
-                    <DeleteIcon onClick={() => handleClick(listing.id)} style={{ color: 'red', cursor: 'pointer' }}/>
+                    <Tooltip title="More Information">
+                      <InfoIcon onMouseOver={() => getListingDetails(listing.id)} onClick={handleInfoClick} style={{ cursor: 'pointer' }}/>
+                    </Tooltip>
+                    <br/>
+                    <Tooltip title="Publish">
+                      <PublicOutlinedIcon onClick={() => handlePublishing(listing.id)} style={{ cursor: 'pointer' }} />
+                    </Tooltip>
+                    <Tooltip title="Edit">
+                      <EditIcon onClick={() => handleOpenEdit(listing.id)} style={{ marginTop: '40%', cursor: 'pointer' }}/>
+                    </Tooltip>
+                    <Tooltip title="Delete">
+                      <DeleteIcon onClick={() => handleClick(listing.id)} style={{ color: 'red', cursor: 'pointer' }}/>
+                    </Tooltip>
                   </>
                 : null}
             </Paper>
