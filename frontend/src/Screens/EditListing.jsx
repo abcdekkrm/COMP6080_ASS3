@@ -198,10 +198,10 @@ const EditListing = () => {
     setAddress(event.target.value);
   };
   const handleBath = (event, newValue) => {
-    setBath(newValue / 10);
+    setBath(String(newValue / 10));
   };
   const handleBed = (event, newValue) => {
-    setBed(newValue / 10);
+    setBed(String(newValue / 10));
   };
   const handleChangeSingle = event => {
     setSingle(event.target.value);
@@ -269,6 +269,7 @@ const EditListing = () => {
             price,
             thumbnail,
             metadata: {
+              amenities,
               bathroom,
               bedroom,
               singleBed,
@@ -331,6 +332,7 @@ const EditListing = () => {
               </Typography>
               <DiscreteSliderLabel
                 handleChange={handleBath}
+                currValue={bathroom}
               />
             </div>
             <div className={classes.root} id='room-slider'>
@@ -339,6 +341,7 @@ const EditListing = () => {
               </Typography>
               <DiscreteSliderLabel
                 handleChange={handleBed}
+                currValue={bedroom}
               />
             </div>
             <div>
@@ -348,7 +351,7 @@ const EditListing = () => {
                 </InputLabel>
                 <SelectSmall
                   id="selcte-single"
-                  value={singleBed}
+                  currValue={singleBed}
                   handleChange={handleChangeSingle}
                 />
               </FormControl>
@@ -359,7 +362,7 @@ const EditListing = () => {
                 </InputLabel>
                 <SelectSmall
                   id="selcte-double"
-                  value={doubleBed}
+                  currValue={doubleBed}
                   handleChange={handleChangeDouble}
                 />
               </FormControl>

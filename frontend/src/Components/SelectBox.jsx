@@ -7,28 +7,12 @@ import * as React from 'react';
 import NativeSelect from '@mui/material/NativeSelect';
 import PropTypes from 'prop-types';
 
-export default function SelectSmall ({ handleChange }) {
-  // const [age, setAge] = React.useState('2');
-  // const handleChange = (event) => {
-  //   console.log(event.target.value);
-  //   // setAge(event.target.value);
-  // };
-  // const useStyles = makeStyles({
-  //   Select: {
-  //     width: '45%',
-  //   },
-  // });
-  // const classes = useStyles();
+export default function SelectSmall ({ handleChange, currValue }) {
   return (
     <NativeSelect
-      // value={age}
-      // className={classes.Select}
       onChange={handleChange}
+      value={Number(currValue)}
     >
-      {/* <option value={10}>Ten</option>
-      <option value={20}>Twenty</option>
-      <option value={30}>Thirty</option> */}
-      {/* <option value="">None</option> */}
       <option value={0}>0</option>
       <option value={1}>1</option>
       <option value={2}>2</option>
@@ -46,4 +30,5 @@ export default function SelectSmall ({ handleChange }) {
 }
 SelectSmall.propTypes = {
   handleChange: PropTypes.func,
+  currValue: PropTypes.string,
 };
