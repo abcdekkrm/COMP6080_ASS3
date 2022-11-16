@@ -54,7 +54,7 @@ function ProfileMenu () {
             src={profile}
             className="profile"
             alt="user profile"
-            style={{ fontSize: '300%', marginLeft: '85%', cursor: 'pointer' }}
+            style={{ fontSize: '300%', marginLeft: 'auto', marginRight: '0px', cursor: 'pointer' }}
             onClick={handleClick}
             />
         </Tooltip>

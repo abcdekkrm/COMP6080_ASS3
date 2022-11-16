@@ -8,8 +8,12 @@ import InfoIcon from '@mui/icons-material/Info';
 import SimplePopup from '../Components/SimplePopup';
 import { Paper } from '@mui/material';
 import DateRangeSelect from '../Components/DateRangeSelect';
+import { Tooltip } from '@material-ui/core'
+import { useMediaQuery } from 'react-responsive'
 
 function UserListings () {
+  const isMobile = useMediaQuery({ query: '(max-width: 400px)' });
+
   const [listings, setListings] = useState([]);
   const [address, setAddress] = useState('');
   const [beds, setBeds] = useState('');
@@ -31,6 +35,13 @@ function UserListings () {
     gap: '1vw'
   };
 
+  const mobileCardStyle = {
+    textAlign: 'center',
+    width: '60vw',
+    height: '65vh',
+    padding: '1vw',
+  };
+
   const cardStyle = {
     textAlign: 'center',
     width: '15vw',
@@ -38,10 +49,21 @@ function UserListings () {
     padding: '1vw',
   };
 
+  const mobileThumbnailStyle = {
+    objectFit: 'cover',
+    width: '50vw',
+    height: '50vw',
+  }
+
   const thumbnailStyle = {
     objectFit: 'cover',
     width: '15vw',
     height: '15vw',
+  }
+
+  const handleView = (id) => {
+    localStorage.setItem('listingId', id);
+    window.location.href = '/Listing';
   }
 
   const handleClick = (id) => {
@@ -142,19 +164,58 @@ function UserListings () {
         {errorMessage && <div className='error' style={{ color: 'red' }}> {errorMessage} </div>}
         <div className='item-container' style={containerStyle}>
           {listings?.map(listing => (
-            <Paper className='card' key={listing.id} style={cardStyle}>
-              {(listing.owner === email)
-                ? <>
-                    <img src={listing.thumbnail} alt='' style={thumbnailStyle}/>
-                    <h3>{listing.title}</h3>
-                    <p>${listing.price}/night</p>
-                    <InfoIcon onMouseOver={() => getListingDetails(listing.id)} onClick={handleInfoClick} style={{ cursor: 'pointer' }}/><br/>
-                    <PublicOutlinedIcon onClick={() => handlePublishing(listing.id)} style={{ cursor: 'pointer' }} />
-                    <EditIcon onClick={() => handleOpenEdit(listing.id)} style={{ marginTop: '40%', cursor: 'pointer' }}/>
-                    <DeleteIcon onClick={() => handleClick(listing.id)} style={{ color: 'red', cursor: 'pointer' }}/>
-                  </>
-                : null}
-            </Paper>
+            <>
+            {isMobile
+              ? <>
+                <Paper className='card' key={listing.id} style={mobileCardStyle}>
+                  {(listing.owner === email)
+                    ? <>
+                        <img src={listing.thumbnail} alt='' style={mobileThumbnailStyle} onClick={() => handleView(listing.id)}/>
+                        <h3>{listing.title}</h3>
+                        <p>${listing.price}/night</p>
+                        <Tooltip title="More Information">
+                          <InfoIcon onMouseOver={() => getListingDetails(listing.id)} onClick={handleInfoClick} style={{ cursor: 'pointer' }}/>
+                        </Tooltip>
+                        <br/>
+                        <Tooltip title="Publish">
+                          <PublicOutlinedIcon onClick={() => handlePublishing(listing.id)} style={{ cursor: 'pointer' }} />
+                        </Tooltip>
+                        <Tooltip title="Edit">
+                          <EditIcon onClick={() => handleOpenEdit(listing.id)} style={{ marginTop: '40%', cursor: 'pointer' }}/>
+                        </Tooltip>
+                        <Tooltip title="Delete">
+                          <DeleteIcon onClick={() => handleClick(listing.id)} style={{ color: 'red', cursor: 'pointer' }}/>
+                        </Tooltip>
+                      </>
+                    : null}
+                </Paper>
+                </>
+              : <>
+                <Paper className='card' key={listing.id} style={cardStyle}>
+                  {(listing.owner === email)
+                    ? <>
+                        <img src={listing.thumbnail} alt='' style={thumbnailStyle} onClick={() => handleView(listing.id)}/>
+                        <h3>{listing.title}</h3>
+                        <p>${listing.price}/night</p>
+                        <Tooltip title="More Information">
+                          <InfoIcon onMouseOver={() => getListingDetails(listing.id)} onClick={handleInfoClick} style={{ cursor: 'pointer' }}/>
+                        </Tooltip>
+                        <br/>
+                        <Tooltip title="Publish">
+                          <PublicOutlinedIcon onClick={() => handlePublishing(listing.id)} style={{ cursor: 'pointer' }} />
+                        </Tooltip>
+                        <Tooltip title="Edit">
+                          <EditIcon onClick={() => handleOpenEdit(listing.id)} style={{ marginTop: '40%', cursor: 'pointer' }}/>
+                        </Tooltip>
+                        <Tooltip title="Delete">
+                          <DeleteIcon onClick={() => handleClick(listing.id)} style={{ color: 'red', cursor: 'pointer' }}/>
+                        </Tooltip>
+                      </>
+                    : null}
+                </Paper>
+                </>
+            }
+            </>
           ))}
         </div>
       </div>
@@ -162,7 +223,7 @@ function UserListings () {
       {selectDateOpen ? <DateRangeSelect closeDate={() => setSelectDateOpen(false)} listingId={listingId}/> : null}
       {open
         ? <SimplePopup
-          text={'Address: ' + address + '\n' + 'Number of beds: ' + beds + '\n' + 'Number of bathrooms: ' + baths}
+          text={'Address: ' + address + '\n' + 'Number of beds: ' + beds + '\n' + 'Number of bathrooms: ' + baths }
           closePopup={() => setOpen(false)}
           />
         : null}

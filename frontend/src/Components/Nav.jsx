@@ -10,9 +10,9 @@ function Nav () {
 
   return (
     <>
-    <header>
+    <header style={{ width: '100vw' }}>
      <nav>
-      <AppBar position="static">
+      <AppBar position="static" style={{ width: '100vw' }}>
        <Toolbar>
         <img src={logo} className="logo" alt="AirBrb logo" style={{ height: '5vh', cursor: 'pointer' }} onClick={() => { window.location.href = '/Landing' } }/>
         <Typography
@@ -27,7 +27,7 @@ function Nav () {
         >
          AirBrB
         </Typography>
-        {logged ? <ProfileMenu/> : <Button style={{ marginLeft: '80%', cursor: 'pointer' }} onClick={() => { window.location.href = '/Login' } }>Login / Sign up</Button>}
+        {logged ? <ProfileMenu/> : <Button style={{ marginLeft: 'auto', marginRight: '0px', cursor: 'pointer' }} onClick={() => { window.location.href = '/Login' } }>Login / Sign up</Button>}
         </Toolbar>
         </AppBar>
      </nav>
