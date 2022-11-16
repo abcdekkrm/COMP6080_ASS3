@@ -5,3 +5,4 @@
 - Change of hover on clickable elements
 - Clickable logo/company name for easy return to landing page.
 - Large search and filter column with on side next to landing for larger screens for easy use.
+- For better mobile user interaction, collapsible search column is used instead.
