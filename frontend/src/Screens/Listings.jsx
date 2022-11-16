@@ -81,7 +81,7 @@ function Listings (props) {
         {props.search === '' && props.search
           ? <div className='item-container' style={containerStyle}>
             {listings?.map(listing => (
-              <Paper className='card' key={listing.id} style={cardStyle}>
+              <Paper className='card' key={listing.id} style={cardStyle} onClick={() => handleClick(listing.id)}>
                 <img src={listing.thumbnail} alt='' style={thumbnailStyle}/>
                 <h3>{listing.title}</h3>
                 <p>${listing.price}/night</p>
@@ -93,7 +93,7 @@ function Listings (props) {
         {props.search !== ''
           ? <div className='item-container' style={containerStyle}>
             {listings?.filter(listing => listing.title.toLowerCase().includes(props.search)).map(filteredListing => (
-              <Paper className='card' key={filteredListing.id} style={cardStyle}>
+              <Paper className='card' key={filteredListing.id} style={cardStyle} onClick={() => handleClick(filteredListing.id)}>
                 <img src={filteredListing.thumbnail} alt='' style={thumbnailStyle}/>
                 <h3>{filteredListing.title}</h3>
                 <p>${filteredListing.price}/night</p>
@@ -105,7 +105,7 @@ function Listings (props) {
         {((props.min !== '0') || (props.max !== '99999999'))
           ? <div className='item-container' style={containerStyle}>
             {listings?.filter(listing => { return (listing.price >= parseInt(props.min, 10) && listing.price <= parseInt(props.max, 10)) }).map(filteredListing => (
-              <Paper className='card' key={filteredListing.id} style={cardStyle}>
+              <Paper className='card' key={filteredListing.id} style={cardStyle} onClick={() => handleClick(filteredListing.id)}>
                 <img src={filteredListing.thumbnail} alt='' style={thumbnailStyle}/>
                 <h3>{filteredListing.title}</h3>
                 <p>${filteredListing.price}/night</p>
@@ -114,7 +114,7 @@ function Listings (props) {
             </div>
           : <div className='item-container' style={containerStyle}>
             {listings?.map(listing => (
-              <Paper className='card' key={listing.id} style={cardStyle}>
+              <Paper className='card' key={listing.id} style={cardStyle} onClick={() => handleClick(listing.id)}>
                 <img src={listing.thumbnail} alt='' style={thumbnailStyle}/>
                 <h3>{listing.title}</h3>
                 <p>${listing.price}/night</p>
