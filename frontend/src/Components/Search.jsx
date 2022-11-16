@@ -44,7 +44,7 @@ function Search () {
   };
 
   const handleBedChange = (e, newValue) => {
-    setBed(newValue / 10);
+    setBed(String(newValue / 10));
   };
 
   const bedHandler = () => {
@@ -106,6 +106,7 @@ function Search () {
       <p>Number of bedrooms</p>
       <DiscreteSliderLabel
         handleChange={handleBedChange}
+        currValue={bed}
       />
       <Button type="submit" onClick={bedHandler}>Apply</Button>
     </div>
