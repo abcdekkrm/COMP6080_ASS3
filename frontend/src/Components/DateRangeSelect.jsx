@@ -19,6 +19,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
+import Alert from '@mui/material/Alert';
 
 const DateRangeSelect = ({ closeDate, listingId }) => {
   const useStyles = makeStyles({
@@ -33,6 +34,7 @@ const DateRangeSelect = ({ closeDate, listingId }) => {
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
+      gap: '5px',
     },
     button: {
       backgroundColor: 'white',
@@ -83,7 +85,7 @@ const DateRangeSelect = ({ closeDate, listingId }) => {
       zIndex: '1000px',
     },
     selector: {
-      height: '90vh',
+      height: '85vh',
       width: '50vw',
       display: 'flex',
       flexDirection: 'column',
@@ -100,11 +102,13 @@ const DateRangeSelect = ({ closeDate, listingId }) => {
       width: '250px',
     },
     list: {
-      height: '70vh',
+      height: '60vh',
       overflowY: 'scroll',
-    }
+    },
   })
   const classes = useStyles();
+  const [alert, setAlert] = useState(false);
+  const [alertContent, setAlertContent] = useState('');
   const [selectionRange, setRange] = useState([
     {
       startDate: new Date(),
@@ -168,11 +172,17 @@ const DateRangeSelect = ({ closeDate, listingId }) => {
       });
     const data = await response.json();
     console.log(data);
-    closeDate();
+    if (data.error) {
+      setAlertContent(data.error);
+      setAlert(true);
+    } else {
+      closeDate();
+    }
   }
   return (
     <>
       <div className={classes.popup}>
+        {alert ? <Alert severity='error'>{alertContent}</Alert> : <></> }
         <div className={classes.popup_syles} id='create-listing-popup'>
           <div className={classes.closeIcon}>
             <IconButton onClick={closeDate}>
