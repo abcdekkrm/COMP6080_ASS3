@@ -165,17 +165,17 @@ const CreateListing = () => {
     setAddress(event.target.value);
   };
   const handleBath = (event, newValue) => {
-    setBath(newValue / 10);
+    setBath(String(newValue / 10));
   };
   const handleBed = (event, newValue) => {
-    setBed(newValue / 10);
+    setBed(String(newValue / 10));
   };
   const handleChangeSingle = event => {
-    setSingle(Number(event.target.value));
+    setSingle(event.target.value);
   };
   const handleChangeDouble = event => {
     console.log(event.target.value);
-    setDouble(Number(event.target.value));
+    setDouble(event.target.value);
   };
   const handleChangeThumbnail = event => {
     console.log(event.target.files);
@@ -312,6 +312,20 @@ const CreateListing = () => {
               />
             </div>
             <div>
+              {/* <NativeSelect
+              >
+                <option value={0}>0</option>
+                <option value={1}>1</option>
+                <option value={2}>2</option>
+                <option value={3}>3</option>
+                <option value={4}>4</option>
+                <option value={5}>5</option>
+                <option value={6}>6</option>
+                <option value={7}>7</option>
+                <option value={8}>8</option>
+                <option value={9}>9</option>
+                <option value={10}>10+ contact for more info</option>
+              </NativeSelect> */}
               <FormControl sx={{ m: 1, minWidth: 120 }} size="small" >
                 {/* <InputLabel>Sigle Bed</InputLabel> */}
                 <InputLabel variant="standard">
@@ -319,7 +333,7 @@ const CreateListing = () => {
                 </InputLabel>
                 <SelectSmall
                   id="selcte-single"
-                  number={singleBed}
+                  currValue={singleBed}
                   // label="single bed"
                   handleChange={handleChangeSingle}
                 />
@@ -329,7 +343,7 @@ const CreateListing = () => {
                   Double Bed
                 </InputLabel>
                 <SelectSmall
-                  number={doubleBed}
+                  currValue={doubleBed}
                   // onChange={handleChangeDouble}
                   handleChange={handleChangeDouble}
                 />
