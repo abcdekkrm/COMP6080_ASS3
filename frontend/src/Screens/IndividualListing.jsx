@@ -1,11 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import Config from '../config.json';
-import { Paper } from '@mui/material';
+import { Paper, Button } from '@mui/material';
+// import BasicDateRangePicker from '../Components/DateRangePicker';
+import SimplePopup from '../Components/SimplePopup';
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+import { LocalizationProvider } from '@mui/x-date-pickers-pro';
+import { AdapterDayjs } from '@mui/x-date-pickers-pro/AdapterDayjs';
+import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 // import ImageList from '@mui/material/ImageList';
 // import ImageListItem from '@mui/material/ImageListItem';
 
 function IndividualListing () {
   const [errorMessage, setErrorMessage] = useState('');
+  const [bookErrorMessage, setBookErrorMessage] = useState('');
   const [title, setTitle] = useState('');
   const [thumbnail, setThumbnail] = useState('');
   // const [imgs, setImgs] = useState([]);
@@ -15,6 +23,8 @@ function IndividualListing () {
   const [bedrooms, setBedrooms] = useState('');
   const [baths, setBath] = useState('');
   const [amenities, setAmenities] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = React.useState([null, null]);
 
   useEffect(() => {
     getListingDetails();
@@ -29,7 +39,7 @@ function IndividualListing () {
       headers: {
         'Content-Type': 'application/json',
         Authorization: 'Bearer ' + token,
-      },
+      }
     };
 
     fetch(`http://localhost:${Config.BACKEND_PORT}/listings/${id}`, request)
@@ -89,13 +99,54 @@ function IndividualListing () {
       });
   }
 
+  const handleBookSubmit = () => {
+    const token = localStorage.getItem('token');
+    const id = localStorage.getItem('listingId');
+    const checkIn = new Date(value[0].$d);
+    const checkOut = new Date(value[1].$d);
+    const dateRangee = [checkIn, checkOut];
+    console.log(dateRangee);
+    const diff = checkIn.getTime() - checkOut.getTime();
+    const days = diff / (-1 * 1000 * 3600 * 24);
+    console.log(price * days);
+
+    const payload = JSON.stringify({
+      dateRange: dateRangee,
+      totalPrice: price * days
+    });
+
+    const request = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      },
+      body: payload
+    };
+
+    fetch(`http://localhost:${Config.BACKEND_PORT}/bookings/new/${id}`, request)
+      .then(res => {
+        if (res.ok) {
+          console.log('success!')
+        } else {
+          res.json().then((data) => {
+            setBookErrorMessage(data.error)
+          });
+        }
+      });
+  }
+
+  const handleBookClick = () => {
+    setOpen(true);
+  }
+
   return (
     <>
     <div style={{ padding: '0 10% 0 10%' }}>
       {errorMessage && <div className='error' style={{ color: 'red' }}> {errorMessage} </div>}
       <h1>{title}</h1>
       <span>
-      <img src={thumbnail} style={{ height: '50vh', borderRadius: '1vw' }}/>
+      <img src={thumbnail} style={{ height: '50vh', width: 'auto', borderRadius: '1vw' }}/>
         {/* <ImageList sx={{ width: '10vw', height: '10vh' }} cols={3} rowHeight={'10vh'}>
           {imgs?.map((item) => (
             <ImageListItem key='imgId'>
@@ -110,8 +161,13 @@ function IndividualListing () {
         </ImageList> */}
       </span>
       <div style={{ lineHeight: '15%' }}>
-        <p style={{ fontWeight: 'bold' }}>{address}</p>
-        <p style={{ marginBottom: '5%', fontWeight: 'bold' }}>${price} /night</p>
+        <div style={{ display: 'flex' }}>
+          <div>
+            <p style={{ fontWeight: 'bold' }}>{address}</p>
+            <p style={{ marginBottom: '5%', fontWeight: 'bold' }}>${price} /night</p>
+          </div>
+          <Button style={{ marginLeft: '15%' }} onClick={handleBookClick}>Book</Button>
+        </div>
         <p>Bathrooms: {bedrooms}</p>
         <p>Beds: {beds}</p>
         <p style={{ marginBottom: '5%' }}>Baths: {baths}</p>
@@ -124,6 +180,37 @@ function IndividualListing () {
         </Paper>
       ))}
     </div>
+    {open
+      ? <SimplePopup
+        text={
+          <>
+          {bookErrorMessage && <div className='error' style={{ color: 'red' }}> {bookErrorMessage} </div>}
+          <div>
+            <LocalizationProvider
+              dateAdapter={AdapterDayjs}
+              localeText={{ start: 'Check-in', end: 'Check-out' }}
+            >
+              <DateRangePicker
+                value={value}
+                onChange={(newValue) => {
+                  setValue(newValue);
+                }}
+                renderInput={(startProps, endProps) => (
+                  <React.Fragment>
+                    <TextField {...startProps} />
+                    <Box sx={{ mx: 2 }}> to </Box>
+                    <TextField {...endProps} />
+                  </React.Fragment>
+                )}
+              />
+            </LocalizationProvider>
+          </div>
+          <Button onClick={handleBookSubmit}>Confirm Booking</Button>
+          </>
+        }
+        closePopup={() => setOpen(false)}
+        />
+      : null}
     </>
   )
 }

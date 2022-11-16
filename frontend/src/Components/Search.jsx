@@ -12,7 +12,7 @@ function Search () {
   const [search, setSearch] = useState('');
   const [min, setMin] = useState('0');
   const [max, setMax] = useState('99999999');
-  // const [bed, setBed] = useState('0');
+  const [bed, setBed] = useState(0);
 
   const handleSearchChange = (e) => {
     const lowerCase = e.target.value.toLowerCase();
@@ -22,7 +22,7 @@ function Search () {
   const searchHandler = () => {
     setMin('0');
     setMax('99999999');
-    // setBed('0');
+    setBed(0);
     ReactDOM.render(<Listings search={search}/>, document.querySelector('#Listings-box'));
   };
 
@@ -36,21 +36,27 @@ function Search () {
 
   const priceHandler = () => {
     setSearch('');
-    // setBed('0');
+    setBed(0);
     ReactDOM.render(<Listings min={min} max={max}/>, document.querySelector('#Listings-box'));
   };
 
-  // const handleBedChange = (e) => {
-  //   setBed((e.target.value) / 10);
-  // };
+  const handleBedChange = (e, newValue) => {
+    setBed(newValue / 10);
+  };
 
-  // const bedHandler = () => {
-  //   setSearch('');
-  //   setMin('0');
-  //   setMax('99999999');
-  //   ReactDOM.render(<Listings bed={bed}/>, document.querySelector('#Listings-box'));
-  //   setBed('0');
-  // }
+  const bedHandler = () => {
+    setSearch('');
+    setMin('0');
+    setMax('99999999');
+    ReactDOM.render(<Listings bed={bed}/>, document.querySelector('#Listings-box'));
+  }
+
+  const clearHandler = () => {
+    setSearch('');
+    setMin('0');
+    setMax('99999999');
+    window.location.href = '/Landing';
+  }
 
   return (
     <>
@@ -71,16 +77,18 @@ function Search () {
       onChange={handleSearchChange}
       value={search}
     />
-    <Button type="submit" onClick={searchHandler}>Search</Button>
+    <span>
+      <Button type="submit" onClick={searchHandler}>Search</Button>
+      <Button onClick={clearHandler}>Clear</Button>
+    </span>
     </div>
   <Divider/>
     <div id='room-slider' style={{ width: '80%', margin: 'auto' }} >
       <p>Number of bedrooms</p>
       <DiscreteSliderLabel
-        // onChange={handleBedChange}
-        // value={bed}
+        handleChange={handleBedChange}
       />
-      <Button type="submit">Apply</Button>
+      <Button type="submit" onClick={bedHandler}>Apply</Button>
     </div>
     <Divider/>
     <div id='date-range' style={{ width: '80%', margin: 'auto' }} >
@@ -121,7 +129,10 @@ function Search () {
         value={max}
       />
     </span>
-    <Button type="submit" onClick={priceHandler}>Apply</Button>
+    <span>
+      <Button type="submit" onClick={priceHandler}>Apply</Button>
+      <Button onClick={clearHandler}>Clear</Button>
+    </span>
     </div>
     </>
   );
