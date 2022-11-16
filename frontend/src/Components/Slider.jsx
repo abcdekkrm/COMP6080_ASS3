@@ -56,10 +56,10 @@ function valueLabelFormat (value) {
   return marks.findIndex((mark) => mark.value === value);
 }
 
-export default function DiscreteSliderLabel ({ handleChange }) {
+export default function DiscreteSliderLabel ({ handleChange, currValue }) {
   return (
     <Slider
-      defaultValue={0}
+      // defaultValue={10}
       valueLabelFormat={valueLabelFormat}
       getAriaValueText={valuetext}
       aria-labelledby="discrete-slider-restrict"
@@ -67,10 +67,11 @@ export default function DiscreteSliderLabel ({ handleChange }) {
       valueLabelDisplay="auto"
       marks={marks}
       onChange={handleChange}
-      // style={{ width: '200px', fontSize: '10px' }}
+      value={Number(currValue) * 10}
     />
   );
 }
 DiscreteSliderLabel.propTypes = {
   handleChange: PropTypes.func,
+  currValue: PropTypes.string,
 };
