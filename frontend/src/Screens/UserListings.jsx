@@ -43,6 +43,11 @@ function UserListings () {
     height: '15vw',
   }
 
+  const handleView = (id) => {
+    localStorage.setItem('listingId', id);
+    window.location.href = '/Listing';
+  }
+
   const handleClick = (id) => {
     setDeleteOpen(true);
     localStorage.setItem('listingId', id);
@@ -142,7 +147,7 @@ function UserListings () {
             <Paper className='card' key={listing.id} style={cardStyle}>
               {(listing.owner === email)
                 ? <>
-                    <img src={listing.thumbnail} alt='' style={thumbnailStyle}/>
+                    <img src={listing.thumbnail} alt='' style={thumbnailStyle} onClick={() => handleView(listing.id)}/>
                     <h3>{listing.title}</h3>
                     <p>${listing.price}/night</p>
                     <Tooltip title="More Information">

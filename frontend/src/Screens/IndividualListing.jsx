@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Config from '../config.json';
-import { Paper, Button } from '@mui/material';
+import { Paper, Button, Divider, Rating } from '@mui/material';
 // import BasicDateRangePicker from '../Components/DateRangePicker';
 import SimplePopup from '../Components/SimplePopup';
 import TextField from '@mui/material/TextField';
@@ -14,6 +14,8 @@ import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 function IndividualListing () {
   const [errorMessage, setErrorMessage] = useState('');
   const [bookErrorMessage, setBookErrorMessage] = useState('');
+  const [reviewErrorMessage, setReviewErrorMessage] = useState('');
+
   const [title, setTitle] = useState('');
   const [thumbnail, setThumbnail] = useState('');
   // const [imgs, setImgs] = useState([]);
@@ -24,7 +26,10 @@ function IndividualListing () {
   const [baths, setBath] = useState('');
   const [amenities, setAmenities] = useState([]);
   const [open, setOpen] = useState(false);
-  const [value, setValue] = React.useState([null, null]);
+
+  const [dateValue, setDateValue] = React.useState([null, null]);
+  const [starValue, setStarValue] = React.useState(0);
+  const [commentValue, setCommentValue] = React.useState('');
 
   useEffect(() => {
     getListingDetails();
@@ -102,8 +107,8 @@ function IndividualListing () {
   const handleBookSubmit = () => {
     const token = localStorage.getItem('token');
     const id = localStorage.getItem('listingId');
-    const checkIn = new Date(value[0].$d);
-    const checkOut = new Date(value[1].$d);
+    const checkIn = new Date(dateValue[0].$d);
+    const checkOut = new Date(dateValue[1].$d);
     const dateRangee = [checkIn, checkOut];
     console.log(dateRangee);
     const diff = checkIn.getTime() - checkOut.getTime();
@@ -140,6 +145,36 @@ function IndividualListing () {
     setOpen(true);
   }
 
+  const handleReviewSubmit = () => {
+    const token = localStorage.getItem('token');
+    const listingId = localStorage.getItem('listingId');
+    const bookingId = '23121313'
+
+    const payload = JSON.stringify({
+      review: { score: starValue, comment: commentValue }
+    });
+
+    const request = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      },
+      body: payload
+    };
+
+    fetch(`http://localhost:${Config.BACKEND_PORT}/listings/${listingId}/review/${bookingId}`, request)
+      .then(res => {
+        if (res.ok) {
+          console.log('success!')
+        } else {
+          res.json().then((data) => {
+            setReviewErrorMessage(data.error)
+          });
+        }
+      });
+  }
+
   return (
     <>
     <div style={{ padding: '0 10% 0 10%' }}>
@@ -161,17 +196,19 @@ function IndividualListing () {
         </ImageList> */}
       </span>
       <div style={{ lineHeight: '15%' }}>
-        <div style={{ display: 'flex' }}>
+        <div style={{ display: 'flex', marginBottom: '5%' }}>
           <div>
             <p style={{ fontWeight: 'bold' }}>{address}</p>
             <p style={{ marginBottom: '5%', fontWeight: 'bold' }}>${price} /night</p>
           </div>
           <Button style={{ marginLeft: '15%' }} onClick={handleBookClick}>Book</Button>
         </div>
-        <p>Bathrooms: {bedrooms}</p>
-        <p>Beds: {beds}</p>
-        <p style={{ marginBottom: '5%' }}>Baths: {baths}</p>
-        <p>Amenities:</p>
+        <Divider />
+        <p><b>Bedrooms:</b> {bedrooms}</p>
+        <p><b>Beds:</b> {beds}</p>
+        <p style={{ marginBottom: '5%' }}><b>Bathrooms:</b> {baths}</p>
+        <Divider />
+        <p style={{ fontWeight: 'bold' }}>Amenities:</p>
       </div>
       {amenities ? null : <p>No amenities listed.</p>}
       {amenities?.map(amenity => (
@@ -179,6 +216,33 @@ function IndividualListing () {
         <p>{amenity}</p>
         </Paper>
       ))}
+      <Divider />
+      <p><b>Reviews</b></p>
+      <Box
+        sx={{
+          '& > legend': { mt: 2 },
+        }}
+      >
+        {reviewErrorMessage && <div className='error' style={{ color: 'red' }}> {reviewErrorMessage} </div>}
+        <Rating
+          value={starValue}
+          onChange={(event, newValue) => {
+            setStarValue(newValue);
+          }}
+        />
+        <br/>
+        <TextField
+          id="outlined-multiline-static"
+          multiline
+          rows={4}
+          style= {{ width: '100%' }}
+          value={commentValue}
+          onChange={(event, newValue) => {
+            setCommentValue(newValue);
+          }}
+        />
+        <Button onClick={handleReviewSubmit}>Submit review</Button>
+      </Box>
     </div>
     {open
       ? <SimplePopup
@@ -191,9 +255,9 @@ function IndividualListing () {
               localeText={{ start: 'Check-in', end: 'Check-out' }}
             >
               <DateRangePicker
-                value={value}
+                value={dateValue}
                 onChange={(newValue) => {
-                  setValue(newValue);
+                  setDateValue(newValue);
                 }}
                 renderInput={(startProps, endProps) => (
                   <React.Fragment>
