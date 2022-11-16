@@ -77,7 +77,6 @@ function Search () {
               width: '80vw',
             }
           }}
-          style= {{ marginTop: '10%' }}
           onChange={handleSearchChange}
           value={search}
         />

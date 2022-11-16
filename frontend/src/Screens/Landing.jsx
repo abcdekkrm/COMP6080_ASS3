@@ -34,6 +34,7 @@ function Landing () {
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"
               id="panel1a-header"
+              style={{ height: '5vh' }}
             >
               <p>Expand search filters</p>
             </AccordionSummary>
