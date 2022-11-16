@@ -3,13 +3,15 @@ import Config from '../config.json';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PublicOutlinedIcon from '@mui/icons-material/PublicOutlined';
+import PublicOffRoundedIcon from '@mui/icons-material/PublicOffRounded';
 import DeleteListing from '../Components/DeleteListing';
 import InfoIcon from '@mui/icons-material/Info';
 import SimplePopup from '../Components/SimplePopup';
 import { Paper } from '@mui/material';
-import DateRangeSelect from '../Components/DateRangeSelect';
+import Publishing from '../Components/Publishing';
 import { Tooltip } from '@material-ui/core'
 import { useMediaQuery } from 'react-responsive'
+import UnPublishing from '../Components/UnPublishing';
 
 function UserListings () {
   const isMobile = useMediaQuery({ query: '(max-width: 400px)' });
@@ -22,6 +24,7 @@ function UserListings () {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const [selectDateOpen, setSelectDateOpen] = useState(false);
+  const [removeLive, setRemoveLive] = useState(false);
 
   useEffect(() => {
     getListings();
@@ -79,7 +82,10 @@ function UserListings () {
     console.log(id);
     setSelectDateOpen(true);
   }
-
+  const handleUnPublishing = (id) => {
+    localStorage.setItem('listingId', id);
+    setRemoveLive(true);
+  }
   const handleInfoClick = () => {
     setOpen(true);
   }
@@ -204,6 +210,9 @@ function UserListings () {
                         <Tooltip title="Publish">
                           <PublicOutlinedIcon onClick={() => handlePublishing(listing.id)} style={{ cursor: 'pointer' }} />
                         </Tooltip>
+                        <Tooltip title="UnPublish">
+                          <PublicOffRoundedIcon onClick={() => handleUnPublishing(listing.id)} style={{ cursor: 'pointer' }} />
+                        </Tooltip>
                         <Tooltip title="Edit">
                           <EditIcon onClick={() => handleOpenEdit(listing.id)} style={{ marginTop: '40%', cursor: 'pointer' }}/>
                         </Tooltip>
@@ -220,7 +229,8 @@ function UserListings () {
         </div>
       </div>
       {deleteOpen ? <DeleteListing id={listingId} closeDeletePopup={() => setDeleteOpen(false)} /> : null}
-      {selectDateOpen ? <DateRangeSelect closeDate={() => setSelectDateOpen(false)} listingId={listingId}/> : null}
+      {selectDateOpen ? <Publishing closeDate={() => setSelectDateOpen(false)} listingId={listingId}/> : null}
+      {removeLive ? <UnPublishing closePopUp={() => setRemoveLive(false)} listingId={listingId}/> : null}
       {open
         ? <SimplePopup
           text={'Address: ' + address + '\n' + 'Number of beds: ' + beds + '\n' + 'Number of bathrooms: ' + baths }
