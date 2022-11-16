@@ -28,6 +28,7 @@ const Signup = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [name, setName] = useState('');
 
   const handleEmail = event => {
@@ -38,12 +39,21 @@ const Signup = () => {
     setPassword(event.target.value);
   };
 
+  const handleConfirmPassword = event => {
+    setConfirmPassword(event.target.value);
+  };
+
   const handleName = event => {
     setName(event.target.value);
   };
 
   function handleSignupSubmit (e) {
     e.preventDefault();
+
+    if (confirmPassword !== password) {
+      setErrorMessage('Passwords do not match.');
+      return;
+    }
 
     const payload = JSON.stringify({
       email,
@@ -78,9 +88,19 @@ const Signup = () => {
 
   return (
       <>
-      <form onSubmit={handleSignupSubmit} style={signupStyle}>
-      <div className="popup-body" style = {{ padding: '10vw', width: '30%' }}>
-        <h1 style={{ color: 'black' }}>Sign up today</h1>
+      <form
+        onSubmit={handleSignupSubmit}
+        style={signupStyle}
+      >
+      <div
+        className="popup-body"
+        style = {{ padding: '10vw', width: '30%' }}
+      >
+        <h1
+          style={{ color: 'black' }}
+        >
+        Sign up today
+        </h1>
         <TextField
           type="text"
           id="name"
@@ -107,14 +127,26 @@ const Signup = () => {
           value={password}
           style = {{ width: '20vw' }}
         />
+        <TextField
+          type="password"
+          id="password"
+          placeholder="Confirm password"
+          onChange={handleConfirmPassword}
+          value={confirmPassword}
+          style = {{ width: '20vw' }}
+        />
         <br/>
         {errorMessage && <div className='error' style={{ color: 'red' }}> {errorMessage} </div>}
-        <Button type="submit">Sign me up!</Button>
+        <Button
+          type="submit"
+        >
+        Sign me up!
+        </Button>
       </div>
       <img
-      src='https://img.freepik.com/free-vector/tiny-house-concept-illustration_114360-9329.jpg?w=826&t=st=1668000195~exp=1668000795~hmac=04f8f7c97a23ab1fd828560730b3c34a50a955d073dbd8b44bca8ea58286f8e7'
-      alt="stock img"
-      style = {imageStyle}
+        src='https://img.freepik.com/free-vector/tiny-house-concept-illustration_114360-9329.jpg?w=826&t=st=1668000195~exp=1668000795~hmac=04f8f7c97a23ab1fd828560730b3c34a50a955d073dbd8b44bca8ea58286f8e7'
+        alt="stock img"
+        style = {imageStyle}
       />
       </form>
       </>

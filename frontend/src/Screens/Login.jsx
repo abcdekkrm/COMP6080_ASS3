@@ -71,9 +71,19 @@ const Login = () => {
 
   return (
     <>
-    <form onSubmit={handleLoginSubmit} style={loginStyle}>
-     <div className="popup-body" style = {{ padding: '10vw', width: '30%' }}>
-      <h1 style={{ color: 'black', marginBottom: '2%' }}>Welcome</h1>
+    <form
+      onSubmit={handleLoginSubmit}
+      style={loginStyle}
+    >
+     <div
+      className="popup-body"
+      style = {{ padding: '10vw', width: '30%' }}
+    >
+      <h1
+        style={{ color: 'black', marginBottom: '2%' }}
+      >
+      Welcome
+      </h1>
       <TextField
         type="text"
         id="email"
@@ -93,9 +103,21 @@ const Login = () => {
       />
       <br/>
       {errorMessage && <div className='error' style={{ color: 'red' }}> {errorMessage} </div>}
-      <Button type="submit">Log in</Button>
-      <p style={{ color: 'black', fontSize: 'small' }}>Don&apos;t have an account?
-        <Button onClick={() => { window.location.href = '/Register' }} style={{ fontSize: 'small' }}>Sign up</Button>
+      <Button
+        type="submit"
+      >
+      Log in
+      </Button>
+      <p
+        style={{ color: 'black', fontSize: 'small' }}
+      >
+      Don&apos;t have an account?
+        <Button
+          onClick={() => { window.location.href = '/Register' }}
+          style={{ fontSize: 'small' }}
+        >
+        Sign up
+        </Button>
       </p>
      </div>
      <img

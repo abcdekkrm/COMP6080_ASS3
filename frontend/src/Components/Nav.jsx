@@ -10,9 +10,9 @@ function Nav () {
 
   return (
     <>
-    <header>
+    <header style={{ width: '100vw' }}>
      <nav>
-      <AppBar position="static">
+      <AppBar position="static" style={{ width: '100vw' }}>
        <Toolbar>
         <img src={logo} className="logo" alt="AirBrb logo" style={{ height: '5vh', cursor: 'pointer' }} onClick={() => { window.location.href = '/Landing' } }/>
         <Typography
