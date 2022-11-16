@@ -8,10 +8,13 @@ import Box from '@mui/material/Box';
 import { LocalizationProvider } from '@mui/x-date-pickers-pro';
 import { AdapterDayjs } from '@mui/x-date-pickers-pro/AdapterDayjs';
 import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
+// import { useMediaQuery } from 'react-responsive'
 // import ImageList from '@mui/material/ImageList';
 // import ImageListItem from '@mui/material/ImageListItem';
 
 function IndividualListing () {
+  // const isMobile = useMediaQuery({ query: '(max-width: 400px)' });
+
   const [errorMessage, setErrorMessage] = useState('');
   const [bookErrorMessage, setBookErrorMessage] = useState('');
   const [reviewErrorMessage, setReviewErrorMessage] = useState('');

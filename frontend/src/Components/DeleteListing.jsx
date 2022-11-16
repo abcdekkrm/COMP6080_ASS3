@@ -2,10 +2,23 @@ import React, { useState } from 'react';
 import Config from '../config.json';
 import PropTypes from 'prop-types';
 import { Button, Paper } from '@mui/material';
+import { useMediaQuery } from 'react-responsive';
 
 const DeleteListing = ({ id, closeDeletePopup }) => {
+  const isMobile = useMediaQuery({ query: '(max-width: 400px)' });
+
   const token = localStorage.getItem('token');
   const [errorMessage, setErrorMessage] = useState('');
+
+  const MobileDeleteStyle = {
+    position: 'absolute',
+    width: '80%',
+    height: '40%',
+    top: '30%',
+    left: '10%',
+    backgroundColor: 'rgb(255, 255, 255)',
+    yIndex: '1000000'
+  };
 
   const deleteStyle = {
     position: 'absolute',
@@ -43,14 +56,28 @@ const DeleteListing = ({ id, closeDeletePopup }) => {
 
   return (
     <>
-      {errorMessage && <div className='error' style={{ color: 'red' }}> {errorMessage} </div>}
-      <div className="popup-container">
-      <Paper className="popup-body" style = {deleteStyle}>
-        <Button onClick={closeDeletePopup}>&times;</Button>
-        <h1>Are you sure you want to delete?</h1>
-        <Button onClick={handleDelete} >DELETE</Button>
-      </Paper>
-      </div>
+      {isMobile
+        ? <>
+          {errorMessage && <div className='error' style={{ color: 'red' }}> {errorMessage} </div>}
+          <div className="popup-container">
+          <Paper className="popup-body" style = {MobileDeleteStyle}>
+            <Button onClick={closeDeletePopup}>&times;</Button>
+            <h1>Are you sure you want to delete?</h1>
+            <Button onClick={handleDelete} >DELETE</Button>
+          </Paper>
+          </div>
+          </>
+        : <>
+          {errorMessage && <div className='error' style={{ color: 'red' }}> {errorMessage} </div>}
+          <div className="popup-container">
+          <Paper className="popup-body" style = {deleteStyle}>
+            <Button onClick={closeDeletePopup}>&times;</Button>
+            <h1>Are you sure you want to delete?</h1>
+            <Button onClick={handleDelete} >DELETE</Button>
+          </Paper>
+          </div>
+          </>
+      }
     </>
   )
 }

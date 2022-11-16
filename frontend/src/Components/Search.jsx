@@ -7,8 +7,11 @@ import DiscreteSliderLabel from './Slider';
 import BasicDateRangePicker from './DateRangePicker';
 import * as ReactDOM from 'react-dom';
 import Listings from '../Screens/Listings';
+import { useMediaQuery } from 'react-responsive'
 
 function Search () {
+  const isMobile = useMediaQuery({ query: '(max-width: 400px)' });
+
   const [search, setSearch] = useState('');
   const [min, setMin] = useState('0');
   const [max, setMax] = useState('99999999');
@@ -62,21 +65,38 @@ function Search () {
     <>
     <div className="search-body">
     <h3 style={{ color: 'black' }}>Find your perfect homestay today.</h3>
-    <TextField
-      id="outlined-basic"
-      variant="outlined"
-      type="text"
-      placeholder="Start searching ..."
-      inputProps={{
-        style: {
-          padding: 5,
-          width: '20vw',
-        }
-      }}
-      style= {{ marginTop: '10%' }}
-      onChange={handleSearchChange}
-      value={search}
-    />
+    {isMobile
+      ? <TextField
+          id="outlined-basic"
+          variant="outlined"
+          type="text"
+          placeholder="Start searching ..."
+          inputProps={{
+            style: {
+              padding: 5,
+              width: '80vw',
+            }
+          }}
+          style= {{ marginTop: '10%' }}
+          onChange={handleSearchChange}
+          value={search}
+        />
+      : <TextField
+          id="outlined-basic"
+          variant="outlined"
+          type="text"
+          placeholder="Start searching ..."
+          inputProps={{
+            style: {
+              padding: 5,
+              width: '20vw',
+            }
+          }}
+          style= {{ marginTop: '10%' }}
+          onChange={handleSearchChange}
+          value={search}
+        />
+    }
     <span>
       <Button type="submit" onClick={searchHandler}>Search</Button>
       <Button onClick={clearHandler}>Clear</Button>
@@ -100,34 +120,68 @@ function Search () {
     <div id='price-range' style={{ width: '80%', margin: 'auto' }} >
       <p>Filter by Price</p>
       <span>
-        <TextField
-        id="outlined-basic"
-        variant="outlined"
-        type="text"
-        inputProps={{
-          style: {
-            width: '5vw',
-          }
-        }}
-        style= {{ margin: 'auto', marginRight: '5%' }}
-        label="min"
-        onChange={handleMinChange}
-        value={min}
-      />
-      <TextField
-        id="outlined-basic"
-        variant="outlined"
-        type="text"
-        inputProps={{
-          style: {
-            width: '5vw',
-          }
-        }}
-        style= {{ margin: 'auto', marginLeft: '5%' }}
-        label="max"
-        onChange={handleMaxChange}
-        value={max}
-      />
+        {isMobile
+          ? <>
+            <TextField
+              id="outlined-basic"
+              variant="outlined"
+              type="text"
+              inputProps={{
+                style: {
+                  width: '20vw',
+                }
+              }}
+              style= {{ margin: 'auto', marginRight: '5%' }}
+              label="min"
+              onChange={handleMinChange}
+              value={min}
+            />
+            <TextField
+              id="outlined-basic"
+              variant="outlined"
+              type="text"
+              inputProps={{
+                style: {
+                  width: '20vw',
+                }
+              }}
+              style= {{ margin: 'auto', marginLeft: '5%' }}
+              label="max"
+              onChange={handleMaxChange}
+              value={max}
+            />
+            </>
+          : <>
+            <TextField
+              id="outlined-basic"
+              variant="outlined"
+              type="text"
+              inputProps={{
+                style: {
+                  width: '5vw',
+                }
+              }}
+              style= {{ margin: 'auto', marginRight: '5%' }}
+              label="min"
+              onChange={handleMinChange}
+              value={min}
+            />
+            <TextField
+              id="outlined-basic"
+              variant="outlined"
+              type="text"
+              inputProps={{
+                style: {
+                  width: '5vw',
+                }
+              }}
+              style= {{ margin: 'auto', marginLeft: '5%' }}
+              label="max"
+              onChange={handleMaxChange}
+              value={max}
+            />
+            </>
+      }
     </span>
     <span>
       <Button type="submit" onClick={priceHandler}>Apply</Button>
