@@ -7,6 +7,7 @@ import DeleteListing from '../Components/DeleteListing';
 import InfoIcon from '@mui/icons-material/Info';
 import SimplePopup from '../Components/SimplePopup';
 import { Paper } from '@mui/material';
+import DateRangeSelect from '../Components/DateRangeSelect';
 
 function UserListings () {
   const [listings, setListings] = useState([]);
@@ -16,6 +17,7 @@ function UserListings () {
   const [errorMessage, setErrorMessage] = useState('');
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [open, setOpen] = useState(false);
+  const [selectDateOpen, setSelectDateOpen] = useState(false);
 
   useEffect(() => {
     getListings();
@@ -51,7 +53,9 @@ function UserListings () {
     window.location.href = '/Edit-Listing';
   }
   const handlePublishing = (id) => {
+    localStorage.setItem('listingId', id);
     console.log(id);
+    setSelectDateOpen(true);
   }
 
   const handleInfoClick = () => {
@@ -155,6 +159,7 @@ function UserListings () {
         </div>
       </div>
       {deleteOpen ? <DeleteListing id={listingId} closeDeletePopup={() => setDeleteOpen(false)} /> : null}
+      {selectDateOpen ? <DateRangeSelect closeDate={() => setSelectDateOpen(false)} listingId={listingId}/> : null}
       {open
         ? <SimplePopup
           text={'Address: ' + address + '\n' + 'Number of beds: ' + beds + '\n' + 'Number of bathrooms: ' + baths}
