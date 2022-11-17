@@ -4,6 +4,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PublicOutlinedIcon from '@mui/icons-material/PublicOutlined';
 import PublicOffRoundedIcon from '@mui/icons-material/PublicOffRounded';
+import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
 import DeleteListing from '../Components/DeleteListing';
 import InfoIcon from '@mui/icons-material/Info';
 import SimplePopup from '../Components/SimplePopup';
@@ -88,6 +89,10 @@ function UserListings () {
   }
   const handleInfoClick = () => {
     setOpen(true);
+  }
+  const handleManageListing = (id) => {
+    localStorage.setItem('listingId', id);
+    window.location.href = '/Manage-Listing';
   }
 
   function getListings () {
@@ -182,6 +187,9 @@ function UserListings () {
                         <Tooltip title="More Information">
                           <InfoIcon onMouseOver={() => getListingDetails(listing.id)} onClick={handleInfoClick} style={{ cursor: 'pointer' }}/>
                         </Tooltip>
+                        <Tooltip title="ViewBooking">
+                          <ListAltOutlinedIcon style={{ marginTop: '40%', cursor: 'pointer' }}/>
+                        </Tooltip>
                         <br/>
                         <Tooltip title="Publish">
                           <PublicOutlinedIcon onClick={() => handlePublishing(listing.id)} style={{ cursor: 'pointer' }} />
@@ -209,6 +217,9 @@ function UserListings () {
                         <Tooltip title="More Information">
                           <InfoIcon onMouseOver={() => getListingDetails(listing.id)} onClick={handleInfoClick} style={{ cursor: 'pointer' }}/>
                         </Tooltip>
+                        <Tooltip title="ViewBooking">
+                          <ListAltOutlinedIcon onClick={() => handleManageListing(listing.id)} style={{ marginTop: '40%', cursor: 'pointer' }}/>
+                        </Tooltip>
                         <br/>
                         <Tooltip title="Publish">
                           <PublicOutlinedIcon onClick={() => handlePublishing(listing.id)} style={{ cursor: 'pointer' }} />
@@ -222,6 +233,7 @@ function UserListings () {
                         <Tooltip title="Delete">
                           <DeleteIcon onClick={() => handleClick(listing.id)} style={{ color: 'red', cursor: 'pointer' }}/>
                         </Tooltip>
+
                         </Paper>
                       </>
                     : <p style={{ marginLeft: 'auto', marginRight: 'auto' }}>You don&apos;t have any listings yet!</p>}
