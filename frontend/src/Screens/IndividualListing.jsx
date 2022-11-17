@@ -11,6 +11,7 @@ import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 // import { useMediaQuery } from 'react-responsive'
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
+import ImagePopup from '../Components/ImagePopup';
 
 function IndividualListing () {
   // const isMobile = useMediaQuery({ query: '(max-width: 400px)' });
@@ -29,6 +30,8 @@ function IndividualListing () {
   const [baths, setBath] = useState('');
   const [amenities, setAmenities] = useState([]);
   const [open, setOpen] = useState(false);
+  const [imgOpen, setImgOpen] = useState(false);
+  const [img, setImg] = useState('');
 
   const [dateValue, setDateValue] = React.useState([null, null]);
   const [starValue, setStarValue] = React.useState(0);
@@ -109,6 +112,11 @@ function IndividualListing () {
       });
   }
 
+  const handleImgClick = (img) => {
+    setImgOpen(true);
+    setImg(img);
+  }
+
   const handleBookSubmit = () => {
     const token = localStorage.getItem('token');
     const id = localStorage.getItem('listingId');
@@ -186,12 +194,12 @@ function IndividualListing () {
       {errorMessage && <div className='error' style={{ color: 'red' }}> {errorMessage} </div>}
       <h1>{title}</h1>
       <div style={{ display: 'flex', }}>
-      <img src={thumbnail} style={{ height: '50vh', width: 'auto', borderRadius: '1vw' }}/>
+      <img src={thumbnail} style={{ height: '50vh', width: 'auto', borderRadius: '1vw', cursor: 'pointer' }} onClick={() => handleImgClick(thumbnail)}/>
         <ImageList sx={{ width: 'auto', height: '50vh', marginTop: '-0.1%', marginLeft: '1%' }} variant="masonry" cols={3} gap={8}>
           {imgs?.map((img, index) => {
             return (
               <ImageListItem key={index}>
-                <img src={img} style={{ borderRadius: '1vw' }}></img>
+                <img src={img} style={{ borderRadius: '1vw', cursor: 'pointer' }} onClick={() => handleImgClick(img)} ></img>
               </ImageListItem>
             )
           })}
@@ -246,6 +254,27 @@ function IndividualListing () {
         <Button onClick={handleReviewSubmit}>Submit review</Button>
       </Box>
     </div>
+    {imgOpen
+      ? <ImagePopup
+        sx={{
+          width: 300,
+          '& .popup-container': {
+            height: '80%',
+            width: '80%',
+            position: 'absolute',
+            left: '1%',
+            top: '1%',
+            zIndex: '1000',
+            padding: '1vw',
+          },
+        }}
+        text={
+          <img src={img} style= {{ height: '100vh' }}></img>
+        }
+        closePopup={() => setImgOpen(false)}
+        />
+      : null
+    }
     {open
       ? <SimplePopup
         text={

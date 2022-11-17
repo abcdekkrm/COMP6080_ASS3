@@ -17,6 +17,7 @@ function UserListings () {
   const isMobile = useMediaQuery({ query: '(max-width: 400px)' });
 
   const [listings, setListings] = useState([]);
+  const [listingType, setListingType] = useState('');
   const [address, setAddress] = useState('');
   const [beds, setBeds] = useState('');
   const [baths, setBath] = useState('');
@@ -158,6 +159,13 @@ function UserListings () {
         } else {
           setBath('No bathrooms listed.')
         }
+
+        const listingType = metaData.listingType;
+        if (!isNaN(listingType)) {
+          setListingType(listingType);
+        } else {
+          setListingType('Property type not listed.')
+        }
       });
   }
 
@@ -236,7 +244,7 @@ function UserListings () {
       {removeLive ? <UnPublishing closePopUp={() => setRemoveLive(false)} listingId={listingId}/> : null}
       {open
         ? <SimplePopup
-          text={'Address: ' + address + '\n' + 'Number of beds: ' + beds + '\n' + 'Number of bathrooms: ' + baths }
+          text={'Address: ' + address + '\n' + 'Property type: ' + listingType + '\n' + 'Number of beds: ' + beds + '\n' + 'Number of bathrooms: ' + baths }
           closePopup={() => setOpen(false)}
           />
         : null}
