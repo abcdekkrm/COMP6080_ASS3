@@ -12,7 +12,6 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
-// import DeleteIcon from '@mui/icons-material/Delete';
 import HolidayVillageOutlinedIcon from '@mui/icons-material/HolidayVillageOutlined';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import PublicOutlinedIcon from '@mui/icons-material/PublicOutlined';
@@ -29,9 +28,7 @@ const HostingBookingManage = () => {
   const useStyles = makeStyles({
     popup_syles: {
       background: 'white',
-      // border: '1px solid #ccc',
       height: '92vh',
-      // width: '100vw',
       padding: '1vw',
       zIndex: '1200px',
     },
@@ -73,7 +70,6 @@ const HostingBookingManage = () => {
   const [dateRange, setRange] = React.useState('');
   const [requirements, setRequire] = React.useState();
   const [tabIndex, setTabIndex] = useState(0);
-  // const [accept, setAccept] = React.useState(false);
   let profit = 0;
   let nights = 0;
   const handleTabChange = (event, newTabIndex) => {
@@ -99,7 +95,6 @@ const HostingBookingManage = () => {
       setRange(new Date().getDate() - new Date(data.listing.postedOn).getDate() + 1);
       console.log('hi');
     }
-    // listing = data.listing;
   }
   const getBooking = async () => {
     const response = await fetch(`http://localhost:${Config.BACKEND_PORT}/bookings`,
@@ -181,7 +176,7 @@ const HostingBookingManage = () => {
             )
           })}
           <Typography variant="body1" gutterBottom className={classes.statistics}>
-            <BedtimeOutlinedIcon /> {new Date().getFullYear()} total hosting {nights} nights
+            <BedtimeOutlinedIcon /> {new Date().getFullYear()} total booking {nights} nights
           </Typography>
           <Typography variant="body1" gutterBottom className={classes.statistics}>
             <AttachMoneyOutlinedIcon /> {new Date().getFullYear()} total profit ${profit}
@@ -241,25 +236,9 @@ const HostingBookingManage = () => {
                     console.log(booking);
                     console.log(booking.dateRange[0]);
                     if (booking.listingId === listingId && booking.status !== 'pending') {
-                      // if (booking.status === 'accept') {
-                      //   setAccept(true);
-                      // } else {
-                      //   setAccept(false);
-                      // }
                       return (
                         <ListItem
                           key={pos}
-                          secondaryAction={
-                            <IconButton edge="end" aria-label="Manage">
-                              {/* {accept
-                                ? <CheckOutlinedIcon
-                                  onClick={() => acceptBooking(booking.id, pos)} style={{ color: 'green', cursor: 'pointer' }}
-                                />
-                                : <ClearOutlinedIcon
-                                  onClick={() => declineBooking(booking.id, pos)} style={{ color: 'red', cursor: 'pointer' }}
-                                />} */}
-                            </IconButton>
-                          }
                         >
                         <ListItemAvatar>
                           <Avatar>
