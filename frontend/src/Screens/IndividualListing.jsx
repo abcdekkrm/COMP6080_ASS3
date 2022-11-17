@@ -9,8 +9,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers-pro';
 import { AdapterDayjs } from '@mui/x-date-pickers-pro/AdapterDayjs';
 import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 // import { useMediaQuery } from 'react-responsive'
-// import ImageList from '@mui/material/ImageList';
-// import ImageListItem from '@mui/material/ImageListItem';
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
 
 function IndividualListing () {
   // const isMobile = useMediaQuery({ query: '(max-width: 400px)' });
@@ -21,7 +21,7 @@ function IndividualListing () {
 
   const [title, setTitle] = useState('');
   const [thumbnail, setThumbnail] = useState('');
-  // const [imgs, setImgs] = useState([]);
+  const [imgs, setImgs] = useState();
   const [address, setAddress] = useState('');
   const [price, setPrice] = useState('');
   const [beds, setBeds] = useState('');
@@ -64,7 +64,9 @@ function IndividualListing () {
 
         setThumbnail(data.listing.thumbnail);
 
-        // setImgs(data.listing.imgArr);
+        setImgs(data.listing.metadata.imgArr);
+
+        console.log(data.listing.metadata.imgArr);
 
         const addressDict = data.listing.address;
         if (Object.keys(addressDict).length > 0) {
@@ -183,21 +185,18 @@ function IndividualListing () {
     <div style={{ padding: '0 10% 0 10%' }}>
       {errorMessage && <div className='error' style={{ color: 'red' }}> {errorMessage} </div>}
       <h1>{title}</h1>
-      <span>
+      <div style={{ display: 'flex', }}>
       <img src={thumbnail} style={{ height: '50vh', width: 'auto', borderRadius: '1vw' }}/>
-        {/* <ImageList sx={{ width: '10vw', height: '10vh' }} cols={3} rowHeight={'10vh'}>
-          {imgs?.map((item) => (
-            <ImageListItem key='imgId'>
-              <img
-                src={`${item}?w=164&h=164&fit=crop&auto=format`}
-                srcSet={`${item}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                alt=''
-                loading="lazy"
-              />
-            </ImageListItem>
-          ))}
-        </ImageList> */}
-      </span>
+        <ImageList sx={{ width: 'auto', height: '50vh', marginTop: '-0.1%', marginLeft: '1%' }} variant="masonry" cols={3} gap={8}>
+          {imgs?.map((img, index) => {
+            return (
+              <ImageListItem key={index}>
+                <img src={img} style={{ borderRadius: '1vw' }}></img>
+              </ImageListItem>
+            )
+          })}
+        </ImageList>
+      </div>
       <div style={{ lineHeight: '15%' }}>
         <div style={{ display: 'flex', marginBottom: '5%' }}>
           <div>
@@ -214,8 +213,8 @@ function IndividualListing () {
         <p style={{ fontWeight: 'bold' }}>Amenities:</p>
       </div>
       {amenities ? null : <p>No amenities listed.</p>}
-      {amenities?.map(amenity => (
-        <Paper className='card' key='id' style={{ width: '20%' }}>
+      {amenities?.map((amenity, index) => (
+        <Paper className='card' key={index} style={{ width: '20%' }}>
         <p>{amenity}</p>
         </Paper>
       ))}

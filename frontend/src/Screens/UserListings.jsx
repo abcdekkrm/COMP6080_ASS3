@@ -169,13 +169,13 @@ function UserListings () {
       <div>
         {errorMessage && <div className='error' style={{ color: 'red' }}> {errorMessage} </div>}
         <div className='item-container' style={containerStyle}>
-          {listings?.map(listing => (
+          {listings?.map((listing, index) => (
             <>
             {isMobile
               ? <>
-                <Paper className='card' key={listing.id} style={mobileCardStyle}>
                   {(listing.owner === email)
                     ? <>
+                        <Paper className='card' key={index} style={mobileCardStyle}>
                         <img src={listing.thumbnail} alt='' style={mobileThumbnailStyle} onClick={() => handleView(listing.id)}/>
                         <h3>{listing.title}</h3>
                         <p>${listing.price}/night</p>
@@ -186,20 +186,23 @@ function UserListings () {
                         <Tooltip title="Publish">
                           <PublicOutlinedIcon onClick={() => handlePublishing(listing.id)} style={{ cursor: 'pointer' }} />
                         </Tooltip>
+                        <Tooltip title="UnPublish">
+                          <PublicOffRoundedIcon onClick={() => handleUnPublishing(listing.id)} style={{ cursor: 'pointer' }} />
+                        </Tooltip>
                         <Tooltip title="Edit">
                           <EditIcon onClick={() => handleOpenEdit(listing.id)} style={{ marginTop: '40%', cursor: 'pointer' }}/>
                         </Tooltip>
                         <Tooltip title="Delete">
                           <DeleteIcon onClick={() => handleClick(listing.id)} style={{ color: 'red', cursor: 'pointer' }}/>
                         </Tooltip>
+                        </Paper>
                       </>
-                    : null}
-                </Paper>
+                    : <p style={{ marginLeft: 'auto', marginRight: 'auto' }}>You don&apos;t have any listings yet!</p>}
                 </>
               : <>
-                <Paper className='card' key={listing.id} style={cardStyle}>
                   {(listing.owner === email)
                     ? <>
+                        <Paper className='card' key={index} style={cardStyle}>
                         <img src={listing.thumbnail} alt='' style={thumbnailStyle} onClick={() => handleView(listing.id)}/>
                         <h3>{listing.title}</h3>
                         <p>${listing.price}/night</p>
@@ -219,9 +222,9 @@ function UserListings () {
                         <Tooltip title="Delete">
                           <DeleteIcon onClick={() => handleClick(listing.id)} style={{ color: 'red', cursor: 'pointer' }}/>
                         </Tooltip>
+                        </Paper>
                       </>
-                    : null}
-                </Paper>
+                    : <p style={{ marginLeft: 'auto', marginRight: 'auto' }}>You don&apos;t have any listings yet!</p>}
                 </>
             }
             </>

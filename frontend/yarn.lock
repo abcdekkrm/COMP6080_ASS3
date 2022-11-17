@@ -1202,13 +1202,11 @@
 
 "@date-io/core@^2.15.0", "@date-io/core@^2.16.0":
   version "2.16.0"
-  resolved "https://registry.npmjs.org/@date-io/core/-/core-2.16.0.tgz"
   resolved "https://registry.yarnpkg.com/@date-io/core/-/core-2.16.0.tgz#7871bfc1d9bca9aa35ad444a239505589d0f22f6"
   integrity sha512-DYmSzkr+jToahwWrsiRA2/pzMEtz9Bq1euJwoOuYwuwIYXnZFtHajY2E6a1VNVDc9jP8YUXK1BvnZH9mmT19Zg==
 
 "@date-io/date-fns@^2.15.0":
   version "2.16.0"
-  resolved "https://registry.npmjs.org/@date-io/date-fns/-/date-fns-2.16.0.tgz"
   resolved "https://registry.yarnpkg.com/@date-io/date-fns/-/date-fns-2.16.0.tgz#bd5e09b6ecb47ee55e593fc3a87e7b2caaa3da40"
   integrity sha512-bfm5FJjucqlrnQcXDVU5RD+nlGmL3iWgkHTq3uAZWVIuBu6dDmGa3m8a6zo2VQQpu8ambq9H22UyUpn7590joA==
   dependencies:
@@ -1216,7 +1214,6 @@
 
 "@date-io/dayjs@^2.15.0":
   version "2.16.0"
-  resolved "https://registry.npmjs.org/@date-io/dayjs/-/dayjs-2.16.0.tgz"
   resolved "https://registry.yarnpkg.com/@date-io/dayjs/-/dayjs-2.16.0.tgz#0d2c254ad8db1306fdc4b8eda197cb53c9af89dc"
   integrity sha512-y5qKyX2j/HG3zMvIxTobYZRGnd1FUW2olZLS0vTj7bEkBQkjd2RO7/FEwDY03Z1geVGlXKnzIATEVBVaGzV4Iw==
   dependencies:
@@ -1224,7 +1221,6 @@
 
 "@date-io/luxon@^2.15.0":
   version "2.16.1"
-  resolved "https://registry.npmjs.org/@date-io/luxon/-/luxon-2.16.1.tgz"
   resolved "https://registry.yarnpkg.com/@date-io/luxon/-/luxon-2.16.1.tgz#b08786614cb58831c729a15807753011e4acb966"
   integrity sha512-aeYp5K9PSHV28946pC+9UKUi/xMMYoaGelrpDibZSgHu2VWHXrr7zWLEr+pMPThSs5vt8Ei365PO+84pCm37WQ==
   dependencies:
@@ -1232,7 +1228,6 @@
 
 "@date-io/moment@^2.15.0":
   version "2.16.1"
-  resolved "https://registry.npmjs.org/@date-io/moment/-/moment-2.16.1.tgz"
   resolved "https://registry.yarnpkg.com/@date-io/moment/-/moment-2.16.1.tgz#ec6e0daa486871e0e6412036c6f806842a0eeed4"
   integrity sha512-JkxldQxUqZBfZtsaCcCMkm/dmytdyq5pS1RxshCQ4fHhsvP5A7gSqPD22QbVXMcJydi3d3v1Y8BQdUKEuGACZQ==
   dependencies:
@@ -1967,7 +1962,6 @@
   resolved "https://registry.npmjs.org/@mui/types/-/types-7.2.0.tgz"
   integrity sha512-lGXtFKe5lp3UxTBGqKI1l7G8sE2xBik8qCfrLHD5olwP/YU0/ReWoWT7Lp1//ri32dK39oPMrJN8TgbkCSbsNA==
 
-"@mui/utils@^5.10.3", "@mui/utils@^5.10.9":
 "@mui/utils@^5.10.3", "@mui/utils@^5.10.9", "@mui/utils@^5.9.3":
   version "5.10.9"
   resolved "https://registry.npmjs.org/@mui/utils/-/utils-5.10.9.tgz"
@@ -1979,10 +1973,6 @@
     prop-types "^15.8.1"
     react-is "^18.2.0"
 
-"@mui/x-date-pickers-pro@^5.0.8":
-  version "5.0.8"
-  resolved "https://registry.npmjs.org/@mui/x-date-pickers-pro/-/x-date-pickers-pro-5.0.8.tgz"
-  integrity sha512-B3r8ZmCelPZA1jIzUtbu0JYz8Ap3MU5LVupwUc26iUFLeXRD5ujsTsZX3lnNlWK+Uw7tPKABIFVZA3YyUmYPMw==
 "@mui/x-date-pickers-pro@^5.0.7":
   version "5.0.7"
   resolved "https://registry.yarnpkg.com/@mui/x-date-pickers-pro/-/x-date-pickers-pro-5.0.7.tgz#f3e0aff45ca5b496b60226efff36f54c11a09364"
@@ -1994,8 +1984,6 @@
     "@date-io/luxon" "^2.15.0"
     "@date-io/moment" "^2.15.0"
     "@mui/utils" "^5.10.3"
-    "@mui/x-date-pickers" "5.0.8"
-    "@mui/x-license-pro" "5.17.11"
     "@mui/x-date-pickers" "5.0.7"
     "@mui/x-license-pro" "5.17.0"
     clsx "^1.2.1"
@@ -2003,10 +1991,6 @@
     react-transition-group "^4.4.5"
     rifm "^0.12.1"
 
-"@mui/x-date-pickers@5.0.8", "@mui/x-date-pickers@^5.0.8":
-  version "5.0.8"
-  resolved "https://registry.npmjs.org/@mui/x-date-pickers/-/x-date-pickers-5.0.8.tgz"
-  integrity sha512-L+9WOyoxIPxj86dk4G/zyVsiakQjBX0MJTIPMNSRitxFi4I6T8KlasdpGUHfnni/EAjqR36w0d/BDwCjc/7gPQ==
 "@mui/x-date-pickers@5.0.7":
   version "5.0.7"
   resolved "https://registry.yarnpkg.com/@mui/x-date-pickers/-/x-date-pickers-5.0.7.tgz#02f0b86cb463ecf38a7c0e1b925ab9f42a39919f"
@@ -2025,13 +2009,24 @@
     react-transition-group "^4.4.5"
     rifm "^0.12.1"
 
-"@mui/x-license-pro@5.17.11":
-  version "5.17.11"
-  resolved "https://registry.npmjs.org/@mui/x-license-pro/-/x-license-pro-5.17.11.tgz"
-  integrity sha512-Eu5ECjxDK5wyQEqMpTX3BwKqEGtwfdNyqH7mE+4sXt/75ALO41vzOv/6z3EoKVh7Lz32pnVV797wrOOBdmUrwA==
+"@mui/x-date-pickers@^5.0.8":
+  version "5.0.8"
+  resolved "https://registry.npmjs.org/@mui/x-date-pickers/-/x-date-pickers-5.0.8.tgz"
+  integrity sha512-L+9WOyoxIPxj86dk4G/zyVsiakQjBX0MJTIPMNSRitxFi4I6T8KlasdpGUHfnni/EAjqR36w0d/BDwCjc/7gPQ==
   dependencies:
     "@babel/runtime" "^7.18.9"
+    "@date-io/core" "^2.15.0"
+    "@date-io/date-fns" "^2.15.0"
+    "@date-io/dayjs" "^2.15.0"
+    "@date-io/luxon" "^2.15.0"
+    "@date-io/moment" "^2.15.0"
     "@mui/utils" "^5.10.3"
+    "@types/react-transition-group" "^4.4.5"
+    clsx "^1.2.1"
+    prop-types "^15.7.2"
+    react-transition-group "^4.4.5"
+    rifm "^0.12.1"
+
 "@mui/x-license-pro@5.17.0":
   version "5.17.0"
   resolved "https://registry.yarnpkg.com/@mui/x-license-pro/-/x-license-pro-5.17.0.tgz#c8c0749d2f3b58b562656e0b447b1b3375b880d5"
@@ -4090,9 +4085,6 @@ date-fns@^2.24.0:
   resolved "https://registry.npmjs.org/date-fns/-/date-fns-2.29.3.tgz"
   integrity sha512-dDCnyH2WnnKusqvZZ6+jA1O51Ibt8ZMRNkDZdyAyK4YfbDwa/cEmuztzG5pk6hqlp9aSBPYcjOlktquahGwGeA==
 
-dayjs@^1.11.6:
-  version "1.11.6"
-  resolved "https://registry.npmjs.org/dayjs/-/dayjs-1.11.6.tgz"
 dayjs@^1.11.6:
   version "1.11.6"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.6.tgz#2e79a226314ec3ec904e3ee1dd5a4f5e5b1c7afb"
@@ -7954,8 +7946,7 @@ prompts@^2.0.1, prompts@^2.4.2:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@15, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
-prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
+prop-types@15, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -8052,7 +8043,7 @@ react-app-polyfill@^3.0.0:
 
 react-date-range@^1.4.0:
   version "1.4.0"
-  resolved "https://registry.npmjs.org/react-date-range/-/react-date-range-1.4.0.tgz"
+  resolved "https://registry.yarnpkg.com/react-date-range/-/react-date-range-1.4.0.tgz#d2073b85bdb4185e4dde288ce29198dd90074045"
   integrity sha512-+9t0HyClbCqw1IhYbpWecjsiaftCeRN5cdhsi9v06YdimwyMR2yYHWcgVn3URwtN/txhqKpEZB6UX1fHpvK76w==
   dependencies:
     classnames "^2.2.6"
@@ -8469,7 +8460,6 @@ reusify@^1.0.4:
 
 rifm@^0.12.1:
   version "0.12.1"
-  resolved "https://registry.npmjs.org/rifm/-/rifm-0.12.1.tgz"
   resolved "https://registry.yarnpkg.com/rifm/-/rifm-0.12.1.tgz#8fa77f45b7f1cda2a0068787ac821f0593967ac4"
   integrity sha512-OGA1Bitg/dSJtI/c4dh90svzaUPt228kzFsUkJbtA2c964IqEAwWXeL9ZJi86xWv3j5SMqRvGULl7bA6cK0Bvg==
 
@@ -8681,7 +8671,6 @@ setprototypeof@1.2.0:
 
 shallow-equal@^1.2.1:
   version "1.2.1"
-  resolved "https://registry.npmjs.org/shallow-equal/-/shallow-equal-1.2.1.tgz"
   resolved "https://registry.yarnpkg.com/shallow-equal/-/shallow-equal-1.2.1.tgz#4c16abfa56043aa20d050324efa68940b0da79da"
   integrity sha512-S4vJDjHHMBaiZuT9NPb616CSmLf618jawtv3sufLl6ivK8WocjAo58cXwbRV1cgqxH0Qbv+iUt6m05eqEa2IRA==
 
