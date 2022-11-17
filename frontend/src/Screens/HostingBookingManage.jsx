@@ -181,10 +181,12 @@ const HostingBookingManage = () => {
           <Typography variant="body1" gutterBottom className={classes.statistics}>
             <AttachMoneyOutlinedIcon /> {new Date().getFullYear()} total profit ${profit}
           </Typography>
-          <Tabs aria-label="basic tabs example" onChange={handleTabChange}>
-            <Tab label="Pending Booking Requests" />
-            <Tab label="Booking History" />
-          </Tabs>
+          <Box>
+            <Tabs value={tabIndex} aria-label="basic tabs example" onChange={handleTabChange} centered>
+              <Tab label="Pending Booking Requests" />
+              <Tab label="Booking History" />
+            </Tabs>
+          </Box>
           {tabIndex === 0 && (
             <Box>
               <div>
