@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Config from '../config.json';
 import { Paper, Button, Divider, Rating } from '@mui/material';
-// import BasicDateRangePicker from '../Components/DateRangePicker';
 import SimplePopup from '../Components/SimplePopup';
 import Reviews from '../Components/Reviews';
 import TextField from '@mui/material/TextField';
@@ -9,15 +8,14 @@ import Box from '@mui/material/Box';
 import { LocalizationProvider } from '@mui/x-date-pickers-pro';
 import { AdapterDayjs } from '@mui/x-date-pickers-pro/AdapterDayjs';
 import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
-// import { useMediaQuery } from 'react-responsive'
+import { useMediaQuery } from 'react-responsive'
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImagePopup from '../Components/ImagePopup';
 import * as ReactDOM from 'react-dom';
 
 function IndividualListing () {
-  // const isMobile = useMediaQuery({ query: '(max-width: 400px)' });
-  // localStorage.setItem('bookingId', 'none');
+  const isMobile = useMediaQuery({ query: '(max-width: 400px)' });
 
   const [errorMessage, setErrorMessage] = useState('');
   const [bookErrorMessage, setBookErrorMessage] = useState('');
@@ -246,31 +244,66 @@ function IndividualListing () {
       {errorMessage && <div className='error' style={{ color: 'red' }}> {errorMessage} </div>}
       <h1>{title}</h1>
       <div style={{ display: 'flex', }}>
-      <img src={thumbnail} style={{ height: '50vh', width: 'auto', borderRadius: '1vw', cursor: 'pointer' }} onClick={() => handleImgClick(thumbnail)}/>
-        <ImageList sx={{ width: 'auto', height: '50vh', marginTop: '-0.1%', marginLeft: '1%' }} variant="masonry" cols={3} gap={8}>
-          {imgs?.map((img, index) => {
-            return (
-              <ImageListItem key={index}>
-                <img src={img} style={{ borderRadius: '1vw', cursor: 'pointer' }} onClick={() => handleImgClick(img)} ></img>
-              </ImageListItem>
-            )
-          })}
-        </ImageList>
+      {isMobile
+        ? <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <img src={thumbnail} style={{ height: '30vh', width: 'auto', marginBottom: '1%', borderRadius: '1vw', cursor: 'pointer' }} onClick={() => handleImgClick(thumbnail)}/>
+          <ImageList sx={{ display: 'block', width: 'auto', height: '10vh', marginTop: '-0.1%', marginLeft: '1%' }} variant="masonry" cols={3} gap={8}>
+            {imgs?.map((img, index) => {
+              return (
+                <ImageListItem key={index} sx={{ display: 'block' }}>
+                  <img src={img} style={{ height: '10vh', borderRadius: '1vw', cursor: 'pointer' }} onClick={() => handleImgClick(img)} ></img>
+                </ImageListItem>
+              )
+            })}
+          </ImageList>
+          </div>
+        : <>
+          <img src={thumbnail} style={{ height: '50vh', width: 'auto', borderRadius: '1vw', cursor: 'pointer' }} onClick={() => handleImgClick(thumbnail)}/>
+          <ImageList sx={{ width: 'auto', height: '50vh', marginTop: '-0.1%', marginLeft: '1%' }} variant="masonry" cols={3} gap={8}>
+            {imgs?.map((img, index) => {
+              return (
+                <ImageListItem key={index}>
+                  <img src={img} style={{ borderRadius: '1vw', cursor: 'pointer' }} onClick={() => handleImgClick(img)} ></img>
+                </ImageListItem>
+              )
+            })}
+          </ImageList>
+          </>
+      }
       </div>
       <div style={{ lineHeight: '15%' }}>
-        <div style={{ display: 'flex', marginBottom: '5%' }}>
-          <div>
-            <p style={{ fontWeight: 'bold' }}>{address}</p>
-            <p style={{ marginBottom: '5%', fontWeight: 'bold' }}>${price} /night</p>
-          </div>
-          <Rating
-            style={{ marginLeft: '10%', marginTop: '1.1%' }}
-            readOnly
-            value={score}
-          />
-          <br/>
-          <Button onClick={handleBookClick}>Book</Button>
-        </div>
+        {isMobile
+          ? <>
+            <div style={{ marginBottom: '5%', lineHeight: '100%' }}>
+              <div>
+                <p style={{ fontWeight: 'bold' }}>{address}</p>
+                <p style={{ marginBottom: '5%', fontWeight: 'bold' }}>${price} /night</p>
+              </div>
+              <Rating
+                style={{ marginTop: '1.1%' }}
+                readOnly
+                value={score}
+              />
+              <br/>
+              <Button onClick={handleBookClick}>Book</Button>
+            </div>
+            </>
+          : <>
+            <div style={{ display: 'flex', marginBottom: '5%' }}>
+              <div>
+                <p style={{ fontWeight: 'bold' }}>{address}</p>
+                <p style={{ marginBottom: '5%', fontWeight: 'bold' }}>${price} /night</p>
+              </div>
+              <Rating
+                style={{ marginLeft: '10%', marginTop: '1.1%' }}
+                readOnly
+                value={score}
+              />
+              <br/>
+              <Button onClick={handleBookClick}>Book</Button>
+            </div>
+            </>
+        }
         <Divider />
         <p><b>Bedrooms:</b> {bedrooms}</p>
         <p><b>Beds:</b> {beds}</p>
@@ -280,9 +313,20 @@ function IndividualListing () {
       </div>
       {amenities ? null : <p>No amenities listed.</p>}
       {amenities?.map((amenity, index) => (
-        <Paper className='card' key={index} style={{ width: '20%' }}>
-        <p>{amenity}</p>
-        </Paper>
+        <>
+        {isMobile
+          ? <>
+            <Paper className='card' key={index} style={{ width: '80%' }}>
+            <p>{amenity}</p>
+            </Paper>
+            </>
+          : <>
+            <Paper className='card' key={index} style={{ width: '20%' }}>
+            <p>{amenity}</p>
+            </Paper>
+            </>
+        }
+        </>
       ))}
       <Divider />
       <p><b>Reviews</b></p>
