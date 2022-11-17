@@ -189,7 +189,7 @@ const EditListing = () => {
     setTitle(data.listing.title);
     setPrice(data.listing.price);
     setAddress(data.listing.address);
-    setListingType(data.listing.listingType);
+    setListingType(data.listing.metadata.listingType);
     setBath(data.listing.metadata.bathroom);
     setBed(data.listing.metadata.bedroom);
     setSingle(data.listing.metadata.singleBed);
@@ -292,6 +292,7 @@ const EditListing = () => {
             price,
             thumbnail,
             metadata: {
+              listingType,
               amenities,
               bathroom,
               bedroom,

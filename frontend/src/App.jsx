@@ -10,6 +10,7 @@ import Signup from './Screens/Signup';
 import EditListing from './Screens/EditListing';
 import DeleteListing from './Components/DeleteListing';
 import IndividualListing from './Screens/IndividualListing'
+import HostingBookingManage from './Screens/HostingBookingManage'
 
 function App () {
   <Switch>
@@ -22,6 +23,7 @@ function App () {
     <Route exact path="/User-Listings" element={Account} />
     <Route exact path="/Edit-Listing" element={EditListing} />
     <Route exact path="/Edit-Listing" element={DeleteListing} />
+    <Route exact path="/Manage-Listing" element={HostingBookingManage}/>
     <Route exact path="/Listing" element={IndividualListing} />
   </Switch>;
 
@@ -76,6 +78,11 @@ function App () {
       <IndividualListing />
       </>
     );
+  }
+  if (route === '/Manage-Listing') {
+    return (
+      <HostingBookingManage />
+    )
   }
 }
 
