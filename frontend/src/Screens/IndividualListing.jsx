@@ -3,6 +3,7 @@ import Config from '../config.json';
 import { Paper, Button, Divider, Rating } from '@mui/material';
 // import BasicDateRangePicker from '../Components/DateRangePicker';
 import SimplePopup from '../Components/SimplePopup';
+import Reviews from '../Components/Reviews';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import { LocalizationProvider } from '@mui/x-date-pickers-pro';
@@ -12,9 +13,11 @@ import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImagePopup from '../Components/ImagePopup';
+import * as ReactDOM from 'react-dom';
 
 function IndividualListing () {
   // const isMobile = useMediaQuery({ query: '(max-width: 400px)' });
+  // localStorage.setItem('bookingId', 'none');
 
   const [errorMessage, setErrorMessage] = useState('');
   const [bookErrorMessage, setBookErrorMessage] = useState('');
@@ -36,9 +39,11 @@ function IndividualListing () {
   const [dateValue, setDateValue] = React.useState([null, null]);
   const [starValue, setStarValue] = React.useState(0);
   const [commentValue, setCommentValue] = React.useState('');
+  const [score, setScore] = useState(0);
 
   useEffect(() => {
     getListingDetails();
+    getBookingDetails();
   }, []);
 
   function getListingDetails () {
@@ -68,8 +73,6 @@ function IndividualListing () {
         setThumbnail(data.listing.thumbnail);
 
         setImgs(data.listing.metadata.imgArr);
-
-        console.log(data.listing.metadata.imgArr);
 
         const addressDict = data.listing.address;
         if (Object.keys(addressDict).length > 0) {
@@ -109,12 +112,53 @@ function IndividualListing () {
         } else {
           setAmenities(amenity);
         }
-      });
+
+        const reviews = data.listing.reviews;
+        let score = 0;
+        for (let i = 0; i < reviews.length; i++) {
+          score += reviews[i].score;
+        }
+        const scoreAverage = score / reviews.length;
+        if (!isNaN(scoreAverage)) {
+          setScore(scoreAverage);
+        }
+      })
   }
 
   const handleImgClick = (img) => {
     setImgOpen(true);
     setImg(img);
+  }
+
+  function getBookingDetails () {
+    const token = localStorage.getItem('token');
+    const email = localStorage.getItem('email');
+    const listingId = localStorage.getItem('listingId');
+
+    const request = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      }
+    };
+
+    fetch(`http://localhost:${Config.BACKEND_PORT}/bookings`, request)
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          res.json().then((data) => {
+            console.log(data.error);
+          });
+        }
+      }).then(data => {
+        for (let i = 0; i < data.bookings.length; i++) {
+          if (data.bookings[i].owner === email && data.bookings[i].listingId === listingId && data.bookings[i].status === 'accepted') {
+            localStorage.setItem('bookingId', data.bookings[i].id);
+          }
+        }
+      })
   }
 
   const handleBookSubmit = () => {
@@ -123,10 +167,8 @@ function IndividualListing () {
     const checkIn = new Date(dateValue[0].$d);
     const checkOut = new Date(dateValue[1].$d);
     const dateRangee = [checkIn, checkOut];
-    console.log(dateRangee);
     const diff = checkIn.getTime() - checkOut.getTime();
     const days = diff / (-1 * 1000 * 3600 * 24);
-    console.log(price * days);
 
     const payload = JSON.stringify({
       dateRange: dateRangee,
@@ -158,10 +200,20 @@ function IndividualListing () {
     setOpen(true);
   }
 
+  const handleComment = event => {
+    setCommentValue(event.target.value);
+  };
+
   const handleReviewSubmit = () => {
+    console.log(commentValue);
     const token = localStorage.getItem('token');
     const listingId = localStorage.getItem('listingId');
-    const bookingId = '23121313'
+    const bookingId = localStorage.getItem('bookingId');
+
+    if (bookingId === 'none') {
+      setReviewErrorMessage('You can not leave a review for a listing you have not booked!');
+      return;
+    }
 
     const payload = JSON.stringify({
       review: { score: starValue, comment: commentValue }
@@ -179,7 +231,7 @@ function IndividualListing () {
     fetch(`http://localhost:${Config.BACKEND_PORT}/listings/${listingId}/review/${bookingId}`, request)
       .then(res => {
         if (res.ok) {
-          console.log('success!')
+          ReactDOM.render(<Reviews/>, document.querySelector('#reviews'));
         } else {
           res.json().then((data) => {
             setReviewErrorMessage(data.error)
@@ -211,7 +263,13 @@ function IndividualListing () {
             <p style={{ fontWeight: 'bold' }}>{address}</p>
             <p style={{ marginBottom: '5%', fontWeight: 'bold' }}>${price} /night</p>
           </div>
-          <Button style={{ marginLeft: '15%' }} onClick={handleBookClick}>Book</Button>
+          <Rating
+            style={{ marginLeft: '10%', marginTop: '1.1%' }}
+            readOnly
+            value={score}
+          />
+          <br/>
+          <Button onClick={handleBookClick}>Book</Button>
         </div>
         <Divider />
         <p><b>Bedrooms:</b> {bedrooms}</p>
@@ -247,12 +305,13 @@ function IndividualListing () {
           rows={4}
           style= {{ width: '100%' }}
           value={commentValue}
-          onChange={(event, newValue) => {
-            setCommentValue(newValue);
-          }}
+          onChange={handleComment}
         />
         <Button onClick={handleReviewSubmit}>Submit review</Button>
       </Box>
+      <div id='reviews'>
+          <Reviews />
+      </div>
     </div>
     {imgOpen
       ? <ImagePopup

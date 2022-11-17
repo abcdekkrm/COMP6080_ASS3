@@ -8,7 +8,7 @@ import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
 import DeleteListing from '../Components/DeleteListing';
 import InfoIcon from '@mui/icons-material/Info';
 import SimplePopup from '../Components/SimplePopup';
-import { Paper } from '@mui/material';
+import { Paper, Rating } from '@mui/material';
 import Publishing from '../Components/Publishing';
 import { Tooltip } from '@material-ui/core'
 import { useMediaQuery } from 'react-responsive'
@@ -27,6 +27,8 @@ function UserListings () {
   const [open, setOpen] = useState(false);
   const [selectDateOpen, setSelectDateOpen] = useState(false);
   const [removeLive, setRemoveLive] = useState(false);
+  const [numReviews, setNumReviews] = useState(0);
+  const [score, setScore] = useState(0);
 
   useEffect(() => {
     getListings();
@@ -171,6 +173,17 @@ function UserListings () {
         } else {
           setListingType('Property type not listed.')
         }
+
+        const reviews = data.listing.reviews;
+        setNumReviews(reviews.length);
+        let score = 0;
+        for (let i = 0; i < reviews.length; i++) {
+          score += reviews[i].score;
+        }
+        const scoreAverage = score / reviews.length;
+        if (!isNaN(scoreAverage)) {
+          setScore(scoreAverage);
+        }
       });
   }
 
@@ -195,7 +208,7 @@ function UserListings () {
                         <Tooltip title="More Information">
                           <InfoIcon onMouseOver={() => getListingDetails(listing.id)} onClick={handleInfoClick} style={{ cursor: 'pointer' }}/>
                         </Tooltip>
-                        <Tooltip title="ViewBooking">
+                        <Tooltip title="View Bookings">
                           <ListAltOutlinedIcon style={{ marginTop: '40%', cursor: 'pointer' }}/>
                         </Tooltip>
                         <br/>
@@ -225,7 +238,7 @@ function UserListings () {
                         <Tooltip title="More Information">
                           <InfoIcon onMouseOver={() => getListingDetails(listing.id)} onClick={handleInfoClick} style={{ cursor: 'pointer' }}/>
                         </Tooltip>
-                        <Tooltip title="ViewBooking">
+                        <Tooltip title="View Bookings">
                           <ListAltOutlinedIcon onClick={() => handleManageListing(listing.id)} style={{ marginTop: '40%', cursor: 'pointer' }}/>
                         </Tooltip>
                         <br/>
@@ -241,7 +254,6 @@ function UserListings () {
                         <Tooltip title="Delete">
                           <DeleteIcon onClick={() => handleClick(listing.id)} style={{ color: 'red', cursor: 'pointer' }}/>
                         </Tooltip>
-
                         </Paper>
                       </>
                     : null}
@@ -256,7 +268,19 @@ function UserListings () {
       {removeLive ? <UnPublishing closePopUp={() => setRemoveLive(false)} listingId={listingId}/> : null}
       {open
         ? <SimplePopup
-          text={'Address: ' + address + '\n' + 'Property type: ' + listingType + '\n' + 'Number of beds: ' + beds + '\n' + 'Number of bathrooms: ' + baths }
+          text={
+            <div style={{ lineHeight: '0.1vh' }}>
+            <p>Address: {address}</p>
+            <p>Property type: {listingType}</p>
+            <p>Number of beds: {beds}</p>
+            <p>Number of bathrooms: {baths}</p>
+            <p>Reviews: {numReviews}</p>
+            <Rating
+              readOnly
+              value={score}
+            />
+            </div>
+          }
           closePopup={() => setOpen(false)}
           />
         : null}
