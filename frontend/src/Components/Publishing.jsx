@@ -116,12 +116,12 @@ const Publishing = ({ closeDate, listingId }) => {
       key: 'selection',
     }
   ])
-  const [selectDate, setDate] = useState(` ${format(selectionRange[0].startDate, 'MM/dd/yyyy')} to ${format(selectionRange[0].endDate, 'MM/dd/yyyy')} `);
+  const [selectDate, setDate] = useState(` ${format(selectionRange[0].startDate, 'dd/MM/yyyy')} to ${format(selectionRange[0].endDate, 'dd/MM/yyyy')} `);
   const [DateArr, setDateArr] = React.useState();
   const handleSelect = (ranges) => {
     console.log(ranges);
     setRange([ranges.selection]);
-    setDate(` ${format(selectionRange[0].startDate, 'MM/dd/yyyy')} to ${format(selectionRange[0].endDate, 'MM/dd/yyyy')} `);
+    setDate(` ${format(selectionRange[0].startDate, 'dd/MM/yyyy')} to ${format(selectionRange[0].endDate, 'dd/MM/yyyy')} `);
   }
   const handleOpenDateSelect = () => {
     document.getElementById('selector').style.display = 'flex';
@@ -199,7 +199,7 @@ const Publishing = ({ closeDate, listingId }) => {
                       </Avatar>
                     </ListItemAvatar>
                     <ListItemText
-                      primary={` ${format(date.start, 'MM/dd/yyyy')} to ${format(date.end, 'MM/dd/yyyy')} `}
+                      primary={` ${format(date.start, 'dd/MM/yyyy')} to ${format(date.end, 'dd/MM/yyyy')} `}
                       // secondary={secondary ? 'Secondary text' : null}
                     />
                   </ListItem>
