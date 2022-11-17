@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+// import axios from 'axios';
 // import * as ReactDOM from 'react-dom';
 import Config from '../config.json';
 import Nav from '../Components/Nav';
@@ -151,10 +152,24 @@ const CreateListing = () => {
   const [singleBed, setSingle] = React.useState('0');
   const [doubleBed, setDouble] = React.useState('0');
   const [amenities, setAmenities] = React.useState();
-  const [thumbnail, setTnImage] = useState();
+  const [thumbnail, setTnDisplayImage] = useState();
+  const [thumbnailFile, setTnImage] = useState();
   const [imgArr, setImgArr] = React.useState();
+  // const [imgDisplay, setDisplayImage] = useState();
+  // const [propertyFile, setProperty] = useState();
   // const amenitiesArr = [];
   // let imgObj = null;
+  useEffect(() => {
+    if (thumbnailFile) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setTnDisplayImage(reader.result);
+      };
+      reader.readAsDataURL(thumbnailFile);
+    } else {
+      setTnDisplayImage(null);
+    }
+  }, [thumbnailFile]);
   const handleChangeTitle = event => {
     setTitle(event.target.value);
   };
@@ -179,10 +194,15 @@ const CreateListing = () => {
   };
   const handleChangeThumbnail = event => {
     console.log(event.target.files);
-    setTnImage(URL.createObjectURL(event.target.files[0]));
+    const file = event.target.files[0];
+    if (file && file.type.substr(0, 5) === 'image') {
+      setTnImage(file);
+    } else {
+      setTnImage(null);
+    }
   };
   const handleDeleteThumbnail = () => {
-    setTnImage('');
+    setTnImage(null);
   };
   const handleCheckBox = event => {
     console.log(event.target.checked);
@@ -194,14 +214,14 @@ const CreateListing = () => {
     console.log(amenities);
   };
   // setImgArr = set
-  const handleUploadProperties = event => {
-    console.log(event.target.files);
-    console.log(URL.createObjectURL(event.target.files[0]));
+  const handleUploadProperties = (file) => {
     const copyImgArr = Object.assign([], imgArr);
-    copyImgArr.push(URL.createObjectURL(event.target.files[0]));
-    console.log(copyImgArr.length);
-    // console.log(imgArr.length);
-    setImgArr(copyImgArr);
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      copyImgArr.push(reader.result);
+      setImgArr(copyImgArr);
+    };
+    reader.readAsDataURL(file);
   }
   function handleDeleteProperties (pos) {
     const copyImgArr = Object.assign([], imgArr);
@@ -212,11 +232,9 @@ const CreateListing = () => {
     window.location.href = '/User-Listings';
   }
   const handleCreate = async () => {
-    // console.log('create');
-    // closeCreatePopup();
     closeCreate();
-    // const Authorization = 'Bearer ' + localStorage.token;
     const token = localStorage.getItem('token');
+    console.log(thumbnailFile);
     console.log(thumbnail);
     const response = await fetch(`http://localhost:${Config.BACKEND_PORT}/listings/new`,
       {
@@ -297,6 +315,7 @@ const CreateListing = () => {
               <DiscreteSliderLabel
                 // mark={bathroom}
                 handleChange={handleBath}
+                currValue={bathroom}
               />
             </div>
             <div className={classes.root} id='room-slider'>
@@ -309,6 +328,7 @@ const CreateListing = () => {
                 // defaultValue={20}
                 // D={bedroom}
                 handleChange={handleBed}
+                currValue={bedroom}
               />
             </div>
             <div>
@@ -378,7 +398,7 @@ const CreateListing = () => {
               </label>
               <DeleteIcon onClick={handleDeleteThumbnail}/>
             </div>
-            <input className={classes.imageInput} type="file" multiple accept="image/*" id='propertyImgUpload' onChange={handleUploadProperties}/>
+            <input className={classes.imageInput} type="file" multiple accept="image/*" id='propertyImgUpload' onChange={e => handleUploadProperties(e.target.files[0])}/>
             <div className={classes.propertyImgs} id='property-images'>
               <div className={classes.img}>
                 <label htmlFor='propertyImgUpload'>
@@ -387,6 +407,7 @@ const CreateListing = () => {
               </div>
               {imgArr?.map((img, pos) => {
                 console.log(pos);
+                console.log(img);
                 return (
                   <div key={pos}>
                     <img src={img} className={classes.img}></img>
