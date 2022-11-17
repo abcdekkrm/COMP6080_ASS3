@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import Config from '../config.json';
 import { Paper, Button, Divider, Rating } from '@mui/material';
-// import BasicDateRangePicker from '../Components/DateRangePicker';
 import SimplePopup from '../Components/SimplePopup';
+import Reviews from '../Components/Reviews';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import { LocalizationProvider } from '@mui/x-date-pickers-pro';
 import { AdapterDayjs } from '@mui/x-date-pickers-pro/AdapterDayjs';
 import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
-// import { useMediaQuery } from 'react-responsive'
+import { useMediaQuery } from 'react-responsive'
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
+import ImagePopup from '../Components/ImagePopup';
+import * as ReactDOM from 'react-dom';
 
 function IndividualListing () {
-  // const isMobile = useMediaQuery({ query: '(max-width: 400px)' });
+  const isMobile = useMediaQuery({ query: '(max-width: 400px)' });
 
   const [errorMessage, setErrorMessage] = useState('');
   const [bookErrorMessage, setBookErrorMessage] = useState('');
@@ -29,13 +31,17 @@ function IndividualListing () {
   const [baths, setBath] = useState('');
   const [amenities, setAmenities] = useState([]);
   const [open, setOpen] = useState(false);
+  const [imgOpen, setImgOpen] = useState(false);
+  const [img, setImg] = useState('');
 
   const [dateValue, setDateValue] = React.useState([null, null]);
   const [starValue, setStarValue] = React.useState(0);
   const [commentValue, setCommentValue] = React.useState('');
+  const [score, setScore] = useState(0);
 
   useEffect(() => {
     getListingDetails();
+    getBookingDetails();
   }, []);
 
   function getListingDetails () {
@@ -56,7 +62,7 @@ function IndividualListing () {
           return res.json();
         } else {
           res.json().then((data) => {
-            setErrorMessage(data.error)
+            setErrorMessage(data.error);
           });
         }
       }).then(data => {
@@ -65,8 +71,6 @@ function IndividualListing () {
         setThumbnail(data.listing.thumbnail);
 
         setImgs(data.listing.metadata.imgArr);
-
-        console.log(data.listing.metadata.imgArr);
 
         const addressDict = data.listing.address;
         if (Object.keys(addressDict).length > 0) {
@@ -106,7 +110,53 @@ function IndividualListing () {
         } else {
           setAmenities(amenity);
         }
-      });
+
+        const reviews = data.listing.reviews;
+        let score = 0;
+        for (let i = 0; i < reviews.length; i++) {
+          score += reviews[i].score;
+        }
+        const scoreAverage = score / reviews.length;
+        if (!isNaN(scoreAverage)) {
+          setScore(scoreAverage);
+        }
+      })
+  }
+
+  const handleImgClick = (img) => {
+    setImgOpen(true);
+    setImg(img);
+  }
+
+  function getBookingDetails () {
+    const token = localStorage.getItem('token');
+    const email = localStorage.getItem('email');
+    const listingId = localStorage.getItem('listingId');
+
+    const request = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      }
+    };
+
+    fetch(`http://localhost:${Config.BACKEND_PORT}/bookings`, request)
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          res.json().then((data) => {
+            console.log(data.error);
+          });
+        }
+      }).then(data => {
+        for (let i = 0; i < data.bookings.length; i++) {
+          if (data.bookings[i].owner === email && data.bookings[i].listingId === listingId && data.bookings[i].status === 'accepted') {
+            localStorage.setItem('bookingId', data.bookings[i].id);
+          }
+        }
+      })
   }
 
   const handleBookSubmit = () => {
@@ -115,10 +165,8 @@ function IndividualListing () {
     const checkIn = new Date(dateValue[0].$d);
     const checkOut = new Date(dateValue[1].$d);
     const dateRangee = [checkIn, checkOut];
-    console.log(dateRangee);
     const diff = checkIn.getTime() - checkOut.getTime();
     const days = diff / (-1 * 1000 * 3600 * 24);
-    console.log(price * days);
 
     const payload = JSON.stringify({
       dateRange: dateRangee,
@@ -137,10 +185,10 @@ function IndividualListing () {
     fetch(`http://localhost:${Config.BACKEND_PORT}/bookings/new/${id}`, request)
       .then(res => {
         if (res.ok) {
-          console.log('success!')
+          setBookErrorMessage('Success!');
         } else {
           res.json().then((data) => {
-            setBookErrorMessage(data.error)
+            setBookErrorMessage(data.error);
           });
         }
       });
@@ -150,10 +198,20 @@ function IndividualListing () {
     setOpen(true);
   }
 
+  const handleComment = event => {
+    setCommentValue(event.target.value);
+  };
+
   const handleReviewSubmit = () => {
+    console.log(commentValue);
     const token = localStorage.getItem('token');
     const listingId = localStorage.getItem('listingId');
-    const bookingId = '23121313'
+    const bookingId = localStorage.getItem('bookingId');
+
+    if (bookingId === 'none') {
+      setReviewErrorMessage('You can not leave a review for a listing you have not booked!');
+      return;
+    }
 
     const payload = JSON.stringify({
       review: { score: starValue, comment: commentValue }
@@ -171,7 +229,7 @@ function IndividualListing () {
     fetch(`http://localhost:${Config.BACKEND_PORT}/listings/${listingId}/review/${bookingId}`, request)
       .then(res => {
         if (res.ok) {
-          console.log('success!')
+          ReactDOM.render(<Reviews/>, document.querySelector('#reviews'));
         } else {
           res.json().then((data) => {
             setReviewErrorMessage(data.error)
@@ -186,25 +244,66 @@ function IndividualListing () {
       {errorMessage && <div className='error' style={{ color: 'red' }}> {errorMessage} </div>}
       <h1>{title}</h1>
       <div style={{ display: 'flex', }}>
-      <img src={thumbnail} style={{ height: '50vh', width: 'auto', borderRadius: '1vw' }}/>
-        <ImageList sx={{ width: 'auto', height: '50vh', marginTop: '-0.1%', marginLeft: '1%' }} variant="masonry" cols={3} gap={8}>
-          {imgs?.map((img, index) => {
-            return (
-              <ImageListItem key={index}>
-                <img src={img} style={{ borderRadius: '1vw' }}></img>
-              </ImageListItem>
-            )
-          })}
-        </ImageList>
+      {isMobile
+        ? <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <img src={thumbnail} style={{ height: '30vh', width: 'auto', marginBottom: '1%', borderRadius: '1vw', cursor: 'pointer' }} onClick={() => handleImgClick(thumbnail)}/>
+          <ImageList sx={{ display: 'block', width: 'auto', height: '10vh', marginTop: '-0.1%', marginLeft: '1%' }} variant="masonry" cols={3} gap={8}>
+            {imgs?.map((img, index) => {
+              return (
+                <ImageListItem key={index} sx={{ display: 'block' }}>
+                  <img src={img} style={{ height: '10vh', borderRadius: '1vw', cursor: 'pointer' }} onClick={() => handleImgClick(img)} ></img>
+                </ImageListItem>
+              )
+            })}
+          </ImageList>
+          </div>
+        : <>
+          <img src={thumbnail} style={{ height: '50vh', width: 'auto', borderRadius: '1vw', cursor: 'pointer' }} onClick={() => handleImgClick(thumbnail)}/>
+          <ImageList sx={{ width: 'auto', height: '50vh', marginTop: '-0.1%', marginLeft: '1%' }} variant="masonry" cols={3} gap={8}>
+            {imgs?.map((img, index) => {
+              return (
+                <ImageListItem key={index}>
+                  <img src={img} style={{ borderRadius: '1vw', cursor: 'pointer' }} onClick={() => handleImgClick(img)} ></img>
+                </ImageListItem>
+              )
+            })}
+          </ImageList>
+          </>
+      }
       </div>
       <div style={{ lineHeight: '15%' }}>
-        <div style={{ display: 'flex', marginBottom: '5%' }}>
-          <div>
-            <p style={{ fontWeight: 'bold' }}>{address}</p>
-            <p style={{ marginBottom: '5%', fontWeight: 'bold' }}>${price} /night</p>
-          </div>
-          <Button style={{ marginLeft: '15%' }} onClick={handleBookClick}>Book</Button>
-        </div>
+        {isMobile
+          ? <>
+            <div style={{ marginBottom: '5%', lineHeight: '100%' }}>
+              <div>
+                <p style={{ fontWeight: 'bold' }}>{address}</p>
+                <p style={{ marginBottom: '5%', fontWeight: 'bold' }}>${price} /night</p>
+              </div>
+              <Rating
+                style={{ marginTop: '1.1%' }}
+                readOnly
+                value={score}
+              />
+              <br/>
+              <Button onClick={handleBookClick}>Book</Button>
+            </div>
+            </>
+          : <>
+            <div style={{ display: 'flex', marginBottom: '5%' }}>
+              <div>
+                <p style={{ fontWeight: 'bold' }}>{address}</p>
+                <p style={{ marginBottom: '5%', fontWeight: 'bold' }}>${price} /night</p>
+              </div>
+              <Rating
+                style={{ marginLeft: '10%', marginTop: '1.1%' }}
+                readOnly
+                value={score}
+              />
+              <br/>
+              <Button onClick={handleBookClick}>Book</Button>
+            </div>
+            </>
+        }
         <Divider />
         <p><b>Bedrooms:</b> {bedrooms}</p>
         <p><b>Beds:</b> {beds}</p>
@@ -214,9 +313,20 @@ function IndividualListing () {
       </div>
       {amenities ? null : <p>No amenities listed.</p>}
       {amenities?.map((amenity, index) => (
-        <Paper className='card' key={index} style={{ width: '20%' }}>
-        <p>{amenity}</p>
-        </Paper>
+        <>
+        {isMobile
+          ? <>
+            <Paper className='card' key={index} style={{ width: '80%' }}>
+            <p>{amenity}</p>
+            </Paper>
+            </>
+          : <>
+            <Paper className='card' key={index} style={{ width: '20%' }}>
+            <p>{amenity}</p>
+            </Paper>
+            </>
+        }
+        </>
       ))}
       <Divider />
       <p><b>Reviews</b></p>
@@ -239,13 +349,35 @@ function IndividualListing () {
           rows={4}
           style= {{ width: '100%' }}
           value={commentValue}
-          onChange={(event, newValue) => {
-            setCommentValue(newValue);
-          }}
+          onChange={handleComment}
         />
         <Button onClick={handleReviewSubmit}>Submit review</Button>
       </Box>
+      <div id='reviews'>
+          <Reviews />
+      </div>
     </div>
+    {imgOpen
+      ? <ImagePopup
+        sx={{
+          width: 300,
+          '& .popup-container': {
+            height: '80%',
+            width: '80%',
+            position: 'absolute',
+            left: '1%',
+            top: '1%',
+            zIndex: '1000',
+            padding: '1vw',
+          },
+        }}
+        text={
+          <img src={img} style= {{ height: '100vh' }}></img>
+        }
+        closePopup={() => setImgOpen(false)}
+        />
+      : null
+    }
     {open
       ? <SimplePopup
         text={

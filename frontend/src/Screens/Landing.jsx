@@ -21,6 +21,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 function Landing () {
+  localStorage.setItem('bookingId', 'none');
   const isMobile = useMediaQuery({ query: '(max-width: 400px)' });
 
   return (
