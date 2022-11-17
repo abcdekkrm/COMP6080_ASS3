@@ -18,6 +18,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import ImageIcon from '@mui/icons-material/Image';
 import AddPhotoAlternateOutlinedIcon from '@mui/icons-material/AddPhotoAlternateOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
+import ColorToggleButton from '../Components/ToggleButon';
 
 const EditListing = () => {
   // const useStyles = makeStyles
@@ -150,14 +151,27 @@ const EditListing = () => {
   const [singleBed, setSingle] = React.useState('');
   const [doubleBed, setDouble] = React.useState('');
   const [amenities, setAmenities] = React.useState();
-  const [thumbnail, setTnImage] = useState();
+  const [thumbnail, setTnDisplayImage] = useState();
+  const [thumbnailFile, setTnImage] = useState();
   const [imgArr, setImgArr] = React.useState();
+  const [listingType, setListingType] = React.useState('');
 
   useEffect(() => {
     let ignore = false;
-    if (!ignore) getListing();
+    if (!ignore) { getListing() }
     return () => { ignore = true; }
   }, []);
+  useEffect(() => {
+    if (thumbnailFile) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setTnDisplayImage(reader.result);
+      };
+      reader.readAsDataURL(thumbnailFile);
+    } else {
+      setTnDisplayImage(null);
+    }
+  }, [thumbnailFile]);
   const getListing = async () => {
     const token = localStorage.getItem('token');
     const response = await fetch(`http://localhost:${Config.BACKEND_PORT}/listings/${listingId}`,
@@ -175,14 +189,15 @@ const EditListing = () => {
     setTitle(data.listing.title);
     setPrice(data.listing.price);
     setAddress(data.listing.address);
+    setListingType(data.listing.listingType);
     setBath(data.listing.metadata.bathroom);
     setBed(data.listing.metadata.bedroom);
     setSingle(data.listing.metadata.singleBed);
     setDouble(data.listing.metadata.doubleBed);
     setAmenities(data.listing.metadata.amenities);
-    setTnImage(data.listing.thumbnail);
+    setTnDisplayImage(data.listing.thumbnail);
     setImgArr(data.listing.metadata.imgArr);
-    handleCurrChecked();
+    // handleCurrChecked();
     // setListing(data.listing);
     // amenities?.map((name) => {() => handleCurrCheck(name)});
     // console.log(Checkbox.)
@@ -196,6 +211,11 @@ const EditListing = () => {
   };
   const handleChangeAddress = event => {
     setAddress(event.target.value);
+  };
+  const handleTypeChange = (event, newType) => {
+    console.log(event);
+    console.log(newType);
+    setListingType(newType);
   };
   const handleBath = (event, newValue) => {
     setBath(String(newValue / 10));
@@ -212,20 +232,22 @@ const EditListing = () => {
   };
   const handleChangeThumbnail = event => {
     console.log(event.target.files);
-    setTnImage(URL.createObjectURL(event.target.files[0]));
+    const file = event.target.files[0];
+    if (file && file.type.substr(0, 5) === 'image') {
+      setTnImage(file);
+    } else {
+      setTnImage(null);
+    }
   };
   const handleDeleteThumbnail = () => {
     setTnImage('');
   };
-  function handleCurrChecked () {
-    console.log(Object.keys(amenities));
-    // for (const amenity in amenities) {
-    //   console.log('in');
-    //   console.log(amenity);
-    //   // console.log(document.getElementsByName(amenity));
-    //   // document.getElementsByName(amenity).checked = true;
-    // }
-  }
+  // function handleCurrChecked () {
+  //   console.log(amenities);
+  //   // amenities.forEach(amenity => {
+  //   //   console.log(amenity);
+  //   // });
+  // }
   const handleCheckBox = event => {
     console.log(event.target.checked);
     const copyAmnArr = Object.assign([], amenities);
@@ -235,13 +257,14 @@ const EditListing = () => {
     setAmenities(copyAmnArr);
     console.log(amenities);
   };
-  const handleUploadProperties = event => {
-    console.log(event.target.files);
-    console.log(URL.createObjectURL(event.target.files[0]));
+  const handleUploadProperties = (file) => {
     const copyImgArr = Object.assign([], imgArr);
-    copyImgArr.push(URL.createObjectURL(event.target.files[0]));
-    console.log(copyImgArr.length);
-    setImgArr(copyImgArr);
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      copyImgArr.push(reader.result);
+      setImgArr(copyImgArr);
+    };
+    reader.readAsDataURL(file);
   }
   function handleDeleteProperties (pos) {
     const copyImgArr = Object.assign([], imgArr);
@@ -291,9 +314,9 @@ const EditListing = () => {
             <CloseIcon onClick={closeEdit}/>
           </IconButton>
         </div>
-        <div className={classes.title}><div>{title}</div></div>
         <div className={classes.textImageContainer}>
           <div className={classes.listingText} id='edit-listing-text'>
+            <div className={classes.title}><div>{title}</div></div>
             <div>
               <TextField
               id="edit-title"
@@ -325,6 +348,15 @@ const EditListing = () => {
                 onChange={handleChangeAddress}
                 />
               </Box>
+            </div>
+            <div>
+              <Typography className={classes.sliderTitle} gutterBottom>
+                Listing Type
+              </Typography>
+              <ColorToggleButton
+                handleChange={handleTypeChange}
+                type={listingType}
+              />
             </div>
             <div className={classes.root} id='bathroom-slider'>
               <Typography id="discrete-slider-restrict" gutterBottom>
@@ -369,23 +401,25 @@ const EditListing = () => {
               <div>
                 <div>Amenities</div>
                 <div className={classes.amenities}>
+                  {/* { amenities?.forEach(amenity => { document.getElementById(amenity)?.onClick }) } */}
                   <FormGroup>
-                    <FormControlLabel control={<Checkbox size="small" onClick={handleCheckBox} name="Wi-Fi" />} label="Wi-Fi"/>
-                    <FormControlLabel control={<Checkbox size="small" onClick={handleCheckBox} name="Kitchen" />} label="Kitchen" />
-                    <FormControlLabel control={<Checkbox size="small" onClick={handleCheckBox} name='Washing machine' />} label="Washing machine" />
-                    <FormControlLabel control={<Checkbox size="small" onClick={handleCheckBox} name="Dryer" />} label="Dryer" />
-                    <FormControlLabel control={<Checkbox size="small" onClick={handleCheckBox} name="Air-conditioning" />} label="Air-conditioning" />
+                    <FormControlLabel control={<Checkbox size="small" onClick={handleCheckBox} name="Wi-Fi" id="Wi-Fi" />} label="Wi-Fi"/>
+                    <FormControlLabel control={<Checkbox size="small" onClick={handleCheckBox} name="Kitchen" id="Kitchen" />} label="Kitchen" />
+                    <FormControlLabel control={<Checkbox size="small" onClick={handleCheckBox} name='Washing machine' id='Washing machine' />} label="Washing machine" />
+                    <FormControlLabel control={<Checkbox size="small" onClick={handleCheckBox} name="Dryer" id="Dryer" />} label="Dryer" />
+                    <FormControlLabel control={<Checkbox size="small" onClick={handleCheckBox} name="Air-conditioning" id="Air-conditioning" />} label="Air-conditioning" />
                   </FormGroup>
                   <FormGroup>
-                    <FormControlLabel control={<Checkbox size="small" onClick={handleCheckBox} name="Heating" />} label="Heating" />
-                    <FormControlLabel control={<Checkbox size="small" onClick={handleCheckBox} name="Dedicated workspace" />} label="Dedicated workspace" />
-                    <FormControlLabel control={<Checkbox size="small" onClick={handleCheckBox} name="TV" />} label="TV" />
-                    <FormControlLabel control={<Checkbox size="small" onClick={handleCheckBox} name="Hair dryer" />} label="Hair dryer" />
-                    <FormControlLabel control={<Checkbox size="small" onClick={handleCheckBox} name="Iton" />} label="Iron" />
+                    <FormControlLabel control={<Checkbox size="small" onClick={handleCheckBox} name="Heating" id="Heating" />} label="Heating" />
+                    <FormControlLabel control={<Checkbox size="small" onClick={handleCheckBox} name="Dedicated workspace" id="Dedicated workspace" />} label="Dedicated workspace" />
+                    <FormControlLabel control={<Checkbox size="small" onClick={handleCheckBox} name="TV" id="TV" />} label="TV" />
+                    <FormControlLabel control={<Checkbox size="small" onClick={handleCheckBox} name="Hair dryer" id="Hair dryer" />} label="Hair dryer" />
+                    <FormControlLabel control={<Checkbox size="small" onClick={handleCheckBox} name="Iron" id="Iron" />} label="Iron" />
                   </FormGroup>
                 </div>
               </div>
             </div>
+            <Button onClick={handleEdit}>Save Edit</Button>
           </div>
           <div className={classes.listingImg} id='edit-listing-image'>
             <img className={classes.thumbnail} src={thumbnail}></img>
@@ -396,7 +430,7 @@ const EditListing = () => {
               </label>
               <DeleteIcon onClick={handleDeleteThumbnail}/>
             </div>
-            <input className={classes.imageInput} type="file" multiple accept="image/*" id='propertyImgUpload' onChange={handleUploadProperties}/>
+            <input className={classes.imageInput} type="file" multiple accept="image/*" id='propertyImgUpload' onChange={e => handleUploadProperties(e.target.files[0])}/>
             <div className={classes.propertyImgs} id='property-images'>
               <div className={classes.img}>
                 <label htmlFor='propertyImgUpload'>
@@ -417,7 +451,6 @@ const EditListing = () => {
             </div>
           </div>
         </div>
-        <Button onClick={handleEdit}>Save Edit</Button>
       </div>
     </>
   );

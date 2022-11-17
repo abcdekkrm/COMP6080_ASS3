@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
-// import * as ReactDOM from 'react-dom';
 import Config from '../config.json';
 import Nav from '../Components/Nav';
 import DiscreteSliderLabel from '../Components/Slider';
@@ -17,6 +15,7 @@ import ImageIcon from '@mui/icons-material/Image';
 import AddPhotoAlternateOutlinedIcon from '@mui/icons-material/AddPhotoAlternateOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { FormGroup } from '@mui/material';
+import ColorToggleButton from '../Components/ToggleButon';
 
 const CreateListing = () => {
   const useStyles = makeStyles({
@@ -54,7 +53,6 @@ const CreateListing = () => {
       height: '95%',
       display: 'flex',
       flexDirection: 'row',
-      // backgroundColor: 'blue',
     },
     listingText: {
       height: '100%',
@@ -155,6 +153,19 @@ const CreateListing = () => {
   const [thumbnail, setTnDisplayImage] = useState();
   const [thumbnailFile, setTnImage] = useState();
   const [imgArr, setImgArr] = React.useState();
+  const [listingType, setListingType] = React.useState('house');
+  // const [wifi, setWiFt] = React.useState(false);
+  // const [kitchen, setKitchen] = React.useState(false);
+  // const [washingMachine, setWashingMachine] = React.useState(false);
+  // const [dryer, setDryer] = React.useState(false);
+  // const [airConditioning, setAirConditioning] = React.useState(false);
+  // const [heating, setHeating] = React.useState(false);
+  // const [dedicatedWorkspace, setDedicatedWorkspace] = React.useState(false);
+  // const [TV, setTV] = React.useState(false);
+  // const [hairDryer, setHairDryer] = React.useState(false);
+  // const [iron, setIron] = React.useState(false);
+  // const amenities = [wifi]
+
   // const [imgDisplay, setDisplayImage] = useState();
   // const [propertyFile, setProperty] = useState();
   // const amenitiesArr = [];
@@ -178,6 +189,11 @@ const CreateListing = () => {
   };
   const handleChangeAddress = event => {
     setAddress(event.target.value);
+  };
+  const handleTypeChange = (event, newType) => {
+    console.log(event);
+    console.log(newType);
+    setListingType(newType);
   };
   const handleBath = (event, newValue) => {
     setBath(String(newValue / 10));
@@ -205,7 +221,7 @@ const CreateListing = () => {
     setTnImage(null);
   };
   const handleCheckBox = event => {
-    console.log(event.target.checked);
+    console.log(event.target.name);
     const copyAmnArr = Object.assign([], amenities);
     if (event.target.checked) {
       copyAmnArr.push(event.target.name)
@@ -250,6 +266,7 @@ const CreateListing = () => {
             price,
             thumbnail,
             metadata: {
+              listingType,
               amenities,
               bathroom,
               bedroom,
@@ -308,6 +325,15 @@ const CreateListing = () => {
                 />
               </Box>
             </div>
+            <div>
+              <Typography className={classes.sliderTitle} gutterBottom>
+                Listing Type
+              </Typography>
+              <ColorToggleButton
+                handleChange={handleTypeChange}
+                type={listingType}
+              />
+            </div>
             <div className={classes.root} id='bathroom-slider'>
               <Typography className={classes.sliderTitle} id="discrete-slider-restrict" gutterBottom>
                 Number of bathroom
@@ -319,33 +345,15 @@ const CreateListing = () => {
               />
             </div>
             <div className={classes.root} id='room-slider'>
-              {/* <Typography id="discrete-slider-restrict" gutterBottom> */}
               <Typography className={classes.sliderTitle} id="discrete-slider-restrict" gutterBottom>
                 Number of room
               </Typography>
-              {/* </Typography> */}
               <DiscreteSliderLabel
-                // defaultValue={20}
-                // D={bedroom}
                 handleChange={handleBed}
                 currValue={bedroom}
               />
             </div>
             <div>
-              {/* <NativeSelect
-              >
-                <option value={0}>0</option>
-                <option value={1}>1</option>
-                <option value={2}>2</option>
-                <option value={3}>3</option>
-                <option value={4}>4</option>
-                <option value={5}>5</option>
-                <option value={6}>6</option>
-                <option value={7}>7</option>
-                <option value={8}>8</option>
-                <option value={9}>9</option>
-                <option value={10}>10+ contact for more info</option>
-              </NativeSelect> */}
               <FormControl sx={{ m: 1, minWidth: 120 }} size="small" >
                 {/* <InputLabel>Sigle Bed</InputLabel> */}
                 <InputLabel variant="standard">
@@ -383,11 +391,12 @@ const CreateListing = () => {
                     <FormControlLabel control={<Checkbox size="small" onClick={handleCheckBox} name="Dedicated workspace" />} label="Dedicated workspace" />
                     <FormControlLabel control={<Checkbox size="small" onClick={handleCheckBox} name="TV" />} label="TV" />
                     <FormControlLabel control={<Checkbox size="small" onClick={handleCheckBox} name="Hair dryer" />} label="Hair dryer" />
-                    <FormControlLabel control={<Checkbox size="small" onClick={handleCheckBox} name="Iton" />} label="Iron" />
+                    <FormControlLabel control={<Checkbox size="small" onClick={handleCheckBox} name="Iron" />} label="Iron" />
                   </FormGroup>
                 </div>
               </div>
             </div>
+            <Button onClick={handleCreate}>Create Listing</Button>
           </div>
           <div className={classes.listingImg} id='create-listing-image'>
             <img className={classes.thumbnail} src={thumbnail}></img>
@@ -421,7 +430,6 @@ const CreateListing = () => {
           </div>
         </div>
         {/* <Button onClick={closecreatePopup}>&times;</Button> */}
-        <Button onClick={handleCreate}>Create Listing</Button>
       </div>
     </>
   );
