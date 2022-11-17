@@ -59,7 +59,7 @@ function IndividualListing () {
           return res.json();
         } else {
           res.json().then((data) => {
-            setErrorMessage(data.error)
+            setErrorMessage(data.error);
           });
         }
       }).then(data => {
@@ -145,10 +145,10 @@ function IndividualListing () {
     fetch(`http://localhost:${Config.BACKEND_PORT}/bookings/new/${id}`, request)
       .then(res => {
         if (res.ok) {
-          console.log('success!')
+          setBookErrorMessage('Success!');
         } else {
           res.json().then((data) => {
-            setBookErrorMessage(data.error)
+            setBookErrorMessage(data.error);
           });
         }
       });

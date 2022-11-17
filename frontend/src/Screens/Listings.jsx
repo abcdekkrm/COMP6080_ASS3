@@ -11,7 +11,6 @@ function Listings (props) {
 
   const [listings, setListings] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
-  const [listingIDs, setListingIDs] = useState([]);
 
   useEffect(() => {
     getListings();
@@ -76,13 +75,6 @@ function Listings (props) {
           });
         }
       }).then(data => {
-        for (const listing in data.listings) {
-          setListingIDs([
-            ...listingIDs,
-            listing
-          ]);
-        }
-        console.log(listingIDs);
         setListings(data.listings.sort((a, b) => a.title.localeCompare(b.title)));
       });
   }
@@ -90,7 +82,6 @@ function Listings (props) {
   return (
     <>
       <div>
-        {console.log(listingIDs)}
         {errorMessage && <div className='error' style={{ color: 'red' }}> {errorMessage} </div>}
         {props.search || props.min || props.max
           ? null

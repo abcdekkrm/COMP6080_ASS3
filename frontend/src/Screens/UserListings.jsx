@@ -205,7 +205,7 @@ function UserListings () {
                         </Tooltip>
                         </Paper>
                       </>
-                    : <p style={{ marginLeft: 'auto', marginRight: 'auto' }}>You don&apos;t have any listings yet!</p>}
+                    : null}
                 </>
               : <>
                   {(listing.owner === email)
@@ -232,7 +232,7 @@ function UserListings () {
                         </Tooltip>
                         </Paper>
                       </>
-                    : <p style={{ marginLeft: 'auto', marginRight: 'auto' }}>You don&apos;t have any listings yet!</p>}
+                    : null}
                 </>
             }
             </>
