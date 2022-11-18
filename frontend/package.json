@@ -11,10 +11,26 @@
     "@mui/material": "^5.10.12",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/user-event": "^13.5.0",
+    "@material-ui/lab": "^4.0.0-alpha.61",
+    "@material/icon-button": "^14.0.0",
+    "@mui/icons-material": "^5.10.9",
+    "@mui/lab": "^5.0.0-alpha.108",
+    "@mui/material": "^5.10.12",
+    "@mui/x-date-pickers": "^5.0.8",
+    "@mui/x-date-pickers-pro": "^5.0.7",
+    "axios": "^0.24.0",
+    "dayjs": "^1.11.6",
+    "enzyme-react-16-adapter-setup": "^0.1.0",
+    "mui-daterange-picker": "^1.0.5",
+    "npm-install-all": "^1.1.21",
     "react": "^17.0.2",
+    "react-date-range": "^1.4.0",
+    "react-datepicker": "^4.8.0",
     "react-dom": "^17.0.2",
     "react-images-uploading": "^3.1.7",
     "react-router-dom": "^6.4.3",
+    "react-range-slider-input": "^3.0.3",
+    "react-responsive": "^9.0.0",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
@@ -23,7 +39,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint src/**.{js,jsx,ts,tsx}"
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx"
   },
   "eslintConfig": {
     "extends": [
@@ -44,7 +60,11 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/dom": "^8.19.0",
+    "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^12.1.5",
+    "@testing-library/user-event": "^14.4.3",
+    "enzyme": "^3.11.0",
     "eslint": "^8.26.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-jest": "^27.1.3",
