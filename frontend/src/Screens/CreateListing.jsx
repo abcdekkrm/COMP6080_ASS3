@@ -23,7 +23,6 @@ const CreateListing = () => {
       width: 300,
     },
     popup_syles: {
-      background: 'white',
       height: '92vh',
       padding: '1vw',
       zIndex: '1200px',

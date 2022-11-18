@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import Config from '../config.json';
 import { useMediaQuery } from 'react-responsive';
 import { makeStyles, Typography } from '@material-ui/core';
-import Nav from '../Components/Nav';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
@@ -22,11 +21,9 @@ import { Box, Tab, Tabs } from '@mui/material';
 
 const HostingBookingManage = () => {
   useEffect(() => {
-    // let ignore = false;
-    // if (!ignore) { getBooking(); getListing() }
-    // return () => { ignore = true; }
-    getBooking();
-    getListing();
+    let ignore = false;
+    if (!ignore) { getListing(); getBooking(); }
+    return () => { ignore = true; }
   }, []);
   const useStyles = makeStyles({
     popup_syles: {
@@ -78,6 +75,7 @@ const HostingBookingManage = () => {
   let nights = 0;
   const handleTabChange = (event, newTabIndex) => {
     setTabIndex(newTabIndex);
+    getBooking();
   };
   const closeManage = () => {
     window.location.href = '/User-Listings';
@@ -154,7 +152,6 @@ const HostingBookingManage = () => {
   }
   return (
     <>
-      <Nav />
       <div className={classes.popup_syles} id='edit-listing-popup'>
         <div className={classes.closeIcon}>
           <IconButton>
@@ -178,7 +175,7 @@ const HostingBookingManage = () => {
           </Typography>
           {requirements?.map((booking, pos) => {
             console.log(new Date(booking.dateRange[1]).getFullYear());
-            if (new Date(booking.dateRange[1]).getFullYear() === new Date().getFullYear()) {
+            if (new Date(booking.dateRange[1]).getFullYear() === new Date().getFullYear() && booking.status === 'accepted') {
               profit += booking.totalPrice;
               nights += (new Date(booking.dateRange[1]).getDate() - new Date(booking.dateRange[0]).getDate());
             }
