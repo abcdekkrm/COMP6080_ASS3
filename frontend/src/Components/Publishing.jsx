@@ -43,8 +43,9 @@ const Publishing = ({ closeDate, listingId }) => {
     popup_syles: {
       background: 'white',
       // border: '1px solid #ccc',
-      height: '90vh',
+      height: '400px',
       width: '50vw',
+      minWidth: '400px',
       padding: '1vw',
       overflowY: 'scroll',
       // zIndex: '1200px',
@@ -67,11 +68,6 @@ const Publishing = ({ closeDate, listingId }) => {
       justifyContent: 'flex-start',
       marginLeft: '1%',
     },
-    availableDate: {
-      width: '90%',
-      height: '50%',
-      overflowY: 'scroll',
-    },
     selectorPopup: {
       display: 'none',
       position: 'absolute',
@@ -85,7 +81,7 @@ const Publishing = ({ closeDate, listingId }) => {
       zIndex: '1000px',
     },
     selector: {
-      height: '85vh',
+      // height: '85vh',
       width: '50vw',
       display: 'flex',
       flexDirection: 'column',
@@ -102,7 +98,7 @@ const Publishing = ({ closeDate, listingId }) => {
       width: '250px',
     },
     list: {
-      height: '60vh',
+      height: '400px',
       overflowY: 'scroll',
     },
   })
