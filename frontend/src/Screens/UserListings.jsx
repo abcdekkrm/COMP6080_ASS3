@@ -205,25 +205,29 @@ function UserListings () {
                         <img src={listing.thumbnail} alt='' style={mobileThumbnailStyle} onClick={() => handleView(listing.id)}/>
                         <h3>{listing.title}</h3>
                         <p>${listing.price}/night</p>
-                        <Tooltip title="More Information">
-                          <InfoIcon onMouseOver={() => getListingDetails(listing.id)} onClick={handleInfoClick} style={{ cursor: 'pointer' }}/>
-                        </Tooltip>
-                        <Tooltip title="View Bookings">
-                          <ListAltOutlinedIcon style={{ marginTop: '40%', cursor: 'pointer' }}/>
-                        </Tooltip>
+                        <div style={{ marginTop: '10%' }}>
+                          <Tooltip title="More Information">
+                            <InfoIcon onMouseOver={() => getListingDetails(listing.id)} onClick={handleInfoClick} style={{ cursor: 'pointer' }}/>
+                          </Tooltip>
+                          <Tooltip title="View Bookings">
+                            <ListAltOutlinedIcon style={{ cursor: 'pointer' }}/>
+                          </Tooltip>
+                        </div>
                         <br/>
-                        <Tooltip title="Publish">
-                          <PublicOutlinedIcon onClick={() => handlePublishing(listing.id)} style={{ cursor: 'pointer' }} />
-                        </Tooltip>
-                        <Tooltip title="UnPublish">
-                          <PublicOffRoundedIcon onClick={() => handleUnPublishing(listing.id)} style={{ cursor: 'pointer' }} />
-                        </Tooltip>
-                        <Tooltip title="Edit">
-                          <EditIcon onClick={() => handleOpenEdit(listing.id)} style={{ marginTop: '40%', cursor: 'pointer' }}/>
-                        </Tooltip>
-                        <Tooltip title="Delete">
-                          <DeleteIcon onClick={() => handleClick(listing.id)} style={{ color: 'red', cursor: 'pointer' }}/>
-                        </Tooltip>
+                        <div>
+                          <Tooltip title="Publish">
+                            <PublicOutlinedIcon onClick={() => handlePublishing(listing.id)} style={{ cursor: 'pointer' }} />
+                          </Tooltip>
+                          <Tooltip title="UnPublish">
+                            <PublicOffRoundedIcon onClick={() => handleUnPublishing(listing.id)} style={{ cursor: 'pointer' }} />
+                          </Tooltip>
+                          <Tooltip title="Edit">
+                            <EditIcon onClick={() => handleOpenEdit(listing.id)} style={{ marginTop: '40%', cursor: 'pointer' }}/>
+                          </Tooltip>
+                          <Tooltip title="Delete">
+                            <DeleteIcon onClick={() => handleClick(listing.id)} style={{ color: 'red', cursor: 'pointer' }}/>
+                          </Tooltip>
+                        </div>
                         </Paper>
                       </>
                     : null}
@@ -235,25 +239,29 @@ function UserListings () {
                         <img src={listing.thumbnail} alt='' style={thumbnailStyle} onClick={() => handleView(listing.id)}/>
                         <h3>{listing.title}</h3>
                         <p>${listing.price}/night</p>
-                        <Tooltip title="More Information">
-                          <InfoIcon onMouseOver={() => getListingDetails(listing.id)} onClick={handleInfoClick} style={{ cursor: 'pointer' }}/>
-                        </Tooltip>
-                        <Tooltip title="View Bookings">
-                          <ListAltOutlinedIcon onClick={() => handleManageListing(listing.id)} style={{ marginTop: '40%', cursor: 'pointer' }}/>
-                        </Tooltip>
+                        <div>
+                          <Tooltip title="More Information">
+                            <InfoIcon onMouseOver={() => getListingDetails(listing.id)} onClick={handleInfoClick} style={{ cursor: 'pointer' }}/>
+                          </Tooltip>
+                          <Tooltip title="View Bookings">
+                            <ListAltOutlinedIcon onClick={() => handleManageListing(listing.id)} style={{ cursor: 'pointer' }}/>
+                          </Tooltip>
+                        </div>
                         <br/>
-                        <Tooltip title="Publish">
-                          <PublicOutlinedIcon onClick={() => handlePublishing(listing.id)} style={{ cursor: 'pointer' }} />
-                        </Tooltip>
-                        <Tooltip title="UnPublish">
-                          <PublicOffRoundedIcon onClick={() => handleUnPublishing(listing.id)} style={{ cursor: 'pointer' }} />
-                        </Tooltip>
-                        <Tooltip title="Edit">
-                          <EditIcon onClick={() => handleOpenEdit(listing.id)} style={{ marginTop: '40%', cursor: 'pointer' }}/>
-                        </Tooltip>
-                        <Tooltip title="Delete">
-                          <DeleteIcon onClick={() => handleClick(listing.id)} style={{ color: 'red', cursor: 'pointer' }}/>
-                        </Tooltip>
+                        <div>
+                          <Tooltip title="Publish">
+                            <PublicOutlinedIcon onClick={() => handlePublishing(listing.id)} style={{ cursor: 'pointer' }} />
+                          </Tooltip>
+                          <Tooltip title="UnPublish">
+                            <PublicOffRoundedIcon onClick={() => handleUnPublishing(listing.id)} style={{ cursor: 'pointer' }} />
+                          </Tooltip>
+                          <Tooltip title="Edit">
+                            <EditIcon onClick={() => handleOpenEdit(listing.id)} style={{ marginTop: '40%', cursor: 'pointer' }}/>
+                          </Tooltip>
+                          <Tooltip title="Delete">
+                            <DeleteIcon onClick={() => handleClick(listing.id)} style={{ color: 'red', cursor: 'pointer' }}/>
+                          </Tooltip>
+                        </div>
                         </Paper>
                       </>
                     : null}
