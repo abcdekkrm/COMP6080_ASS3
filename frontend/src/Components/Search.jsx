@@ -106,7 +106,7 @@ function Search () {
       <p>Number of bedrooms</p>
       <DiscreteSliderLabel
         handleChange={handleBedChange}
-        currValue={bed}
+        currValue={String(bed)}
       />
       <Button type="submit" onClick={bedHandler}>Apply</Button>
     </div>
