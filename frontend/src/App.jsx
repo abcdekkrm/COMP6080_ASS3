@@ -91,7 +91,10 @@ function App () {
   }
   if (route === '/Manage-Listing') {
     return (
+      <>
+      <Nav />
       <HostingBookingManage />
+      </>
     )
   }
 }
