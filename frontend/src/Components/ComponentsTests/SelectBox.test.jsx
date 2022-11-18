@@ -5,13 +5,12 @@ describe ('SelectSmall', () => {
     it('render selectbox - selct and options exist', () => {
         render(<SelectSmall currValue={'0'}/>);
         expect(screen.getByRole('select')).toBeInTheDocument();
-        expect(screen.getAllByRole('option').length == 11);
+        const options = screen.getAllByRole('option');
+        expect(options).toHaveLength(11);
     });
     it('render selectbox - test onchange function', () => {
-        const onChange = jest.fn();
-        render(<SelectSmall currValue={'0'} handleChange={onChange}/>);
-        expect(screen.getByRole('select').currValue == 0);
+        render(<SelectSmall currValue={'0'}/>);
         fireEvent.change(screen.getByRole('select'), { target: { currValue: '2' } })
-        expect(screen.getByRole('select').currValue == 2);
+        expect(screen.getByRole('select').currValue).toBe('2');
     })
 })
