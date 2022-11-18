@@ -3,27 +3,26 @@ import {
   Button,
 } from '@material-ui/core';
 import React, { useState } from 'react';
-import * as ReactDOM from 'react-dom';
 import Config from '../config.json';
 import PropTypes from 'prop-types';
-import Landing from './Landing';
+import { useMediaQuery } from 'react-responsive'
 
-const Signup = ({ closeSignupPopup }) => {
+const Signup = () => {
+  const [errorMessage, setErrorMessage] = useState('');
+  const isMobile = useMediaQuery({ query: '(max-width: 400px)' });
+
   const signupStyle = {
     display: 'block',
     height: '100%',
-    width: '100%',
+    width: '99.8%',
     background: 'white',
     position: 'absolute',
-    left: '-1%',
-    top: '-1%',
-    zIndex: '10000',
-    padding: '1vw',
     border: '0.1vw solid rgb(182, 182, 182)',
   };
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [name, setName] = useState('');
 
   const handleEmail = event => {
@@ -34,11 +33,22 @@ const Signup = ({ closeSignupPopup }) => {
     setPassword(event.target.value);
   };
 
+  const handleConfirmPassword = event => {
+    setConfirmPassword(event.target.value);
+  };
+
   const handleName = event => {
     setName(event.target.value);
   };
 
-  function handleSignupSubmit () {
+  function handleSignupSubmit (e) {
+    e.preventDefault();
+
+    if (confirmPassword !== password) {
+      setErrorMessage('Passwords do not match.');
+      return;
+    }
+
     const payload = JSON.stringify({
       email,
       password,
@@ -60,56 +70,134 @@ const Signup = ({ closeSignupPopup }) => {
             localStorage.setItem('password', password);
             localStorage.setItem('email', email);
             localStorage.setItem('logged', true);
-            ReactDOM.render(<Landing />, document.querySelector('#root'));
+            window.location.href = '/Landing';
           })
         } else {
           res.json().then((data) => {
-            console.log(data.error);
+            setErrorMessage(data.error)
           });
         }
       });
   }
 
   return (
-    <div className="popup-container" style={signupStyle}>
-     <div className="popup-body">
-      <Button onClick={closeSignupPopup}>
-        &times;
-      </Button>
-      <h1 style={{ color: 'black' }}>Sign up today</h1>
-      <TextField
-        type="text"
-        id="name"
-        placeholder="Enter your name"
-        onChange={handleName}
-        value={name}
-      />
-      <br/>
-      <TextField
-        type="text"
-        id="email"
-        placeholder="Enter your email"
-        onChange={handleEmail}
-        value={email}
-      />
-      <br/>
-      <TextField
-        type="password"
-        id="password"
-        placeholder="Create a password"
-        onChange={handlePassword}
-        value={password}
-      />
-      <br/>
-      <Button
-        onClick={() => {
-          handleSignupSubmit();
-        }}
+      <>
+      <form
+        onSubmit={handleSignupSubmit}
+        style={signupStyle}
       >
-        Sign me up!
-      </Button>
-     </div>
-    </div>
+      {isMobile
+        ? <>
+          <div
+            className="popup-body"
+            style = {{ padding: '10vw', width: '100%' }}
+          >
+            <h1
+              style={{ color: 'black' }}
+            >
+            Sign up today
+            </h1>
+            <TextField
+              type="text"
+              id="name"
+              placeholder="Enter your name"
+              onChange={handleName}
+              value={name}
+              style = {{ width: '80vw' }}
+            />
+            <br/>
+            <TextField
+              type="text"
+              id="email"
+              placeholder="Enter your email"
+              onChange={handleEmail}
+              value={email}
+              style = {{ width: '80vw' }}
+            />
+            <br/>
+            <TextField
+              type="password"
+              id="password"
+              placeholder="Create a password"
+              onChange={handlePassword}
+              value={password}
+              style = {{ width: '80vw' }}
+            />
+            <br/>
+            <TextField
+              type="password"
+              id="password"
+              placeholder="Confirm password"
+              onChange={handleConfirmPassword}
+              value={confirmPassword}
+              style = {{ width: '80vw' }}
+            />
+            <br/>
+            {errorMessage && <div className='error' style={{ color: 'red' }}> {errorMessage} </div>}
+            <Button
+              type="submit"
+            >
+            Sign me up!
+            </Button>
+          </div>
+          </>
+        : <>
+          <div
+            className="popup-body"
+            style = {{ padding: '10vw', width: '30%' }}
+          >
+          <h1
+            style={{ color: 'black' }}
+          >
+          Sign up today
+          </h1>
+          <TextField
+            type="text"
+            id="name"
+            placeholder="Enter your name"
+            onChange={handleName}
+            value={name}
+            style = {{ width: '20vw' }}
+          />
+          <br/>
+          <TextField
+            type="text"
+            id="email"
+            placeholder="Enter your email"
+            onChange={handleEmail}
+            value={email}
+            style = {{ width: '20vw' }}
+          />
+          <br/>
+          <TextField
+            type="password"
+            id="password"
+            placeholder="Create a password"
+            onChange={handlePassword}
+            value={password}
+            style = {{ width: '20vw' }}
+          />
+          <br/>
+          <TextField
+            type="password"
+            id="password"
+            placeholder="Confirm password"
+            onChange={handleConfirmPassword}
+            value={confirmPassword}
+            style = {{ width: '20vw' }}
+          />
+          <br/>
+          {errorMessage && <div className='error' style={{ color: 'red' }}> {errorMessage} </div>}
+          <Button
+            type="submit"
+          >
+          Sign me up!
+          </Button>
+        </div>
+        </>
+      }
+      </form>
+      </>
   );
 };
 

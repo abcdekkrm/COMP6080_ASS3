@@ -1,51 +1,20 @@
-import React, { useState } from 'react';
-import * as ReactDOM from 'react-dom';
-import Login from '../Screens/Login';
+import React from 'react';
+import ProfileMenu from './ProfileMenu';
 import {
-  AppBar, Toolbar, Button, Typography,
+  AppBar, Toolbar, Button, Typography
 } from '@material-ui/core';
-import Config from '../config.json';
-import Landing from '../Screens/Landing';
+import logo from '../Assets/logo.svg';
 
 function Nav () {
-  const [loginOpen, setLoginOpen] = useState(false);
-
-  function handleLogout () {
-    const token = localStorage.getItem('token');
-
-    const request = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + token,
-      },
-    };
-
-    fetch(`http://localhost:${Config.BACKEND_PORT}/user/auth/logout`, request)
-      .then(res => {
-        if (res.ok) {
-          localStorage.removeItem('token');
-          localStorage.removeItem('password');
-          localStorage.removeItem('email');
-          localStorage.removeItem('logged');
-          ReactDOM.render(<Landing />, document.querySelector('#root'));
-        } else {
-          res.json().then((data) => {
-            console.log(token);
-            console.log(data.error);
-          });
-        }
-      });
-  }
-
   const logged = localStorage.getItem('logged');
 
   return (
-    <header>
+    <>
+    <header style={{ width: '100vw' }}>
      <nav>
-      <AppBar position="static">
+      <AppBar position="static" style={{ width: '100vw' }}>
        <Toolbar>
-        <img src="logo.svg" className="logo" alt="AirBrb logo" style={{ height: '5vh' }} />
+        <img role='logo' src={logo} className="logo" alt="AirBrb logo" style={{ height: '5vh', cursor: 'pointer' }} onClick={() => { window.location.href = '/Landing' } }/>
         <Typography
           variant="h6"
           sx={{
@@ -53,18 +22,17 @@ function Nav () {
             height: '8vh',
             width: '100%',
           }}
+          onClick={() => { window.location.href = '/Landing' } }
+          style={{ cursor: 'pointer' }}
         >
          AirBrB
         </Typography>
-        {logged
-          ? <Button style={{ marginLeft: '80%' }} onClick={() => { handleLogout(); }} >Log out</Button>
-          : <Button style={{ marginLeft: '80%' }} onClick={() => setLoginOpen(true)}>Login / Sign up</Button>
-        }
-        {loginOpen ? <Login closeLoginPopup={() => setLoginOpen(false)} /> : null}
+        {logged ? <ProfileMenu role='profile'/> : <Button role='loginButton' style={{ marginLeft: 'auto', marginRight: '0px', cursor: 'pointer' }} onClick={() => { window.location.href = '/Login' } }>Login / Sign up</Button>}
         </Toolbar>
         </AppBar>
      </nav>
     </header>
+    </>
   )
 }
 
