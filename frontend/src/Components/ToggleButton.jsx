@@ -44,6 +44,7 @@ export default function ColorToggleButton ({ handleChange, type }) {
             </ToggleButton>
           </ToggleButtonGroup>
         : <ToggleButtonGroup
+            role='toggleGroup'
             color="primary"
             value={type}
             exclusive
@@ -51,7 +52,7 @@ export default function ColorToggleButton ({ handleChange, type }) {
             aria-label="Small sizes"
             size='small'
           >
-            <ToggleButton value="house">
+            <ToggleButton role="houseButton" value="house">
               <HomeOutlinedIcon />
               House
             </ToggleButton>

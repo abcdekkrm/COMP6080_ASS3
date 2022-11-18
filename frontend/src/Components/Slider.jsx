@@ -59,7 +59,7 @@ function valueLabelFormat (value) {
 export default function DiscreteSliderLabel ({ handleChange, currValue }) {
   return (
     <Slider
-      // defaultValue={10}
+      role='slider'
       valueLabelFormat={valueLabelFormat}
       getAriaValueText={valuetext}
       aria-labelledby="discrete-slider-restrict"
