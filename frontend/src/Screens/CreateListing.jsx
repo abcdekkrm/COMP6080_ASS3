@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Config from '../config.json';
+import { useMediaQuery } from 'react-responsive'
 import Nav from '../Components/Nav';
 import DiscreteSliderLabel from '../Components/Slider';
 import SelectSmall from '../Components/SelectBox';
@@ -24,11 +25,11 @@ const CreateListing = () => {
     },
     popup_syles: {
       background: 'white',
-      // border: '1px solid #ccc',
       height: '92vh',
-      // width: '100vw',
       padding: '1vw',
-      // zIndex: '1200px',
+      '@media (max-width: 400px)': {
+        height: '100%',
+      }
     },
     title: {
       fontSize: '20px',
@@ -53,6 +54,9 @@ const CreateListing = () => {
       height: '95%',
       display: 'flex',
       flexDirection: 'row',
+      '@media (max-width: 400px)': {
+        flexDirection: 'column',
+      }
     },
     listingText: {
       height: '100%',
@@ -62,7 +66,9 @@ const CreateListing = () => {
       alignItems: 'flex-start',
       justifyContent: 'center',
       padding: '1%',
-      // backgroundColor: 'blue',
+      '@media (max-width: 400px)': {
+        width: '95vw',
+      }
     },
     sliderTitle: {
       fontSize: '10px',
@@ -75,7 +81,9 @@ const CreateListing = () => {
       alignItems: 'center',
       justifyContent: 'center',
       padding: '1%',
-      // backgroundColor: 'blue',
+      '@media (max-width: 400px)': {
+        width: '95vw',
+      }
     },
     imageInput: {
       display: 'none',
@@ -83,7 +91,11 @@ const CreateListing = () => {
     thumbnail: {
       height: '20vw',
       width: '30vw',
-      // backgroundColor: '#aaa'
+      backgroundColor: '#aaa',
+      '@media (max-width: 400px)': {
+        height: '62vw',
+        width: '93vw',
+      }
     },
     thumbnailActions: {
       display: 'flex',
@@ -98,6 +110,10 @@ const CreateListing = () => {
       height: '100px',
       gap: '5px',
       // backgroundColor: 'red',
+      '@media (max-width: 400px)': {
+        width: '93vw',
+        height: '80px',
+      }
     },
     img: {
       border: '1px solid #ccc',
@@ -115,13 +131,14 @@ const CreateListing = () => {
       },
       '& label:hover': {
         cursor: 'pointer',
+      },
+      '@media (max-width: 400px)': {
+        width: '120px',
+        height: '80px',
       }
     },
     delete: {
       position: 'absolute',
-      // backgroundColor: 'red',
-      // width: '98px',
-      // height: '98px',
       bottom: '100%',
       left: '0%',
       zIndex: '1000px',
@@ -136,12 +153,16 @@ const CreateListing = () => {
       flexDirection: 'row',
       border: '1px solid #ccc',
       padding: '5px',
+      '@media (max-width: 400px)': {
+        width: '90%',
+      }
     },
     label: {
       fontSize: '10px',
     }
   });
   const classes = useStyles();
+  const isMobile = useMediaQuery({ query: '(max-width: 400px)' });
   const [title, setTitle] = React.useState('');
   const [price, setPrice] = React.useState('');
   const [address, setAddress] = React.useState('');
@@ -310,20 +331,36 @@ const CreateListing = () => {
               />
             </div>
             <div>
-              <Box
-                sx={{
-                  width: 500,
-                  maxWidth: '90%',
-                }}
-              >
-                <TextField
-                  fullWidth
-                  id="create-address"
-                label="Address"
-                value={address}
-                onChange={handleChangeAddress}
-                />
-              </Box>
+              {isMobile
+                ? <Box
+                    sx={{
+                      width: 500,
+                      maxWidth: '70%',
+                    }}
+                  >
+                    <TextField
+                      fullWidth
+                      id="create-address"
+                    label="Address"
+                    value={address}
+                    onChange={handleChangeAddress}
+                    />
+                  </Box>
+                : <Box
+                    sx={{
+                      width: 500,
+                      maxWidth: '90%',
+                    }}
+                  >
+                    <TextField
+                      fullWidth
+                      id="create-address"
+                    label="Address"
+                    value={address}
+                    onChange={handleChangeAddress}
+                    />
+                  </Box>
+              }
             </div>
             <div>
               <Typography className={classes.sliderTitle} gutterBottom>
@@ -396,38 +433,45 @@ const CreateListing = () => {
                 </div>
               </div>
             </div>
-            <Button onClick={handleCreate}>Create Listing</Button>
+            {isMobile
+              ? null
+              : <Button onClick={handleCreate}>Create Listing</Button>
+            }
           </div>
           <div className={classes.listingImg} id='create-listing-image'>
-            <img className={classes.thumbnail} src={thumbnail}></img>
-            <input className={classes.imageInput} type="file" multiple accept="image/*" id='thumbnailUpload' onChange={handleChangeThumbnail}/>
-            <div className={classes.thumbnailActions}>
-              <label htmlFor='thumbnailUpload'>
-                <ImageIcon />
-              </label>
-              <DeleteIcon onClick={handleDeleteThumbnail}/>
-            </div>
-            <input className={classes.imageInput} type="file" multiple accept="image/*" id='propertyImgUpload' onChange={e => handleUploadProperties(e.target.files[0])}/>
-            <div className={classes.propertyImgs} id='property-images'>
-              <div className={classes.img}>
-                <label htmlFor='propertyImgUpload'>
-                  <AddPhotoAlternateOutlinedIcon fontSize="large"/>
+              <img className={classes.thumbnail} src={thumbnail}></img>
+              <input className={classes.imageInput} type="file" multiple accept="image/*" id='thumbnailUpload' onChange={handleChangeThumbnail}/>
+              <div className={classes.thumbnailActions}>
+                <label htmlFor='thumbnailUpload'>
+                  <ImageIcon />
                 </label>
+                <DeleteIcon onClick={handleDeleteThumbnail}/>
               </div>
-              {imgArr?.map((img, pos) => {
-                console.log(pos);
-                console.log(img);
-                return (
-                  <div key={pos}>
-                    <img src={img} className={classes.img}></img>
-                    <IconButton className={classes.delete} onClick={() => handleDeleteProperties(pos)}>
-                      <DeleteIcon />
-                    </IconButton>
-                  </div>
-                )
-              })}
+              <input className={classes.imageInput} type="file" multiple accept="image/*" id='propertyImgUpload' onChange={e => handleUploadProperties(e.target.files[0])}/>
+              <div className={classes.propertyImgs} id='property-images'>
+                <div className={classes.img}>
+                  <label htmlFor='propertyImgUpload'>
+                    <AddPhotoAlternateOutlinedIcon fontSize="large"/>
+                  </label>
+                </div>
+                {imgArr?.map((img, pos) => {
+                  console.log(pos);
+                  console.log(img);
+                  return (
+                    <div key={pos}>
+                      <img src={img} className={classes.img}></img>
+                      <IconButton className={classes.delete} onClick={() => handleDeleteProperties(pos)}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </div>
+                  )
+                })}
+              </div>
+              {isMobile
+                ? <Button onClick={handleCreate}>Create Listing</Button>
+                : null
+              }
             </div>
-          </div>
         </div>
         {/* <Button onClick={closecreatePopup}>&times;</Button> */}
       </div>
