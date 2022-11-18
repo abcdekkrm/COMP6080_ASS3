@@ -418,14 +418,14 @@ const CreateListing = () => {
             </div>
             {isMobile
               ? null
-              : <Button onClick={handleCreate}>Create Listing</Button>
+              : <Button id="creatListing" onClick={handleCreate}>Create Listing</Button>
             }
           </div>
           <div className={classes.listingImg} id='create-listing-image'>
             <img className={classes.thumbnail} src={thumbnail}></img>
             <input className={classes.imageInput} type="file" multiple accept="image/*" id='thumbnailUpload' onChange={handleChangeThumbnail}/>
             <div className={classes.thumbnailActions}>
-              <label htmlFor='thumbnailUpload'>
+              <label htmlFor='thumbnailUpload' id="thumbnailLabel">
                 <ImageIcon />
               </label>
               <DeleteIcon onClick={handleDeleteThumbnail}/>
@@ -451,7 +451,7 @@ const CreateListing = () => {
               })}
             </div>
             {isMobile
-              ? <Button onClick={handleCreate}>Create Listing</Button>
+              ? <Button id="creatListing" onClick={handleCreate}>Create Listing</Button>
               : null
             }
           </div>

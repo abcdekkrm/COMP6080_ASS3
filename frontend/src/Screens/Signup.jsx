@@ -118,6 +118,7 @@ const Signup = () => {
             <TextField
               type="password"
               id="password"
+              name="PW"
               placeholder="Create a password"
               onChange={handlePassword}
               value={password}
@@ -127,6 +128,7 @@ const Signup = () => {
             <TextField
               type="password"
               id="password"
+              name="checkPW"
               placeholder="Confirm password"
               onChange={handleConfirmPassword}
               value={confirmPassword}
@@ -136,6 +138,7 @@ const Signup = () => {
             {errorMessage && <div className='error' style={{ color: 'red' }}> {errorMessage} </div>}
             <Button
               type="submit"
+              role="signUp"
             >
             Sign me up!
             </Button>
@@ -172,6 +175,7 @@ const Signup = () => {
           <TextField
             type="password"
             id="password"
+            name="PW"
             placeholder="Create a password"
             onChange={handlePassword}
             value={password}
@@ -181,6 +185,7 @@ const Signup = () => {
           <TextField
             type="password"
             id="password"
+            name="checkPW"
             placeholder="Confirm password"
             onChange={handleConfirmPassword}
             value={confirmPassword}
@@ -190,6 +195,7 @@ const Signup = () => {
           {errorMessage && <div className='error' style={{ color: 'red' }}> {errorMessage} </div>}
           <Button
             type="submit"
+            role="signUp"
           >
           Sign me up!
           </Button>

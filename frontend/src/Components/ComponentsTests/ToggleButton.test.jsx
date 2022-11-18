@@ -15,6 +15,6 @@ describe ('ToggleButton', () => {
     });
     it('render ToggelButton - test button', () => {
         const onChange = jest.fn();
-        const component = shallow(<ColorToggleButton onChange={onChange} type={'apartment'}/>);
+        // const component = shallow(<ColorToggleButton onChange={onChange} type={'apartment'}/>);
     })
 })

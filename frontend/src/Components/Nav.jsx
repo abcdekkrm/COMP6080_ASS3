@@ -27,7 +27,7 @@ function Nav () {
         >
          AirBrB
         </Typography>
-        {logged ? <ProfileMenu role='profile'/> : <Button role='loginButton' style={{ marginLeft: 'auto', marginRight: '0px', cursor: 'pointer' }} onClick={() => { window.location.href = '/Login' } }>Login / Sign up</Button>}
+        {logged ? <ProfileMenu id="profile"/> : <Button role='loginButton' style={{ marginLeft: 'auto', marginRight: '0px', cursor: 'pointer' }} onClick={() => { window.location.href = '/Login' } }>Login / Sign up</Button>}
         </Toolbar>
         </AppBar>
      </nav>
