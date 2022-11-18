@@ -51,6 +51,7 @@ function ProfileMenu () {
         <>
         <Tooltip title="Account settings">
           <AccountCircleIcon
+            role="profile"
             src={profile}
             className="profile"
             alt="user profile"
@@ -74,14 +75,14 @@ function ProfileMenu () {
         }}
         style={{ marginTop: '4%', marginLeft: '-2%' }}
       >
-        <MenuItem onClick={() => { window.location.href = '/Account' } }>
+        <MenuItem role="account" onClick={() => { window.location.href = '/Account' } }>
           Account
         </MenuItem>
-        <MenuItem onClick={() => { window.location.href = '/Create-Listing' } }>
+        <MenuItem role="create" onClick={() => { window.location.href = '/Create-Listing' } }>
           Create Listing
         </MenuItem>
         <Divider />
-        <MenuItem onClick={handleLogout}>
+        <MenuItem role="logout" onClick={handleLogout}>
           Logout
         </MenuItem>
       </Menu>

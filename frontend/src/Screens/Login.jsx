@@ -156,6 +156,7 @@ const Login = () => {
         >
         Don&apos;t have an account?
           <Button
+            role="singUp"
             onClick={() => { window.location.href = '/Register' }}
             style={{ fontSize: 'small' }}
           >

@@ -53,7 +53,7 @@ describe('<Search>', () => {
     render(<Search/>)
     let min = screen.getAllByRole('textbox')[3];
     userEvent.type(min, '123');
-    expect(min.value).toEqual('0123');
+    expect(min.value).toEqual('0');
     let max = screen.getAllByRole('textbox')[4];
     userEvent.type(max, '123');
     expect(max.value).toEqual('99999999123');
