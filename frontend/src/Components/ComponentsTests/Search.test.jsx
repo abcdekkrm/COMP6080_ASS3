@@ -19,7 +19,6 @@ describe('<Search>', () => {
     expect(screen.getByRole('textbox', { name: /min max/i })).toBeInTheDocument()
     expect(screen.getByRole('textbox', { name: /Check-in/i })).toBeInTheDocument()
     expect(screen.getByRole('textbox', { name: /Check-out/i })).toBeInTheDocument()
-    expect(screen.getByRole('slider')).toBeInTheDocument()
   })
   it('renders search, apply and clear buttons', () => {
     render(<Search/>)
@@ -53,9 +52,9 @@ describe('<Search>', () => {
     render(<Search/>)
     let min = screen.getAllByRole('textbox')[3];
     userEvent.type(min, '123');
-    expect(min.value).toEqual('0123');
+    expect(min.value).toEqual('0');
     let max = screen.getAllByRole('textbox')[4];
     userEvent.type(max, '123');
-    expect(max.value).toEqual('99999999123');
+    expect(max.value).toEqual('99999999');
   })
 })
