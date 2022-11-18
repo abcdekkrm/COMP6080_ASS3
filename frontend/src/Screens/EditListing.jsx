@@ -166,10 +166,10 @@ const EditListing = () => {
   const [title, setTitle] = React.useState('');
   const [price, setPrice] = React.useState('');
   const [address, setAddress] = React.useState('');
-  const [bathroom, setBath] = React.useState('');
-  const [bedroom, setBed] = React.useState('');
-  const [singleBed, setSingle] = React.useState('');
-  const [doubleBed, setDouble] = React.useState('');
+  const [bathroom, setBath] = React.useState('0');
+  const [bedroom, setBed] = React.useState('0');
+  const [singleBed, setSingle] = React.useState('0');
+  const [doubleBed, setDouble] = React.useState('0');
   const [amenities, setAmenities] = React.useState();
   const [thumbnail, setTnDisplayImage] = useState();
   const [thumbnailFile, setTnImage] = useState();
