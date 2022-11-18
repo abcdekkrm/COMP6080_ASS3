@@ -210,7 +210,7 @@ function UserListings () {
                             <InfoIcon onMouseOver={() => getListingDetails(listing.id)} onClick={handleInfoClick} style={{ cursor: 'pointer' }}/>
                           </Tooltip>
                           <Tooltip title="View Bookings">
-                            <ListAltOutlinedIcon style={{ cursor: 'pointer' }}/>
+                            <ListAltOutlinedIcon onClick={() => handleManageListing(listing.id)} style={{ cursor: 'pointer' }}/>
                           </Tooltip>
                         </div>
                         <br/>
