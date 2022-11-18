@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 // import * as ReactDOM from 'react-dom';
 import Config from '../config.json';
-import Nav from '../Components/Nav';
+import { useMediaQuery } from 'react-responsive';
 import DiscreteSliderLabel from '../Components/Slider';
 import SelectSmall from '../Components/SelectBox';
 import { makeStyles, TextField, Button, Typography } from '@material-ui/core';
@@ -28,11 +28,12 @@ const EditListing = () => {
     },
     popup_syles: {
       background: 'white',
-      // border: '1px solid #ccc',
       height: '92vh',
-      // width: '100vw',
       padding: '1vw',
       zIndex: '1200px',
+      '@media (max-width: 700px)': {
+        height: '100%',
+      }
     },
     title: {
       fontSize: '20px',
@@ -45,7 +46,7 @@ const EditListing = () => {
       marginLeft: '1%',
     },
     closeIcon: {
-      width: '100%',
+      width: '100vw',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'flex-end',
@@ -58,6 +59,9 @@ const EditListing = () => {
       display: 'flex',
       flexDirection: 'row',
       // backgroundColor: 'blue',
+      '@media (max-width: 700px)': {
+        flexDirection: 'column',
+      }
     },
     listingText: {
       height: '100%',
@@ -67,7 +71,9 @@ const EditListing = () => {
       alignItems: 'flex-start',
       justifyContent: 'center',
       padding: '1%',
-      // backgroundColor: 'blue',
+      '@media (max-width: 700px)': {
+        width: '95vw',
+      }
     },
     listingImg: {
       height: '100%',
@@ -77,7 +83,9 @@ const EditListing = () => {
       alignItems: 'center',
       justifyContent: 'center',
       padding: '1%',
-      // backgroundColor: 'blue',
+      '@media (max-width: 700px)': {
+        width: '95vw',
+      }
     },
     imageInput: {
       display: 'none',
@@ -85,7 +93,11 @@ const EditListing = () => {
     thumbnail: {
       height: '20vw',
       width: '30vw',
-      // backgroundColor: '#aaa'
+      backgroundColor: '#aaa',
+      '@media (max-width: 700px)': {
+        height: '62vw',
+        width: '93vw',
+      }
     },
     thumbnailActions: {
       display: 'flex',
@@ -99,7 +111,10 @@ const EditListing = () => {
       width: '99%',
       height: '100px',
       gap: '5px',
-      // backgroundColor: 'red',
+      '@media (max-width: 700px)': {
+        width: '93vw',
+        height: '80px',
+      }
     },
     img: {
       border: '1px solid #ccc',
@@ -117,13 +132,14 @@ const EditListing = () => {
       },
       '& label:hover': {
         cursor: 'pointer',
+      },
+      '@media (max-width: 700px)': {
+        width: '120px',
+        height: '80px',
       }
     },
     delete: {
       position: 'absolute',
-      // backgroundColor: 'red',
-      // width: '98px',
-      // height: '98px',
       bottom: '100%',
       left: '0%',
       zIndex: '1000px',
@@ -138,11 +154,15 @@ const EditListing = () => {
       flexDirection: 'row',
       border: '1px solid #ccc',
       padding: '5px',
+      '@media (max-width: 700px)': {
+        width: '90%',
+      }
     },
   });
   const classes = useStyles();
   const listingId = localStorage.getItem('listingId');
   // const [listing, setListing] = React.useState();
+  const isMobile = useMediaQuery({ query: '(max-width: 700px)' });
   const [title, setTitle] = React.useState('');
   const [price, setPrice] = React.useState('');
   const [address, setAddress] = React.useState('');
@@ -308,7 +328,6 @@ const EditListing = () => {
   }
   return (
     <>
-      <Nav />
       <div className={classes.popup_syles} id='edit-listing-popup'>
         <div className={classes.closeIcon}>
           <IconButton>
@@ -334,22 +353,36 @@ const EditListing = () => {
               variant="standard"
               />
             </div>
-            <div>
-              <Box
-                sx={{
-                  width: 500,
-                  maxWidth: '90%',
-                }}
-              >
-                <TextField
-                  fullWidth
-                  id="edit-address"
-                label="Address"
-                value={address}
-                onChange={handleChangeAddress}
-                />
-              </Box>
-            </div>
+            {isMobile
+              ? <Box
+                  sx={{
+                    width: 500,
+                    maxWidth: '70%',
+                  }}
+                >
+                  <TextField
+                    fullWidth
+                    id="create-address"
+                  label="Address"
+                  value={address}
+                  onChange={handleChangeAddress}
+                  />
+                </Box>
+              : <Box
+                  sx={{
+                    width: 500,
+                    maxWidth: '90%',
+                  }}
+                >
+                  <TextField
+                    fullWidth
+                    id="create-address"
+                  label="Address"
+                  value={address}
+                  onChange={handleChangeAddress}
+                  />
+                </Box>
+                }
             <div>
               <Typography className={classes.sliderTitle} gutterBottom>
                 Listing Type
@@ -420,7 +453,10 @@ const EditListing = () => {
                 </div>
               </div>
             </div>
-            <Button onClick={handleEdit}>Save Edit</Button>
+            {isMobile
+              ? null
+              : <Button onClick={handleEdit}>Save Edit</Button>
+            }
           </div>
           <div className={classes.listingImg} id='edit-listing-image'>
             <img className={classes.thumbnail} src={thumbnail}></img>
@@ -450,6 +486,10 @@ const EditListing = () => {
                 )
               })}
             </div>
+            {isMobile
+              ? <Button onClick={handleEdit}>Save Edit</Button>
+              : null
+            }
           </div>
         </div>
       </div>

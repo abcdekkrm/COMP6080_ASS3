@@ -52,10 +52,20 @@ function App () {
     return <Account />;
   }
   if (route === '/Create-Listing') {
-    return <CreateListing />;
+    return (
+      <>
+      <Nav />
+      <CreateListing />
+      </>
+    );
   }
   if (route === '/Edit-Listing') {
-    return <EditListing />;
+    return (
+      <>
+      <Nav />
+      <EditListing />
+      </>
+    );
   }
   if (route === '/Delete-Listing') {
     return (
