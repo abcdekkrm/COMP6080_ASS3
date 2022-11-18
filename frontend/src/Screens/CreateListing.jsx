@@ -15,7 +15,7 @@ import ImageIcon from '@mui/icons-material/Image';
 import AddPhotoAlternateOutlinedIcon from '@mui/icons-material/AddPhotoAlternateOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { FormGroup } from '@mui/material';
-import ColorToggleButton from '../Components/ToggleButon';
+import ColorToggleButton from '../Components/ToggleButton';
 
 const CreateListing = () => {
   const useStyles = makeStyles({

@@ -18,7 +18,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import ImageIcon from '@mui/icons-material/Image';
 import AddPhotoAlternateOutlinedIcon from '@mui/icons-material/AddPhotoAlternateOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
-import ColorToggleButton from '../Components/ToggleButon';
+import ColorToggleButton from '../Components/ToggleButton';
 
 const EditListing = () => {
   // const useStyles = makeStyles
