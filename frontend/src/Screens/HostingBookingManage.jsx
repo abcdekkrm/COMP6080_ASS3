@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Config from '../config.json';
+import { useMediaQuery } from 'react-responsive';
 import { makeStyles, Typography } from '@material-ui/core';
 import Nav from '../Components/Nav';
 import List from '@mui/material/List';
@@ -21,9 +22,11 @@ import { Box, Tab, Tabs } from '@mui/material';
 
 const HostingBookingManage = () => {
   useEffect(() => {
-    let ignore = false;
-    if (!ignore) { getBooking(); getListing() }
-    return () => { ignore = true; }
+    // let ignore = false;
+    // if (!ignore) { getBooking(); getListing() }
+    // return () => { ignore = true; }
+    getBooking();
+    getListing();
   }, []);
   const useStyles = makeStyles({
     popup_syles: {
@@ -63,6 +66,7 @@ const HostingBookingManage = () => {
     }
   });
   const classes = useStyles();
+  const isMobile = useMediaQuery({ query: '(max-width: 700px)' });
   const listingId = localStorage.getItem('listingId');
   const token = localStorage.getItem('token');
   const [title, setTitle] = React.useState('');
@@ -127,6 +131,7 @@ const HostingBookingManage = () => {
       const copyReqArr = Object.assign([], requirements);
       copyReqArr.splice(pos, 1);
       setRequire(copyReqArr);
+      getBooking();
     }
   }
   const declineBooking = async (bookingId, pos) => {
@@ -144,6 +149,7 @@ const HostingBookingManage = () => {
       const copyReqArr = Object.assign([], requirements);
       copyReqArr.splice(pos, 1);
       setRequire(copyReqArr);
+      getBooking();
     }
   }
   return (
@@ -156,9 +162,14 @@ const HostingBookingManage = () => {
           </IconButton>
         </div>
         <div className={classes.content}>
-          <Typography variant="h3" gutterBottom style={{ width: '90vw', float: 'left', fontWeight: 'bold' }}>
-            {title}
-          </Typography>
+          {isMobile
+            ? <Typography variant="h4" gutterBottom style={{ width: '90vw', float: 'left', fontWeight: 'bold' }}>
+                {title}
+              </Typography>
+            : <Typography variant="h4" gutterBottom style={{ width: '90vw', float: 'left', fontWeight: 'bold' }}>
+                {title}
+              </Typography>
+          }
           <Typography variant="body1" gutterBottom className={classes.statistics}>
             <CalendarMonthOutlinedIcon />up online since {since}
           </Typography>
